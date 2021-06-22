@@ -220,7 +220,7 @@ clickOrdenar(): void{
       dynamicDownload: null as HTMLElement
     }
   }
-  private colors = [
+  public colors = [
     {
       backgroundColor: [
         'rgba(47,79,79)',

@@ -19,8 +19,7 @@
     <div class="row">
         <div class="col-xl-6 text-xs-center">
             <fieldset class="form-group">
-                <small><label>JSON a cargar &#123;"categoria":"ABB ","nombre":"{{tituloLista}}","animacion":"5","valores":["n1","n2",..]&#125;</label></small>
-                <input type="file" (change)="cargarArchivo($event.target.files)">
+               <input type="file" (change)="cargarArchivo($event.target.files)">
                 <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a lista dinamica</button>
             </fieldset>
         </div>
