@@ -25,12 +25,16 @@ export class OrdenamientosComponent implements OnInit {
   requestId;
   intervalId;
   velocidadAnimacion;
-
+  valoresLetras=[];
+  valoresLabelsLeidos=[];
+  sonNumeros:boolean;
   
 
   ngOnInit(): void {
     this.barChartType = 'bar';
     this.barChartLegend = true;
+    this.valoresLetras=[];
+    this.sonNumeros=true;
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.idOrdenamiento = +params['idOrdenamiento'];
       switch(this.idOrdenamiento){
@@ -124,7 +128,13 @@ clickOrdenar(): void{
     }
     this.barChartData[0].data = data;
     const animacion = this.convertirVelocidadAnimacion().toString();
-    let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,animacion,data);
+    let jsonNodoArray;
+    if(this.sonNumeros){
+      jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,animacion,data);
+    }else{
+      this.actualizarLabelsStrings();
+      jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,animacion,this.barChartLabels);
+    }
     this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
     if(bndDatosOrdenados){
       clearInterval(this.intervalId);
@@ -162,9 +172,48 @@ clickOrdenar(): void{
       labels[i]=String(i+1);
     }
     if(strIntoObj.animacion!=undefined) this.obtenerEquivalenciaVelocidad(strIntoObj.animacion);
-    this.barChartLabels=labels;    
-    this.barChartData[0].data = strIntoObj.valores;
+    this.sonNumeros=this.obtenerSonNumeros(strIntoObj.valores);
+    if(this.sonNumeros){
+      this.barChartLabels=labels;    
+      this.barChartData[0].data = strIntoObj.valores;      
+    }else{
+      this.barChartLabels= strIntoObj.valores;
+      this.barChartData[0].data = this.obtenerArrayValoresLetras(strIntoObj.valores);
+    }
     console.log(this.barChartData[0].data);
+  }
+  obtenerSonNumeros(arrayValores:any[]){
+    let sonNumeros=true;
+    for(let i=0;i<arrayValores.length;i++){
+      if(typeof arrayValores[i]=="string") {sonNumeros = false; break;}
+    }
+    return sonNumeros;
+  }
+  obtenerArrayValoresLetras(arrayValores:any[]){
+    this.valoresLetras=[];
+    this.valoresLabelsLeidos=[];
+    this.valoresLabelsLeidos  = Object.assign([], arrayValores);
+    const myClonedArray  = Object.assign([], arrayValores);
+    let burb=new BurbujaImpl(myClonedArray);
+    burb.ordenarDatosBurbujaSinBreak();
+    for(let i = 0; i< arrayValores.length; i++){
+      for(let j = 0 ; j < burb.getDatosOrdenados().length; j++){
+        if(arrayValores[i]==burb.getDatosOrdenados()[j]){
+          this.valoresLetras.push(j+1);
+        }
+      }
+    }
+    return this.valoresLetras;
+  }
+  actualizarLabelsStrings(){
+    //this.barChartLabels
+    for(let i = 0; i< this.barChartData[0].data.length; i++){
+      for(let j = 0 ; j < this.valoresLetras.length; j++ ){
+        if(this.barChartData[0].data[i]==this.valoresLetras[j]){
+          this.barChartLabels[i]=this.valoresLabelsLeidos[j];
+        }
+      }
+    }
   }
   private setting = {
     element: {

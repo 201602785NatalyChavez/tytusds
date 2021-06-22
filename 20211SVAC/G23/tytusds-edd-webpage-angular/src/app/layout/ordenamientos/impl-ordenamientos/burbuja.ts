@@ -29,6 +29,24 @@ export default class BurbujaImpl{
             }
         }
     }
+    ordenarDatosBurbujaSinBreak(){
+        var n, i, k, aux;
+        n = this.datosIniciales.length;
+        this.datosOrdenados = this.datosIniciales;
+        
+        // Algoritmo de burbuja
+        loop:
+        for (k = 1; k < n; k++) {
+            for (i = 0; i < (n - k); i++) {
+                if (this.datosOrdenados[i] > this.datosOrdenados[i + 1]) {
+                    aux = this.datosOrdenados[i];
+                    this.datosOrdenados[i] = this.datosOrdenados[i + 1];
+                    this.datosOrdenados[i + 1] = aux;
+                    this.bndDatosOrdenados=false;
+                }
+            }
+        }
+    }
 
 }
                
