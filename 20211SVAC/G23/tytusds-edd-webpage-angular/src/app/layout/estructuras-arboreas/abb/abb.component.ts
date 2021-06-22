@@ -22,7 +22,7 @@ export class AbbComponent implements OnInit {
   //@ViewChild("svgNetwork") svgNetworkContainer: ElementRef;
   
   bst = new BST()
-  
+  valoresinsertados = []
   x:string
   public network:any
 
@@ -269,6 +269,7 @@ export class AbbComponent implements OnInit {
     console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     console.log(strIntoObj);
+    this.bst = new BST()
     if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
       this.velocidadAnimacion=strIntoObj.animacion;
     }
@@ -280,11 +281,40 @@ export class AbbComponent implements OnInit {
         this.opcionOperar=strIntoObj.posicion;
     }
     for (let valorStrNodo of strIntoObj.valores) {
-      this.bst.insert(valorStrNodo)
-      this.visit()
+      this.valoresinsertados.push(valorStrNodo)
+      if(this.valoresinsertados.includes(valorStrNodo) && this.opcionRepeticiones == 'false'){
+        console.log("El valor",valorStrNodo,"está repetido")
+      }else{
+        this.x = valorStrNodo
+        this.Insertarcarga()
+
+      
+      }
     }
+    this.visit()
+    this.valoresinsertados = []
     
   }
+  Insertarcarga(){
+    //console.log("IMPRIMIENDO EL INSERTAR")
+    //if( typeof this.x)     
+    //this.bst.put(y)
+    if(this.x.charCodeAt(0)==8) { // backspace.
+      console.log("No hay nada")
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { // is a number.
+      this.bst.insert(parseInt(this.x));
+    } else{ // other keys.
+      this.bst.string = true
+      this.bst.insert(this.x)
+      this.bst.string = false
+    }
+    //this.bst.insert(y)
+    //console.log(this.x)
+    console.log("RAIZ",this.bst.root)
+    //console.log("X no vale NADA")
+    this.x = ''
+  }
+
 
   private setting = {
     element: {

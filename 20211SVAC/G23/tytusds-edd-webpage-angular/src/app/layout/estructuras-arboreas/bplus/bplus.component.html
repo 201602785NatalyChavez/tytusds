@@ -35,7 +35,8 @@
             <div class="card mb-3 text-center my-auto">
                 <div class="card-body align-items-center" >
                     <button class="btn btn-secondary mr-3" type="button" (click)="Insertar()">Agregar</button>
-                    <button class="btn btn-secondary mr-3" type="button" (click)="Eliminar()">Eliminar</button>
+                    <!--<button class="btn btn-secondary mr-3" type="button" (click)="Eliminar()">Eliminar</button>-->
+                    <input type="number"></input>
                     <!--<button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>-->
                 </div>
             </div>
@@ -52,7 +53,8 @@
         
     </div>   
 
-
+    <br>
+    <div id="mynetwork" #siteConfigNetwork></div>
 
     <div class="col-xl-6 text-xs-center">
         <fieldset class="form-group">
@@ -62,3 +64,15 @@
         </fieldset>
     </div>
 </div>
+<style type="text/css">
+    #mynetwork {
+        width: 1200px;
+        height: 500px;
+        border: 1px solid lightgray;
+    }
+    #mySvgNetwork {
+        width: 700px;
+        height: 300px;
+        border: 1px solid lightgray;
+    }
+</style>
