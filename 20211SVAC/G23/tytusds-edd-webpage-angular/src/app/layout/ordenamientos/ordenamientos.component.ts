@@ -4,7 +4,7 @@ import { of, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import BurbujaImpl from './impl-ordenamientos/burbuja';
 import { JsonNodoOrdenamiento } from './impl-ordenamientos/ordenamiento-json';
-import { GraficarComponent } from '../estructuras-arboreas/graficar/graficar.component';
+
 
 @Component({
   selector: 'app-ordenamientos',
@@ -17,11 +17,15 @@ export class OrdenamientosComponent implements OnInit {
   public idOrdenamiento=0;
   tituloOrdenamiento:string;
   strCarga:string;
-  strOrdenamientoJson: string
-  identificadorTempo:any
-  array = [4,2,6,7,5,10,1]
-
+  strOrdenamientoJson:string;
+  identificadorTempo: NodeJS.Timeout;
+  array: any[];
   constructor(private route: ActivatedRoute) {}
+  requestId;
+  intervalId;
+  velocidadAnimacion;
+
+  
 
   ngOnInit(): void {
     this.barChartType = 'bar';
@@ -81,37 +85,6 @@ export class OrdenamientosComponent implements OnInit {
     clearTimeout(this.identificadorTempo)
   }
 
-  clickOrdenar(): void{
-    //burbuja
-    if(this.idOrdenamiento==1){
-      console.log(this.barChartData[0].data);
-      var a = this.barChartData[0].data;
-      let b = new BurbujaImpl(a);
-      let datosOrdenados = b.getDatosOrdenados();    
-      let data = new Array(datosOrdenados.length);
-      for(let i =0;i<datosOrdenados.length;i++){
-        data[i]=datosOrdenados[i];
-      }
-      this.barChartData[0].data = data;
-      let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
-      this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
-    } 
-    else if(this.idOrdenamiento==2){
-      
-      
-      
-    }else if(this.idOrdenamiento==3){
-      this.insercion2()
-      console.log("BAR YA EN EL FINAL ",this.barChartData[0].data)
-      this.barChartData[0].data = this.array
-
-
-    }else{
-      
-    }
-    //this.barChartData[0].data = data;
-  }
-
   insercion(){
     let i,j,aux
     let array = []
@@ -166,9 +139,47 @@ export class OrdenamientosComponent implements OnInit {
 
 
   }
-
-
-
+clickOrdenar(): void{
+    //burbuja
+    if(this.idOrdenamiento==1){
+      this.iniciaAnimacionOrdenar();
+    } 
+  }
+  iniciaAnimacionOrdenar(){
+    if (this.intervalId != undefined) clearInterval(this.intervalId);
+    if (this.requestId!=undefined) cancelAnimationFrame(this.requestId);
+    this.intervalId = setInterval(() => {
+      this.tick();      
+    }, this.velocidadAnimacion);
+  }
+  tick(){
+    console.log(this.barChartData[0].data);
+    var a = this.barChartData[0].data;
+    let burbujaImpl = new BurbujaImpl(a);
+    let datosOrdenados = burbujaImpl.getDatosOrdenados();    
+    let data = new Array(datosOrdenados.length);
+    for(let i =0;i<datosOrdenados.length;i++){
+      data[i]=datosOrdenados[i];
+    }
+    this.barChartData[0].data = data;
+    const animacion = this.convertirVelocidadAnimacion().toString();
+    let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,animacion,data);
+    this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
+    if(burbujaImpl.bndDatosOrdenados){
+      clearInterval(this.intervalId);
+    }
+  }
+  obtenerEquivalenciaVelocidad(animacion:number){
+    if(animacion!=undefined)
+      this.velocidadAnimacion= (11-animacion)*300;
+    else
+      this.velocidadAnimacion= 1000;
+    console.log('velocidad animacion:'+this.velocidadAnimacion);
+  }
+  convertirVelocidadAnimacion(){
+    if(this.velocidadAnimacion!=undefined) return 11-this.velocidadAnimacion/300;
+    else return 5;
+  }
 
   fileContent: string = '';
   public cargarArchivo(fileList: FileList): void {
@@ -189,6 +200,7 @@ export class OrdenamientosComponent implements OnInit {
     for(let i =0;i<strIntoObj.valores.length;i++){
       labels[i]=String(i+1);
     }
+    if(strIntoObj.animacion!=undefined) this.obtenerEquivalenciaVelocidad(strIntoObj.animacion);
     this.barChartLabels=labels;    
     this.barChartData[0].data = strIntoObj.valores;
     console.log(this.barChartData[0].data);
@@ -198,6 +210,61 @@ export class OrdenamientosComponent implements OnInit {
       dynamicDownload: null as HTMLElement
     }
   }
+  private colors = [
+    {
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(0, 255, 0, 0.2)',
+        'rgba(102, 0, 204, 0.2)',
+        'rgba(255, 128, 0, 0.2)'
+      ]
+    }];
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
