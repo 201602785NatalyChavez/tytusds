@@ -18,9 +18,9 @@ export default class QuickSortImpl{
     items[rightIndex] = temp;
 }
  partition(items, left, right) {
-    var pivot   = items[Math.floor((right + left) / 2)], //middle element
-        i       = left, //left pointer
-        j       = right; //right pointer
+    var pivot   = items[Math.floor((right + left) / 2)], 
+        i       = left, 
+        j       = right;
     while (i <= j) {
         while (items[i] < pivot) {
             i++;
@@ -29,7 +29,7 @@ export default class QuickSortImpl{
             j--;
         }
         if (i <= j) {
-            this.swap(items, i, j); //sawpping two elements
+            this.swap(items, i, j); 
             i++;
             j--;
         }

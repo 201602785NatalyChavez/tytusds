@@ -24,7 +24,7 @@ export default class  InsercionSortImpl{
             array[j+1] = array[j]
                 j = j-1
             }
-            //console.log("array[j+1]",this.barChartData[0].data[j+1])
+           
             array[j+1] = aux
             
         }

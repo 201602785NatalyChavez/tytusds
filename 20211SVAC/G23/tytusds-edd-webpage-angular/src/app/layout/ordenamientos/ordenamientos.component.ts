@@ -46,7 +46,7 @@ export class OrdenamientosComponent implements OnInit {
     });
     
   }
-  // bar chart
+ 
   public barChartOptions: any = {
     scaleShowVerticalLines: true,
     responsive: true
@@ -71,8 +71,7 @@ export class OrdenamientosComponent implements OnInit {
   graficar(){
     console.log("GRAFICANDO")
 
-    //console.log(this.barChartData)
-    //console.log(this.barChartData[0].data[0])
+    
 
   }
   temporizador(){
@@ -87,10 +86,9 @@ export class OrdenamientosComponent implements OnInit {
   }
 
 clickOrdenar(): void{
-    //burbuja
-    //if(this.idOrdenamiento==1){
+    
       this.iniciaAnimacionOrdenar();
-    //} else if(this.idOrdenamiento==2) num()
+    
 
   }
   iniciaAnimacionOrdenar(){

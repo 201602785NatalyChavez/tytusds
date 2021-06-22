@@ -34,7 +34,7 @@ export class Merkle {
       }
     }
   
-    genHash(tmp, n) { // postorder
+    genHash(tmp, n) { 
       if (tmp != null) {
         this.genHash(tmp.left, n)
         this.genHash(tmp.right, n)
@@ -54,10 +54,10 @@ export class Merkle {
     preorder(tmp) {
       if (tmp != null) {
         if (tmp instanceof DataNode) {
-          //document.getElementById("log").innerHTML+='DB:'+tmp.value+' '
+          
           console.log(tmp.value)
         } else {
-          //document.getElementById("log").innerHTML+=tmp.hash+' '
+          
           console.log(tmp.value)
         }
         this.preorder(tmp.left)

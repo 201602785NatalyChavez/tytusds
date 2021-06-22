@@ -36,28 +36,24 @@ export class AvlComponent implements OnInit {
   }
 
   Insertar(){
-    //var code = (this.x.which) ? this.x.which : this.x.keyCode;
-    //console.log("CODE: ",code)
-    //this.bst.put(y)
-    if(this.x.charCodeAt(0)==8) { // backspace.
+    
+    if(this.x.charCodeAt(0)==8) { 
       console.log("No hay nada")
-    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { // is a number.
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { 
       this.bst.put(parseInt(this.x));
-    } else{ // other keys.
+    } else{ 
       this.bst.string = true
       this.bst.put(this.x)
       this.bst.string = false
     }
     
-    //this.bst.insert(y)
-    //console.log(this.x)
+    
     console.log("RAIZ",this.bst.root)
-    //console.log("X no vale NADA")
+    
     this.x = ''
-    //this.x = this.bst.inOrder(this.bst.root,this.x)
-    //this.bst.inOrder(this.bst.root)
+    
     console.log("----------------------")
-    //console.log("IMPRIMIENDO EL RETORNO DE InOrder",this.x)
+    
     this.x = null
     this.visit()
     this.listaEnlJSon = JSON.stringify(this.bst);
@@ -65,16 +61,16 @@ export class AvlComponent implements OnInit {
 
   Eliminar(){
     console.log("IMPRIMIENDO EL ELIMINAR")
-    if(this.x.charCodeAt(0)==8) { // backspace.
+    if(this.x.charCodeAt(0)==8) { 
       console.log("No hay nada")
-    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { // is a number.
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) {
       this.bst.delete(parseInt(this.x));
-    } else{ // other keys.
+    } else{ 
       this.bst.string = true
       this.bst.delete(this.x)
       this.bst.string = false
     }
-    //this.bst.eliminar(this.x)
+    
     console.log(this.x)
     this.x = ''
     this.visit()
@@ -96,9 +92,9 @@ export class AvlComponent implements OnInit {
               levelSeparation: 100,
               nodeSpacing: 100,
               parentCentralization: true,
-              direction: 'UD',        // UD, DU, LR, RL
-              sortMethod: 'directed',  // hubsize, directed
-              shakeTowards: 'roots'  // roots, leaves                        
+              direction: 'UD',        
+              sortMethod: 'directed', 
+              shakeTowards: 'roots'                     
       },
       },                        
   };
@@ -116,14 +112,7 @@ export class AvlComponent implements OnInit {
 
 
   getTreeData() {  
-    //nodos.push(5)
     
-    //nodos = this.bst.dotgenarray(this.bst.root)
-    //this.bst.dotgenarray(this.bst.root)
-    
-    //nodos.push(this.bst.dotgenarray(this.bst.root,prueba))
-    //nodos.push({id:10, label:'X10'})
-    //console.log(nodos )
     
     var nodes =[
         {id: 1, label: 'Node 1', title: 'I am node 1!'},
@@ -134,17 +123,17 @@ export class AvlComponent implements OnInit {
         {id: 6, label: 'Node 6'}
     ];
 
-    // create an array with edges
+    
     this.bst.dot = '{'
     this.bst.dotgen(this.bst.root)
     this.bst.dot += '}'
     var DOTstring = this.bst.dot
     var parsedData = vis.parseDOTNetwork(DOTstring);
-    //console.log("PARSED",parsedData)
+    
     console.log("RAIz",this.bst.root)
     console.log("DOT",this.bst.dot)
     this.bst.dot = ''
-    //console.log("PARSED",parsedData)
+    
 
     var edges = [
         {from: 1, to: 2},
@@ -153,18 +142,12 @@ export class AvlComponent implements OnInit {
         {from: 2, to: 5},
         {from: 5, to: 6}
     ];
-    //this.bst.inOrder(this.bst.root)
-    //this.bst.dotgenarray(this.bst.root)
-    //console.log("X",nodes)
-    //console.log("Y",this.bst.datagraph)
-    //console.log("X1",edges)
-    //console.log("Y1",this.bst.edgegraph)
+    
     var treeData = {
       nodes:  parsedData.nodes,
       edges: parsedData.edges
     };
-    //this.bst.datagraph = []
-    //this.bst.edgegraph = []
+    
     return treeData;
   }
 
@@ -177,40 +160,11 @@ export class AvlComponent implements OnInit {
      var LENGTH_MAIN = 150;
      var LENGTH_SUB = 50;
 
-     /*var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="390" height="65">' +
-         '<rect x="0" y="0" width="100%" height="100%" fill="#7890A7" stroke-width="20" stroke="#ffffff" ></rect>' +
-         '<foreignObject x="15" y="10" width="100%" height="100%">' +
-         '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px">' +
-         ' <em>I</em> am' +
-         '<span style="color:white; text-shadow:0 0 20px #000000;">' +            
-           ' HTML in SVG!</span>' +
-
-         // * THIS IMAGE IS NOT RENDERING * 
-         '<i style="background-image: url(https://openclipart.org/download/280615/July-4th-v2B.svg);"></i>' +
-
-         '</div>' +
-         '</foreignObject>' +
-         '</svg>';
-
-
-     var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);*/
-
-// Create a data table with nodes.
+     
           nodes = []
-           //this.bst.datagraph = [];
-
-           // Create a data table with links.
+           
            edges = []
-           //this.bst.edgegraph = [];
-
-           //nodes.push({id: 1, label: 'Get HTML', image: url, shape: 'image'});
-           //nodes.push({id: 2, label: 'Using SVG', image: url, shape: 'image'});
-           //edges.push({from: 1, to: 2, length: 300});
-
-           // create a network
-          // var container = this.svgNetworkContainer.nativeElement;            
-
-           //var container = document.getElementById('mynetwork');
+           
            var data = {
                nodes: nodes,
                edges: edges
@@ -224,15 +178,14 @@ export class AvlComponent implements OnInit {
                     levelSeparation: 100,
                     nodeSpacing: 100,
                     parentCentralization: true,
-                    direction: 'UD',        // UD, DU, LR, RL
-                    sortMethod: 'directed',  // hubsize, directed
-                    shakeTowards: 'roots'  // roots, leaves                        
+                    direction: 'UD',       
+                    sortMethod: 'directed',  
+                    shakeTowards: 'roots'                       
             },
             },                        
         };
            window.vis = require('vis-network/standalone');
-           //network = new vis.Network(container, data, options);
-          // this.network = new vis.Network(container, data, options);
+           
  }
 
  fileContent: string = '';
@@ -251,15 +204,12 @@ export class AvlComponent implements OnInit {
   clickCargar(){
     this.strCarga=this.fileContent;
     let strIntoObj = JSON.parse(this.strCarga);
-    //console.log(strIntoObj);
-    //let labels:string[] = new Array(strIntoObj.valores.length);
+    
     for(let i =0;i<strIntoObj.valores.length;i++){
       this.x= strIntoObj.valores[i].toString();
       this.Insertar();
     }
-    //this.barChartLabels=labels;    
-    //this.barChartData[0].data = strIntoObj.valores;
-    //console.log(this.barChartData[0].data);
+   
   }
   private setting = {
     element: {
