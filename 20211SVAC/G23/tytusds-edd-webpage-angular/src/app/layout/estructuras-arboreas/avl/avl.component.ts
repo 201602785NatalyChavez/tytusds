@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer
 import { of, Subscription } from 'rxjs';
 declare var vis:any
 import { AVL } from './clas-avl';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -28,7 +29,7 @@ export class AvlComponent implements OnInit {
   barChartData: any;
   esCarga:boolean;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     
