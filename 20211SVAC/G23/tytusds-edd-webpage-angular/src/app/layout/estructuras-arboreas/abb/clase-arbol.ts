@@ -8,6 +8,7 @@ export default class BST{
     public edgegraph
     public contadores:number
     public nulls:number
+    public string:boolean
 
     constructor(){
         this.root = null
@@ -16,6 +17,7 @@ export default class BST{
         this.edgegraph = []
         this.contadores = 0
         this.nulls = 0
+        this.string = false
     }
     getRoot(){
         return this.root
@@ -25,42 +27,91 @@ export default class BST{
         if(this.root != null) this.insertNode(data, this.root)
         // console.log(newNode.data)
         else {
-            this.root = new Node(data,this.contadores)
+            if(this.string){
+                this.root = new Node(data,this.contadores)
+                console.log(this.root.data.charCodeAt(0))
+            }else{
+                this.root = new Node(data,this.contadores)
+            }
             this.contadores += 1
         }
     }
-    insertNode(value, node){
+    insertNode(valor, node){
+        if(this.string ){
+            let value = 0
+            for(let q = 0 ; q < valor.length ; q++){
+                value += valor.charCodeAt(0)
+            }
+            console.log("VALOR EN AscII: ",value)
         //console.log("Nodos")
         //console.log(node.data, value)
         //console.log("Nodos Padre")
-        if(value < node.data) {
-            //console.log(value,"ES MENOR QUE",node.data )
-            if(node.left != null){
-                this.insertNode(value,node.left)
-                // node.left.up = node
-            }    
-            else{
-                node.left = new Node(value,this.contadores)
-                this.contadores += 1
+            let nodedata = 0
+            for(let q = 0 ; q < node.data.length ; q++){
+                nodedata += node.data.charCodeAt(0)
             }
-                
-        }else if (value > node.data){
-           // console.log(value,"ES MAYOR QUE",node.data )
-            //console.log(5>12)
-            if(node.right != null) {
-                this.insertNode(value,node.right)
-                // node.right.up = node
+            if(value < nodedata) {
+                //console.log(value,"ES MENOR QUE",node.data )
+                if(node.left != null){
+                    this.insertNode(valor,node.left)
+                    // node.left.up = node
+                }    
+                else{
+                    node.left = new Node(valor,this.contadores)
+                    this.contadores += 1
+                }
+                    
+            }else if (value > nodedata){
+            // console.log(value,"ES MAYOR QUE",node.data )
+                //console.log(5>12)
+                if(node.right != null) {
+                    this.insertNode(valor,node.right)
+                    // node.right.up = node
+                }
+                else {
+                    node.right = new Node(valor,this.contadores)
+                    this.contadores += 1
+                }
+            }else { /// Si hay repeticion, si no, se quita y ya
+                if(node.left != null) this.insertNode(valor,node.left)
+                else{
+                    node.left = new Node(valor, this.contadores)
+                    this.contadores += 1
+                }
             }
-            else {
-                node.right = new Node(value,this.contadores)
-                this.contadores += 1
+        }else{
+            let value = valor
+            console.log("ES UN NUMERO: ",value)
+            if(value < node.data) {
+                //console.log(value,"ES MENOR QUE",node.data )
+                if(node.left != null){
+                    this.insertNode(value,node.left)
+                    // node.left.up = node
+                }    
+                else{
+                    node.left = new Node(value,this.contadores)
+                    this.contadores += 1
+                }
+                    
+            }else if (value > node.data){
+            // console.log(value,"ES MAYOR QUE",node.data )
+                //console.log(5>12)
+                if(node.right != null) {
+                    this.insertNode(value,node.right)
+                    // node.right.up = node
+                }
+                else {
+                    node.right = new Node(value,this.contadores)
+                    this.contadores += 1
+                }
+            }else { /// Si hay repeticion, si no, se quita y ya
+                if(node.left != null) this.insertNode(value,node.left)
+                else{
+                    node.left = new Node(value, this.contadores)
+                    this.contadores += 1
+                }
             }
-        }else { /// Si hay repeticion, si no, se quita y ya
-            if(node.left != null) this.insertNode(value,node.left)
-            else{
-                node.left = new Node(value, this.contadores)
-                this.contadores += 1
-            }
+
         }
     }
     inOrder(node){
@@ -121,26 +172,63 @@ export default class BST{
     }
 
     eliminarN(nodo_aux,valor){
-        console.log("ENTRO A ELIMINAR N.---- Y está eliminando : ",valor)
-        if(nodo_aux == null) return null
-        else if(valor < nodo_aux.data){
-            let iz = this.eliminarN(nodo_aux.left,valor)
-            nodo_aux.left = iz
-        }else if( valor > nodo_aux.data){
-            let der = this.eliminarN(nodo_aux.right,valor)
-            nodo_aux.right = der
-        }else{
-            let p = nodo_aux
-            if(p.right == null){
-                nodo_aux = p.left
-            }else if(p.left == null){
-                nodo_aux = p.right
-            }else{
-                p = this.cambiar(p)
+            if(this.string){
+                let value = 0
+            for(let q = 0 ; q < valor.length ; q++){
+                value += valor.charCodeAt(0)
             }
-            p = null
-        }
-        return nodo_aux
+            console.log("VALOR EN AscII: ",value)
+        //console.log("Nodos")
+        //console.log(node.data, value)
+        //console.log("Nodos Padre")
+            let nodedata = 0
+            for(let q = 0 ; q < nodo_aux.data.length ; q++){
+                nodedata += nodo_aux.data.charCodeAt(0)
+            }
+
+                console.log("ENTRO A ELIMINAR N.---- Y está eliminando : ",valor)
+                if(nodo_aux == null) return null
+                else if(valor < nodedata){
+                    let iz = this.eliminarN(nodo_aux.left,valor)
+                    nodo_aux.left = iz
+                }else if( valor > nodedata){
+                    let der = this.eliminarN(nodo_aux.right,valor)
+                    nodo_aux.right = der
+                }else{
+                    let p = nodo_aux
+                    if(p.right == null){
+                        nodo_aux = p.left
+                    }else if(p.left == null){
+                        nodo_aux = p.right
+                    }else{
+                        p = this.cambiar(p)
+                    }
+                    p = null
+                }
+                return nodo_aux
+            }else{
+                console.log("ENTRO A ELIMINAR N.---- Y está eliminando : ",valor)
+                if(nodo_aux == null) return null
+                else if(valor < nodo_aux.data){
+                    let iz = this.eliminarN(nodo_aux.left,valor)
+                    nodo_aux.left = iz
+                }else if( valor > nodo_aux.data){
+                    let der = this.eliminarN(nodo_aux.right,valor)
+                    nodo_aux.right = der
+                }else{
+                    let p = nodo_aux
+                    if(p.right == null){
+                        nodo_aux = p.left
+                    }else if(p.left == null){
+                        nodo_aux = p.right
+                    }else{
+                        p = this.cambiar(p)
+                    }
+                    p = null
+                }
+                return nodo_aux
+
+            }
     }
 
     cambiar(nodo_aux){

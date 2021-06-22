@@ -1,9 +1,10 @@
 export default class Node{
-    private data:any
-    private right:Node
-    private left:Node
-    private id:number
-    private ya:boolean
+    public data:any
+    public right:Node
+    public left:Node
+    public id:number
+    public ya:boolean
+    public datastring: boolean
 
     constructor(data, id){
         this.data = data
@@ -11,6 +12,7 @@ export default class Node{
         this.right = null
         this.id = id
         this.ya = true
+        this.datastring = false
         //this.up = null
     }
 }

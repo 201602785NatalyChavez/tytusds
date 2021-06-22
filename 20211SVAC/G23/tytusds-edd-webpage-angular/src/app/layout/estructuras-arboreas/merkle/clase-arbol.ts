@@ -4,14 +4,16 @@ import { DataNode } from './nodo-merkle';
 export class Merkle {
     public tophash
     public datablock
-    public dot
-    public index
+    public dot:string
+    public index:number
+    public string:boolean
 
     constructor() {
       this.tophash = null
       this.datablock = []    
       this.dot = ''
       this.index = 0
+      this.string = false
     }
   
     add(value) {
@@ -39,7 +41,10 @@ export class Merkle {
         
         if (tmp.left == null && tmp.right == null) {
           tmp.left = this.datablock[n-this.index--]
-          tmp.hash = (tmp.left.value*1000).toString(16)
+          var array = new Uint32Array(1);
+          window.crypto.getRandomValues(array)
+
+          tmp.hash = array[0]
         } else {
           tmp.hash = (parseInt(tmp.left.hash, 16)+parseInt(tmp.right.hash, 16)).toString(16)
         }      
@@ -49,9 +54,11 @@ export class Merkle {
     preorder(tmp) {
       if (tmp != null) {
         if (tmp instanceof DataNode) {
-          document.getElementById("log").innerHTML+='DB:'+tmp.value+' '
+          //document.getElementById("log").innerHTML+='DB:'+tmp.value+' '
+          console.log(tmp.value)
         } else {
-          document.getElementById("log").innerHTML+=tmp.hash+' '
+          //document.getElementById("log").innerHTML+=tmp.hash+' '
+          console.log(tmp.value)
         }
         this.preorder(tmp.left)
         this.preorder(tmp.right)
@@ -92,4 +99,3 @@ export class Merkle {
       }
     }
   }
-  
