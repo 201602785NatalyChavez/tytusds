@@ -3,10 +3,15 @@ import { of, Subscription } from 'rxjs';
 declare var vis:any
 import { AVL } from './clas-avl';
 
+
+
+
 @Component({
   selector: 'app-avl',
   templateUrl: './avl.component.html',
   styleUrls: ['./avl.component.css']
+  
+  
 })
 export class AvlComponent implements OnInit {
   @ViewChild("siteConfigNetwork") networkContainer: ElementRef;
@@ -19,6 +24,8 @@ export class AvlComponent implements OnInit {
   opcionRepeticiones:string
   opcionOperar:string
   listaEnlJSon:string
+  barChartLabels: string[];
+  barChartData: any;
 
   constructor() { }
 
@@ -240,26 +247,16 @@ export class AvlComponent implements OnInit {
 
   clickCargar(){
     this.strCarga=this.fileContent;
-    console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
-    console.log(strIntoObj);
-    if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
-      this.velocidadAnimacion=strIntoObj.animacion;
+    //console.log(strIntoObj);
+    let labels:string[] = new Array(strIntoObj.valores.length);
+    for(let i =0;i<strIntoObj.valores.length;i++){
+      labels[i]=String(i+1);
     }
-    if(strIntoObj.repeticion!=undefined){
-      this.opcionRepeticiones=strIntoObj.repeticion;
-    }
-    if(strIntoObj.posicion!=undefined){
-      if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
-        this.opcionOperar=strIntoObj.posicion;
-    }
-    for (let valorStrNodo of strIntoObj.valores) {
-      this.bst.put(valorStrNodo)
-      this.visit()
-    }
-    
+    this.barChartLabels=labels;    
+    this.barChartData[0].data = strIntoObj.valores;
+    console.log(this.barChartData[0].data);
   }
-
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
