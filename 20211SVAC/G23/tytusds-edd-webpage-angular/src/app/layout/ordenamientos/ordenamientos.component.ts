@@ -4,7 +4,7 @@ import { of, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import BurbujaImpl from './impl-ordenamientos/burbuja';
 import { JsonNodoOrdenamiento } from './impl-ordenamientos/ordenamiento-json';
-import { GraficarComponent } from '../estructuras-arboreas/graficar/graficar.component';
+
 
 @Component({
   selector: 'app-ordenamientos',
@@ -17,11 +17,15 @@ export class OrdenamientosComponent implements OnInit {
   public idOrdenamiento=0;
   tituloOrdenamiento:string;
   strCarga:string;
-  strOrdenamientoJson: string
-  identificadorTempo:any
-  array = [4,2,6,7,5,10,1]
-
+  strOrdenamientoJson:string;
+  identificadorTempo: NodeJS.Timeout;
+  array: any[];
   constructor(private route: ActivatedRoute) {}
+  requestId;
+  intervalId;
+  velocidadAnimacion;
+
+  
 
   ngOnInit(): void {
     this.barChartType = 'bar';
@@ -70,51 +74,15 @@ export class OrdenamientosComponent implements OnInit {
     //console.log(this.barChartData[0].data[0])
 
   }
-  temporizador(array){
-    var x = 0
-    var y = [0,1,2,3]
-    console.log("XXX",x)
-    console.log(this.array)
-    console.log("YYY",y[2])
-    console.log("BAR EN TEMPPO",array)
-    //console.log("BAR EN TEMPPO",this.array)
-    //console.log("BAR EN TEMPPO 2222",this.array)
+  temporizador(){
+    console.log("BAR EN TEMPPO",this.barChartData[0].data)
+    this.identificadorTempo = setTimeout(this.graficar,2500)
+    console.log("BAR EN TEMPPO 2222",this.barChartData[0].data)
 
   }
 
   detenertemporizador(){
     clearTimeout(this.identificadorTempo)
-  }
-
-  clickOrdenar(): void{
-    //burbuja
-    if(this.idOrdenamiento==1){
-      console.log(this.barChartData[0].data);
-      var a = this.barChartData[0].data;
-      let b = new BurbujaImpl(this.barChartData[0].data);
-      let datosOrdenados = b.getDatosOrdenados();    
-      let data = new Array(datosOrdenados.length);
-      for(let i =0;i<datosOrdenados.length;i++){
-        data[i]=datosOrdenados[i];
-      }
-      this.barChartData[0].data = data;
-      let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
-      this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
-    } 
-    else if(this.idOrdenamiento==2){
-      
-      
-      
-    }else if(this.idOrdenamiento==3){
-      this.insercion()
-      console.log("BAR YA EN EL FINAL ",this.barChartData[0].data)
-      this.barChartData[0].data = this.array
-
-
-    }else{
-      
-    }
-    //this.barChartData[0].data = data;
   }
 
   insercion(){
@@ -140,10 +108,7 @@ export class OrdenamientosComponent implements OnInit {
           this.array[j+1] = aux
           console.log("ARRAY DENTRO",this.array)
           this.barChartData[0].data = this.array
-          setTimeout(function (params) {
-              this.temporizador(this.barChartData[0].data)
-          },3000)
-          console.log("ARRAY DENTRO OTRA VEz",this.array)
+          this.temporizador()
           
     }
     console.log(this.barChartData[0].data)
@@ -174,50 +139,47 @@ export class OrdenamientosComponent implements OnInit {
 
 
   }
-
-  quick(arreglo,primero,ultimo){
-    let i,j,pivote,aux
-    i = primero
-    j = ultimo
-    pivote = arreglo[(primero+ultimo)/2]
-    do{
-        while(arreglo[i] < pivote){
-            i++
-        }
-        while(arreglo[j] > pivote){
-            j--
-        }
-        if(i <= j){
-            aux = arreglo[i]
-            arreglo[i] = arreglo[j]
-            arreglo[j] = aux
-            i++
-            j--
-        }
-    }while(i <= j)
-    if (primero < j){
-        this.quick(arreglo,primero,j)
-    }
-    if (i < ultimo){
-        this.quick(arreglo,i,ultimo)
-    }
-}
-seleccion(arr) {       
-  for(let i = 0; i < arr.length; i++) {
-      let min=i;
-      for(let x = i + 1; x < arr.length; x++) {            
-          if (arr[min] > arr[x]) {              
-              min = x;
-          }            
-      }
-      console.log(arr.toString());
-      [arr[min],arr[i]] = [arr[i],arr[min]] 
+clickOrdenar(): void{
+    //burbuja
+    if(this.idOrdenamiento==1){
+      this.iniciaAnimacionOrdenar();
+    } 
   }
-  return arr;
-}
-
-
-
+  iniciaAnimacionOrdenar(){
+    if (this.intervalId != undefined) clearInterval(this.intervalId);
+    if (this.requestId!=undefined) cancelAnimationFrame(this.requestId);
+    this.intervalId = setInterval(() => {
+      this.tick();      
+    }, this.velocidadAnimacion);
+  }
+  tick(){
+    console.log(this.barChartData[0].data);
+    var a = this.barChartData[0].data;
+    let burbujaImpl = new BurbujaImpl(a);
+    let datosOrdenados = burbujaImpl.getDatosOrdenados();    
+    let data = new Array(datosOrdenados.length);
+    for(let i =0;i<datosOrdenados.length;i++){
+      data[i]=datosOrdenados[i];
+    }
+    this.barChartData[0].data = data;
+    const animacion = this.convertirVelocidadAnimacion().toString();
+    let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,animacion,data);
+    this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
+    if(burbujaImpl.bndDatosOrdenados){
+      clearInterval(this.intervalId);
+    }
+  }
+  obtenerEquivalenciaVelocidad(animacion:number){
+    if(animacion!=undefined)
+      this.velocidadAnimacion= (11-animacion)*300;
+    else
+      this.velocidadAnimacion= 1000;
+    console.log('velocidad animacion:'+this.velocidadAnimacion);
+  }
+  convertirVelocidadAnimacion(){
+    if(this.velocidadAnimacion!=undefined) return 11-this.velocidadAnimacion/300;
+    else return 5;
+  }
 
   fileContent: string = '';
   public cargarArchivo(fileList: FileList): void {
@@ -238,6 +200,7 @@ seleccion(arr) {
     for(let i =0;i<strIntoObj.valores.length;i++){
       labels[i]=String(i+1);
     }
+    if(strIntoObj.animacion!=undefined) this.obtenerEquivalenciaVelocidad(strIntoObj.animacion);
     this.barChartLabels=labels;    
     this.barChartData[0].data = strIntoObj.valores;
     console.log(this.barChartData[0].data);
@@ -247,6 +210,71 @@ seleccion(arr) {
       dynamicDownload: null as HTMLElement
     }
   }
+  private colors = [
+    {
+      backgroundColor: [
+        'rgba(47,79,79)',
+        'rgba(0,128,128)',
+        'rgba(32,178,170)',
+        'rgba(102,205,170)',
+        'rgba(46,139,87)',
+        'rgba(60,179,113)',
+        'rgba(32,178,170)',
+        'rgba(70,130,180)',
+        'rgba(95,158,160)',
+        'rgba(100,149,237)',
+        'rgba(176,224,230)',
+        'rgba(224,255,255)',
+        'rgba(47,79,79)',
+        'rgba(0,128,128)',
+        'rgba(32,178,170)',
+        'rgba(102,205,170)',
+        'rgba(46,139,87)',
+        'rgba(60,179,113)',
+        'rgba(32,178,170)',
+        'rgba(70,130,180)',
+        'rgba(95,158,160)',
+        'rgba(100,149,237)',
+        'rgba(176,224,230)',
+        'rgba(224,255,255)',
+        'rgba(47,79,79)',
+        'rgba(0,128,128)',
+        'rgba(32,178,170)',
+        'rgba(102,205,170)',
+        'rgba(46,139,87)',
+        'rgba(60,179,113)',
+        'rgba(32,178,170)',
+        'rgba(70,130,180)',
+        'rgba(95,158,160)',
+        'rgba(100,149,237)',
+        'rgba(176,224,230)',
+        'rgba(224,255,255)',
+        'rgba(47,79,79)',
+        'rgba(0,128,128)',
+        'rgba(32,178,170)',
+        'rgba(102,205,170)',
+        'rgba(46,139,87)',
+        'rgba(60,179,113)',
+        'rgba(32,178,170)',
+        'rgba(70,130,180)',
+        'rgba(95,158,160)',
+        'rgba(100,149,237)',
+        'rgba(176,224,230)',
+        'rgba(224,255,255)',
+        'rgba(47,79,79)',
+        'rgba(0,128,128)',
+        'rgba(32,178,170)',
+        'rgba(102,205,170)',
+        'rgba(46,139,87)',
+        'rgba(60,179,113)',
+        'rgba(32,178,170)',
+        'rgba(70,130,180)',
+        'rgba(95,158,160)',
+        'rgba(100,149,237)',
+        'rgba(176,224,230)',
+        'rgba(224,255,255)',
+      ]
+    }];
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
