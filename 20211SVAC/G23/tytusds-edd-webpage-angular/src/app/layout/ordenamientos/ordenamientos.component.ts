@@ -70,10 +70,15 @@ export class OrdenamientosComponent implements OnInit {
     //console.log(this.barChartData[0].data[0])
 
   }
-  temporizador(){
-    console.log("BAR EN TEMPPO",this.barChartData[0].data)
-    this.identificadorTempo = setTimeout(this.graficar,2500)
-    console.log("BAR EN TEMPPO 2222",this.barChartData[0].data)
+  temporizador(array){
+    var x = 0
+    var y = [0,1,2,3]
+    console.log("XXX",x)
+    console.log(this.array)
+    console.log("YYY",y[2])
+    console.log("BAR EN TEMPPO",array)
+    //console.log("BAR EN TEMPPO",this.array)
+    //console.log("BAR EN TEMPPO 2222",this.array)
 
   }
 
@@ -86,22 +91,22 @@ export class OrdenamientosComponent implements OnInit {
     if(this.idOrdenamiento==1){
       console.log(this.barChartData[0].data);
       var a = this.barChartData[0].data;
-      let b = new BurbujaImpl(a);
+      let b = new BurbujaImpl(this.barChartData[0].data);
       let datosOrdenados = b.getDatosOrdenados();    
       let data = new Array(datosOrdenados.length);
       for(let i =0;i<datosOrdenados.length;i++){
         data[i]=datosOrdenados[i];
       }
       this.barChartData[0].data = data;
-      //let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
-      //this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
+      let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
+      this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
     } 
     else if(this.idOrdenamiento==2){
       
       
       
     }else if(this.idOrdenamiento==3){
-      this.insercion2()
+      this.insercion()
       console.log("BAR YA EN EL FINAL ",this.barChartData[0].data)
       this.barChartData[0].data = this.array
 
@@ -135,7 +140,10 @@ export class OrdenamientosComponent implements OnInit {
           this.array[j+1] = aux
           console.log("ARRAY DENTRO",this.array)
           this.barChartData[0].data = this.array
-          this.temporizador()
+          setTimeout(function (params) {
+              this.temporizador(this.barChartData[0].data)
+          },3000)
+          console.log("ARRAY DENTRO OTRA VEz",this.array)
           
     }
     console.log(this.barChartData[0].data)
@@ -166,6 +174,47 @@ export class OrdenamientosComponent implements OnInit {
 
 
   }
+
+  quick(arreglo,primero,ultimo){
+    let i,j,pivote,aux
+    i = primero
+    j = ultimo
+    pivote = arreglo[(primero+ultimo)/2]
+    do{
+        while(arreglo[i] < pivote){
+            i++
+        }
+        while(arreglo[j] > pivote){
+            j--
+        }
+        if(i <= j){
+            aux = arreglo[i]
+            arreglo[i] = arreglo[j]
+            arreglo[j] = aux
+            i++
+            j--
+        }
+    }while(i <= j)
+    if (primero < j){
+        this.quick(arreglo,primero,j)
+    }
+    if (i < ultimo){
+        this.quick(arreglo,i,ultimo)
+    }
+}
+seleccion(arr) {       
+  for(let i = 0; i < arr.length; i++) {
+      let min=i;
+      for(let x = i + 1; x < arr.length; x++) {            
+          if (arr[min] > arr[x]) {              
+              min = x;
+          }            
+      }
+      console.log(arr.toString());
+      [arr[min],arr[i]] = [arr[i],arr[min]] 
+  }
+  return arr;
+}
 
 
 
