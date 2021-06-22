@@ -60,6 +60,7 @@ export class AvlComponent implements OnInit {
     //console.log("IMPRIMIENDO EL RETORNO DE InOrder",this.x)
     this.x = null
     this.visit()
+    this.listaEnlJSon = JSON.stringify(this.bst);
   }
 
   Eliminar(){
@@ -251,13 +252,14 @@ export class AvlComponent implements OnInit {
     this.strCarga=this.fileContent;
     let strIntoObj = JSON.parse(this.strCarga);
     //console.log(strIntoObj);
-    let labels:string[] = new Array(strIntoObj.valores.length);
+    //let labels:string[] = new Array(strIntoObj.valores.length);
     for(let i =0;i<strIntoObj.valores.length;i++){
-      labels[i]=String(i+1);
+      this.x= strIntoObj.valores[i].toString();
+      this.Insertar();
     }
-    this.barChartLabels=labels;    
-    this.barChartData[0].data = strIntoObj.valores;
-    console.log(this.barChartData[0].data);
+    //this.barChartLabels=labels;    
+    //this.barChartData[0].data = strIntoObj.valores;
+    //console.log(this.barChartData[0].data);
   }
   private setting = {
     element: {
@@ -267,7 +269,7 @@ export class AvlComponent implements OnInit {
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
-        fileName: '.json',
+        fileName: 'Avl.json',
         text: res
       });
     });

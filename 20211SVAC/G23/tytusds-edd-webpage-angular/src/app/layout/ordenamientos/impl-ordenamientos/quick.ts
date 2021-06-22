@@ -1,30 +1,53 @@
-function quick(arreglo,primero,ultimo){
-    let i,j,pivote,aux
-    i = primero
-    j = ultimo
-    pivote = arreglo[(primero+ultimo)/2]
-    do{
-        while(arreglo[i] < pivote){
-            i++
-        }
-        while(arreglo[j] > pivote){
-            j--
-        }
-        if(i <= j){
-            aux = arreglo[i]
-            arreglo[i] = arreglo[j]
-            arreglo[j] = aux
-            i++
-            j--
-        }
-    }while(i <= j)
-    if (primero < j){
-        quick(arreglo,primero,j)
+export default class QuickSortImpl{
+    datosIniciales:any[];
+    datosOrdenados:any[];
+    bndDatosOrdenados:boolean;
+    constructor(datos: any[]) {
+        this.datosIniciales=datos;
+        this.datosOrdenados=datos;
+        this.bndDatosOrdenados=true;
+        this.ordenarPorQuickSort(this.datosOrdenados,0,this.datosOrdenados.length-1)
     }
-    if (i < ultimo){
-        quick(arreglo,i,ultimo)
+    getDatosOrdenados(){
+        return this.datosOrdenados;
     }
+    
+ swap(items, leftIndex, rightIndex){
+    var temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
 }
-var x = [15,2,65,35,15,8,66,22,11]
-quick(x,0,x.length-1)
-console.log(x)
+ partition(items, left, right) {
+    var pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i] < pivot) {
+            i++;
+        }
+        while (items[j] > pivot) {
+            j--;
+        }
+        if (i <= j) {
+            this.swap(items, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+ordenarPorQuickSort(items, left, right) {
+    var index;
+    if (items.length > 1) {
+        index = this.partition(items, left, right); //index returned from partition
+        if (left < index - 1) { //more elements on the left side of the pivot
+            this.ordenarPorQuickSort(items, left, index - 1);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            this.ordenarPorQuickSort(items, index, right);
+        }
+    }
+    return items;
+}
+}

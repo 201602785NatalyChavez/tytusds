@@ -79,6 +79,7 @@ export class AbbComponent implements OnInit {
     //console.log("IMPRIMIENDO EL RETORNO DE InOrder",this.x)
     this.x = '' 
     this.visit()
+    this.listaEnlJSon = JSON.stringify(this.bst);
   }
 
   Eliminar(){
@@ -281,6 +282,7 @@ export class AbbComponent implements OnInit {
         this.opcionOperar=strIntoObj.posicion;
     }
     for (let valorStrNodo of strIntoObj.valores) {
+      valorStrNodo=valorStrNodo.toString();
       this.valoresinsertados.push(valorStrNodo)
       if(this.valoresinsertados.includes(valorStrNodo) && this.opcionRepeticiones == 'false'){
         console.log("El valor",valorStrNodo,"está repetido")
@@ -312,6 +314,7 @@ export class AbbComponent implements OnInit {
     //console.log(this.x)
     console.log("RAIZ",this.bst.root)
     //console.log("X no vale NADA")
+    this.listaEnlJSon = JSON.stringify(this.bst);
     this.x = ''
   }
 

@@ -57,6 +57,7 @@ export class MerkleComponent implements OnInit {
     //var array = new Uint32Array(1);
     //console.log(window.crypto.getRandomValues(array))
     //console.log("ARRAY",array)
+    this.listaEnlJSon = JSON.stringify(this.bst);
   }
 
   visit(){
@@ -256,7 +257,7 @@ export class MerkleComponent implements OnInit {
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
-        fileName: 'ABB.json',
+        fileName: 'Merkle.json',
         text: res
       });
     });
