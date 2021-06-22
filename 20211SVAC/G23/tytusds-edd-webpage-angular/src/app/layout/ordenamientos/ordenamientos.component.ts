@@ -248,7 +248,7 @@ seleccion(arr) {
     }
   }
   downloadJson() {
-    this.fakeValidateUserData().subscribe((res: any) => {
+    this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
         fileName: this.tituloOrdenamiento+'.json',
         text: res
