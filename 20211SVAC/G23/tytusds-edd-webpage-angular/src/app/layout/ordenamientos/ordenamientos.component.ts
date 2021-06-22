@@ -4,6 +4,7 @@ import { of, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import BurbujaImpl from './impl-ordenamientos/burbuja';
 import { JsonNodoOrdenamiento } from './impl-ordenamientos/ordenamiento-json';
+import { GraficarComponent } from '../estructuras-arboreas/graficar/graficar.component';
 
 @Component({
   selector: 'app-ordenamientos',
@@ -17,6 +18,9 @@ export class OrdenamientosComponent implements OnInit {
   tituloOrdenamiento:string;
   strCarga:string;
   strOrdenamientoJson: string
+  identificadorTempo:any
+  array = [4,2,6,7,5,10,1]
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -58,6 +62,25 @@ export class OrdenamientosComponent implements OnInit {
         40,
         15], label: 'Datos leídos' }
   ];
+
+  graficar(){
+    console.log("GRAFICANDO")
+
+    //console.log(this.barChartData)
+    //console.log(this.barChartData[0].data[0])
+
+  }
+  temporizador(){
+    console.log("BAR EN TEMPPO",this.barChartData[0].data)
+    this.identificadorTempo = setTimeout(this.graficar,2500)
+    console.log("BAR EN TEMPPO 2222",this.barChartData[0].data)
+
+  }
+
+  detenertemporizador(){
+    clearTimeout(this.identificadorTempo)
+  }
+
   clickOrdenar(): void{
     //burbuja
     if(this.idOrdenamiento==1){
@@ -70,18 +93,83 @@ export class OrdenamientosComponent implements OnInit {
         data[i]=datosOrdenados[i];
       }
       this.barChartData[0].data = data;
-      let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
-      this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
+      //let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
+      //this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
     } 
     else if(this.idOrdenamiento==2){
-
+      
+      
+      
     }else if(this.idOrdenamiento==3){
+      this.insercion2()
+      console.log("BAR YA EN EL FINAL ",this.barChartData[0].data)
+      this.barChartData[0].data = this.array
+
 
     }else{
       
     }
     //this.barChartData[0].data = data;
   }
+
+  insercion(){
+    let i,j,aux
+    let array = []
+    //array = this.barChartData[0].data
+    this.array = new Array(this.barChartData[0].data.length)
+    for(let i =0;i<this.barChartData[0].data.length;i++){
+      this.barChartData[0].data[i]=this.barChartData[0].data[i];
+    }
+    console.log(this.barChartData[0].data)
+    this.array = this.barChartData[0].data
+    console.log("ARRAY",this.array)
+    for(i = 1; i < this.array.length; i++){
+      aux = this.array[i]
+      console.log("AUX",aux)
+        j = i-1
+        while(j >= 0 && this.array[j] > aux){
+          this.array[j+1] =this. array[j]
+            j = j-1
+          }
+          //console.log("array[j+1]",this.barChartData[0].data[j+1])
+          this.array[j+1] = aux
+          console.log("ARRAY DENTRO",this.array)
+          this.barChartData[0].data = this.array
+          this.temporizador()
+          
+    }
+    console.log(this.barChartData[0].data)
+    console.log("ARREGLO ORDENADO POR INSERCION")
+
+
+  }
+
+  insercion2(){
+    let i,j,aux
+    let array = []
+    //array = this.barChartData[0].data
+
+    console.log("ARRAY",this.array)
+    for(i = 1; i < this.array.length; i++){
+      aux = this.array[i]
+      console.log("AUX",aux)
+        j = i-1
+        while(j >= 0 && this.array[j] > aux){
+          this.array[j+1] = this.array[j]
+            j = j-1
+          }
+          //console.log("array[j+1]",this.barChartData[0].data[j+1])
+          this.array[j+1] = aux
+          
+    }
+    console.log("ARREGLO ORDENADO POR INSERCION")
+
+
+  }
+
+
+
+
   fileContent: string = '';
   public cargarArchivo(fileList: FileList): void {
     let file = fileList[0];

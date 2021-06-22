@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer2, ComponentFactoryResolver} from '@angular/core';
-
+import { of, Subscription } from 'rxjs';
 declare var vis:any
 import { AVL } from './clas-avl';
 
@@ -11,8 +11,14 @@ import { AVL } from './clas-avl';
 export class AvlComponent implements OnInit {
   @ViewChild("siteConfigNetwork") networkContainer: ElementRef;
   bst = new AVL()
-  x:string = ''
+  x:string
   public network:any
+
+  strCarga:string
+  velocidadAnimacion:number
+  opcionRepeticiones:string
+  opcionOperar:string
+  listaEnlJSon:string
 
   constructor() { }
 
@@ -21,15 +27,19 @@ export class AvlComponent implements OnInit {
   }
 
   Insertar(){
-    let y = parseInt(this.x)
-    console.log(y)
-    if(typeof parseInt(this.x) === 'number'){
-      console.log("SI ES NUMERO")
-      this.bst.put(y)
-    }else{
-      console.log("NO ES NUMERO")
+    //var code = (this.x.which) ? this.x.which : this.x.keyCode;
+    //console.log("CODE: ",code)
+    //this.bst.put(y)
+    if(this.x.charCodeAt(0)==8) { // backspace.
+      console.log("No hay nada")
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { // is a number.
+      this.bst.put(parseInt(this.x));
+    } else{ // other keys.
+      this.bst.string = true
       this.bst.put(this.x)
+      this.bst.string = false
     }
+    
     //this.bst.insert(y)
     //console.log(this.x)
     console.log("RAIZ",this.bst.root)
@@ -39,13 +49,22 @@ export class AvlComponent implements OnInit {
     //this.bst.inOrder(this.bst.root)
     console.log("----------------------")
     //console.log("IMPRIMIENDO EL RETORNO DE InOrder",this.x)
-    this.x = '' 
+    this.x = null
     this.visit()
   }
 
   Eliminar(){
     console.log("IMPRIMIENDO EL ELIMINAR")
-    this.bst.delete(this.x)
+    if(this.x.charCodeAt(0)==8) { // backspace.
+      console.log("No hay nada")
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { // is a number.
+      this.bst.delete(parseInt(this.x));
+    } else{ // other keys.
+      this.bst.string = true
+      this.bst.delete(this.x)
+      this.bst.string = false
+    }
+    //this.bst.eliminar(this.x)
     console.log(this.x)
     this.x = ''
     this.visit()
@@ -206,4 +225,72 @@ export class AvlComponent implements OnInit {
           // this.network = new vis.Network(container, data, options);
  }
 
+ fileContent: string = '';
+
+  public cargarArchivo(fileList: FileList): void {
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      self.fileContent = fileReader.result.toString();
+    }
+    fileReader.readAsText(file);
+    this.strCarga=self.fileContent;
+  }
+
+  clickCargar(){
+    this.strCarga=this.fileContent;
+    console.log(this.strCarga);
+    let strIntoObj = JSON.parse(this.strCarga);
+    console.log(strIntoObj);
+    if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
+      this.velocidadAnimacion=strIntoObj.animacion;
+    }
+    if(strIntoObj.repeticion!=undefined){
+      this.opcionRepeticiones=strIntoObj.repeticion;
+    }
+    if(strIntoObj.posicion!=undefined){
+      if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
+        this.opcionOperar=strIntoObj.posicion;
+    }
+    for (let valorStrNodo of strIntoObj.valores) {
+      this.bst.put(valorStrNodo)
+      this.visit()
+    }
+    
+  }
+
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: '.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.listaEnlJSon);
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
+
 }
+
+

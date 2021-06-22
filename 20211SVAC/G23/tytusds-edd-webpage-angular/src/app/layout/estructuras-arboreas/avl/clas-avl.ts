@@ -5,11 +5,13 @@ export class AVL{
     dot:String
     contadores:number
     nulls:number
+    string:boolean
     constructor(){
         this.root = null
         this.dot = ''
         this.contadores = 0
         this.nulls = 0
+        this.string = false
     }
 
     isEmpty() {
@@ -55,27 +57,65 @@ export class AVL{
         }
     }
 
-    puts(x, val) {
-        if (x == null) {
-            this.contadores += 1
-            var q = new Nodo(val,0,1)
-            q.ya = true
-            return q
+    puts(x, value) {
+        if(this.string){
+            let val = 0
+            for(let q = 0 ; q < value.length ; q++){
+                val += value.charCodeAt(0)
+            }
+            console.log("VALOR EN AscII: ",value)
+        //console.log("Nodos")
+        //console.log(node.data, value)
+        //console.log("Nodos Padre")
+            let nodedata = 0
+            for(let q = 0 ; q < x.value.length ; q++){
+                nodedata += x.value.charCodeAt(0)
+            }
+
+            if (x == null) {
+                this.contadores += 1
+                var q = new Nodo(val,0,1)
+                q.ya = true
+                return q
+            }
+            
+            if (val < nodedata) {
+                x.left = this.puts(x.left, val);
+            }
+            else if (val > nodedata) {
+                x.right = this.puts(x.right, val);
+            }
+            else {
+                x.value = val;
+                return x;
+            }
+            x.size = 1 + this.size(x.left) + this.size(x.right);
+            x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
+            return this.balance(x);
+        }else{
+            let val = value
+            if (x == null) {
+                this.contadores += 1
+                var q = new Nodo(val,0,1)
+                q.ya = true
+                return q
+            }
+            
+            if (val < x.value) {
+                x.left = this.puts(x.left, val);
+            }
+            else if (val > x.value) {
+                x.right = this.puts(x.right, val);
+            }
+            else {
+                x.value = val;
+                return x;
+            }
+            x.size = 1 + this.size(x.left) + this.size(x.right);
+            x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
+            return this.balance(x);
+
         }
-        
-        if (val < x.value) {
-            x.left = this.puts(x.left, val);
-        }
-        else if (val > x.value) {
-            x.right = this.puts(x.right, val);
-        }
-        else {
-            x.value = val;
-            return x;
-        }
-        x.size = 1 + this.size(x.left) + this.size(x.right);
-        x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
-        return this.balance(x);
     }
 
     balance(x) {
@@ -125,33 +165,76 @@ export class AVL{
         this.root = this.delete2(this.root, val);
     }
 
-    delete2(x, val) {
-        if (val < x.value) {
-            x.left = this.delete2(x.left, val);
-        }
-        else if (val > x.value) {
-            x.right = this.delete2(x.right, val);
-        }
-        else {
-            if (x.left == null) {
-                return x.right;
+    delete2(x, value) {
+        if(this.string){
+            let val = 0
+            for(let q = 0 ; q < value.length ; q++){
+                val += value.charCodeAt(0)
             }
-            else if (x.right == null) {
-                console.log("X:RIGHT == UNDEFINED")
-                return x.left;
+            console.log("VALOR EN AscII: ",value)
+        //console.log("Nodos")
+        //console.log(node.data, value)
+        //console.log("Nodos Padre")
+            let nodedata = 0
+            for(let q = 0 ; q < x.value.length ; q++){
+                nodedata += x.value.charCodeAt(0)
+            }
+            if (val < x.value) {
+                x.left = this.delete2(x.left, val);
+            }
+            else if (val > x.value) {
+                x.right = this.delete2(x.right, val);
             }
             else {
-                var y = x;
-                console.log("Y.RIGHT2",y.right.value)
-                console.log("X.RIGHT",x.right.value)
-                x = this.min(y.right);
-                x.right = this.deleteMin(y.right);
-                x.left = y.left;
+                if (x.left == null) {
+                    return x.right;
+                }
+                else if (x.right == null) {
+                    console.log("X:RIGHT == UNDEFINED")
+                    return x.left;
+                }
+                else {
+                    var y = x;
+                    console.log("Y.RIGHT2",y.right.value)
+                    console.log("X.RIGHT",x.right.value)
+                    x = this.min(y.right);
+                    x.right = this.deleteMin(y.right);
+                    x.left = y.left;
+                }
             }
-        }
-        x.size = 1 + this.size(x.left) + this.size(x.right);
-        x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
-        return this.balance(x);
+            x.size = 1 + this.size(x.left) + this.size(x.right);
+            x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
+            return this.balance(x);
+        }else{
+            let val = value
+            if (val < x.value) {
+                x.left = this.delete2(x.left, val);
+            }
+            else if (val > x.value) {
+                x.right = this.delete2(x.right, val);
+            }
+            else {
+                if (x.left == null) {
+                    return x.right;
+                }
+                else if (x.right == null) {
+                    console.log("X:RIGHT == UNDEFINED")
+                    return x.left;
+                }
+                else {
+                    var y = x;
+                    console.log("Y.RIGHT2",y.right.value)
+                    console.log("X.RIGHT",x.right.value)
+                    x = this.min(y.right);
+                    x.right = this.deleteMin(y.right);
+                    x.left = y.left;
+                }
+            }
+            x.size = 1 + this.size(x.left) + this.size(x.right);
+            x.height = 1 + Math.max(this.height(x.left), this.height(x.right));
+            return this.balance(x);
+
+            }
     }  
 
     deleteMin(x) {
