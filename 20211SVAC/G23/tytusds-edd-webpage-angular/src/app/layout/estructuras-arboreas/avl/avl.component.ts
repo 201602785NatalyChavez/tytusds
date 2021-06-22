@@ -26,6 +26,7 @@ export class AvlComponent implements OnInit {
   listaEnlJSon:string
   barChartLabels: string[];
   barChartData: any;
+  esCarga:boolean;
 
   constructor() { }
 
