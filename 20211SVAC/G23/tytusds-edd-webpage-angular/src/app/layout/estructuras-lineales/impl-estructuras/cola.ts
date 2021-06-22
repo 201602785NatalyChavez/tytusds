@@ -46,7 +46,7 @@ export default class Cola {
     }
     return nodo;
   }
-  existeValor(valor):boolean{
+  buscar(valor):boolean{
     let existeValor=false;
     let aux=this.inicio;
     while(aux!=null&&!existeValor){
