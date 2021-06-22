@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "gitbuild": "ng build --prod --base-href /start-angular/tytusds-edd-webpage-angular/master/dist/",
+    "gitbuild": "ng build --prod --base-href https://201602785NatalyChavez.github.io/fase-23/",
     "test": "ng test",
     "test-ci": "TEST_CI=true ng test",
     "lint": "ng lint",
