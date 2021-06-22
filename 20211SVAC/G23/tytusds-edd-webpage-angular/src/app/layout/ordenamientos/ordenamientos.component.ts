@@ -93,8 +93,8 @@ export class OrdenamientosComponent implements OnInit {
         data[i]=datosOrdenados[i];
       }
       this.barChartData[0].data = data;
-      //let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
-      //this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
+      let jsonNodoArray= new JsonNodoOrdenamiento("Ordenamiento",this.tituloOrdenamiento,data);
+      this.strOrdenamientoJson = JSON.stringify(jsonNodoArray);
     } 
     else if(this.idOrdenamiento==2){
       
