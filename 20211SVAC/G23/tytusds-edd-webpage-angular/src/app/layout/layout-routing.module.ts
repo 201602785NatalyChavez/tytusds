@@ -61,6 +61,16 @@ const routes: Routes = [
                 path: 'Merkle',
                 loadChildren: () => import('./estructuras-arboreas/merkle/merkle.module').then((m) => m.MerkleModule)
             }
+            ,
+            {
+                path: 'hash-abierta',
+                loadChildren: () => import('./hash-abierta/hash-abierta.module').then((m) => m.HashAbiertaModule)
+            }
+            ,
+            {
+                path: 'hash-cerrada',
+                loadChildren: () => import('./hash-cerrada/hash-cerrada.module').then((m) => m.HashCerradaModule)
+            }
         ]
     }
 ];
