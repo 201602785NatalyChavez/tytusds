@@ -1,0 +1,82 @@
+<md-toolbar layout="row" *ngIf="showMessage">
+    <div class="text-center">
+      <h3>{{strMessage}}</h3>
+    </div>
+  </md-toolbar>
+<div class="row">
+    <div class="col-xs-2 text-xs-center">
+        <div class="card mb-3 text-center my-auto">
+            <div class="card-body align-items-center" >
+                <input class="form-control input-sm" placeholder="Ingresar valor" [(ngModel)]="valorNodoInsertar" />
+                <label for="seleccionPruebaHash">Prueba Hash: </label>
+                <mat-radio-group id="seleccionPruebaHash" aria-label="Select an option" class="example-radio-group"
+                    [(ngModel)]="opcionPruebaHash" >
+                    <mat-radio-button value="1">Lineal</mat-radio-button>
+                    <mat-radio-button value="2">Cuadrática</mat-radio-button>
+                    <mat-radio-button value="3">Doble Hash</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-2 text-xs-center">
+        <div class="card mb-3 text-center my-auto align-items-center">
+                <button class="btn btn-secondary" type="button" (click)="clickAgregarNodo()">Agregar</button>
+                <button class="btn btn-secondary" type="button" (click)="clickBorrarNodo()">Borrar</button>
+                <button class="btn btn-secondary" type="button" (click)="clickBuscarNodo()">Buscar</button>
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="card mb-3 text-center my-auto">
+            <input class="form-control input-sm" placeholder="Valor a actualizar" [(ngModel)]="valorActualizar" />
+            <input class="form-control input-sm" placeholder="Valor nuevo" [(ngModel)]="valorActualizarNuevo" />
+            <button class="btn btn-secondary btn-xs" type="button" (click)="clickActualizarNodo()">Actualizar</button>
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="card mb-3 text-center my-auto">
+                <input class="form-control input-sm" placeholder="Tamaño" [(ngModel)]="valorTamanio" />
+                <button class="btn btn-secondary btn-xs" type="button" (click)="clickActualizarTamanio()">Aplicar tamaño</button>
+                <label for="seleccionFuncionHash">Función Hash: </label>
+                <mat-radio-group id="seleccionFuncionHash" aria-label="Select an option" class="example-radio-group"
+                    [(ngModel)]="opcionFuncionHash" >
+                    <mat-radio-button value="1">Simple</mat-radio-button>
+                    <mat-radio-button value="2">División</mat-radio-button>
+                    <mat-radio-button value="3">Multip.</mat-radio-button>
+                </mat-radio-group>
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="card mb-3 text-center my-auto">
+            <input class="form-control input-sm" placeholder="Mínimo rehashing" [(ngModel)]="valorMinRehashing" />
+            <input class="form-control input-sm" placeholder="Máximo rehashing" [(ngModel)]="valorMaxRehashing" />
+            <small><label for="customRange2" class="form-label">Velocidad animacion: {{velocidadAnimacion}}</label></small>
+                <input type="range" class="form-range" min="0" max="10" id="customRange2" [(ngModel)]="velocidadAnimacion">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12 text-xs-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <canvas #canvas width="1200" height="1000"></canvas>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-xl-6 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON a cargar</label>
+            <textarea class="form-control" rows="2">{{fileContent}}</textarea>
+            <input type="file" (change)="cargarArchivo($event.target.files)">
+            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a Tabla Hash</button>
+        </fieldset>
+    </div>
+    <div class="col-xl-6 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON salida</label>
+            <textarea class="form-control" rows="2">{{strHashCerradaJson}}</textarea>
+            <button class="btn btn-secondary" type="submit" (click)="downloadJson()">Guardar</button>
+        </fieldset>
+    </div>
+</div>   
