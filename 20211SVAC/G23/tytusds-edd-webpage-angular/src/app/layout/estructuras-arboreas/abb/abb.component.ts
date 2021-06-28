@@ -19,7 +19,11 @@ import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 })
 export class AbbComponent implements OnInit {
   @ViewChild("siteConfigNetwork") networkContainer: ElementRef;
-  
+  strMessageBuscar:string;
+  showMessageBuscar:boolean;
+  valorNodoInsertar:string;
+  public showMessage=false;
+  esCarga:boolean;
   
   bst = new BST()
   valoresinsertados = []
@@ -31,6 +35,9 @@ export class AbbComponent implements OnInit {
   opcionRepeticiones:string
   opcionOperar:string
   listaEnlJSon:string
+  listaEnlazada: any;
+  dynamicDownload: any;
+  idTipoLista: number;
   
 
   constructor() { }
@@ -38,11 +45,18 @@ export class AbbComponent implements OnInit {
   ngOnInit(): void {
     this.listaEnlJSon = ""
     this.opcionRepeticiones = "true"
+    this.opcionOperar='Inicio';
+    this.esCarga=false;
+    
     
   }
+ 
 
   Iniciar(){
-
+      this.listaEnlJSon='';
+      this.showMessage=false;
+      this.opcionRepeticiones="true";
+    
   }
   
   Insertar(){
@@ -67,7 +81,38 @@ export class AbbComponent implements OnInit {
     this.visit()
     this.listaEnlJSon = JSON.stringify(this.bst);
   }
-
+  clickAgregarNodo() {
+    if(this.valorNodoInsertar!=null && this.valorNodoInsertar!=''){
+      this.agregarNodo(this.valorNodoInsertar, false);
+    }
+  }
+  agregarNodo(valorInsertar:string, esCarga:boolean) {
+    let insertaValor=true;
+    this.showMessage=false;
+   
+    if(this.idTipoLista>=1&&this.idTipoLista<=4){
+      if(this.opcionRepeticiones=="false"){
+        if(this.listaEnlazada.search(valorInsertar)){
+          this.showMessage=true;
+          insertaValor=false;         }       }
+      if(insertaValor){ 
+        if(this.opcionOperar=='Inicio'){
+          this.listaEnlazada.agregarAlInicio(valorInsertar);
+        }
+        else{
+          this.listaEnlazada.agregarAlFinal(valorInsertar);
+        }
+      }
+    } 
+    else if(this.idTipoLista==5){
+      if(this.opcionRepeticiones=="false"){
+        if(this.listaEnlazada.search(valorInsertar)){
+          this.showMessage=true;
+          insertaValor=false;         }       }
+        if(insertaValor) this.listaEnlazada.push(valorInsertar);
+    }
+  
+  }
   Eliminar(){
     console.log("IMPRIMIENDO EL ELIMINAR")
     if(this.x.charCodeAt(0)==8) { 
@@ -235,6 +280,7 @@ export class AbbComponent implements OnInit {
       }else{
         this.x = valorStrNodo
         this.Insertarcarga()
+        this.esCarga=true;
 
       
       }
@@ -278,6 +324,18 @@ export class AbbComponent implements OnInit {
   fakeValidateUserData() {
     return of(this.listaEnlJSon);
   }
+  clickBuscarNodo(){
+    this.showMessageBuscar= false;
+    if(this.valorNodoInsertar!=null && this.valorNodoInsertar!=''){
+      if(this.listaEnlJSon.search(this.valorNodoInsertar)){
+        this.strMessageBuscar="Si se encontro el dato";        } 
+        else  this.strMessageBuscar="No se encontro el dato"; 
+        this.showMessageBuscar= true;
+      this.valorNodoInsertar=''; 
+    }
+  }
+
+  
   private dyanmicDownloadByHtmlTag(arg: {
     fileName: string,
     text: string
