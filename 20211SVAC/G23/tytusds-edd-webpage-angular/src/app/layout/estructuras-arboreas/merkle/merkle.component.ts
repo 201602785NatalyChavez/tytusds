@@ -13,20 +13,42 @@ import { Merkle } from './clase-arbol'
 export class MerkleComponent implements OnInit {
   @ViewChild("siteConfigNetwork") networkContainer: ElementRef;
   bst = new Merkle()
-  x:string = ''
+  x:string
   public network:any
   valores:number = 0
+  public showMessage=false;
+  strMessageBuscar:string;
+  showMessageBuscar:boolean;
 
   strCarga:string
   velocidadAnimacion:number
   opcionRepeticiones:string
   opcionOperar:string
   listaEnlJSon:string
+  valoresinsertados: any;
+  esCarga: boolean;
+  listaEnlazada: any;
+  dynamicDownload: any;
+  idTipoLista: number;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.listaEnlJSon = ""
+    this.opcionRepeticiones = "true"
+    this.opcionOperar='Inicio';
+    this.esCarga=false;
+    
+    
+  
   }
+  Iniciar(){
+    this.listaEnlJSon='';
+    this.showMessage=false;
+    this.opcionRepeticiones="true";
+  
+}
+
 
   Insertar(){
     
@@ -48,7 +70,7 @@ export class MerkleComponent implements OnInit {
     
     console.log("----------------------")
    
-    this.x = null
+    this.x = '' 
     this.visit()
     console.log("TOPHASH",this.bst.tophash)
   
@@ -194,10 +216,63 @@ export class MerkleComponent implements OnInit {
         this.opcionOperar=strIntoObj.posicion;
     }
     for (let valorStrNodo of strIntoObj.valores) {
-      this.bst.add(valorStrNodo)
+      valorStrNodo=valorStrNodo.toString();
+      this.valoresinsertados.push(valorStrNodo)
+      if(this.valoresinsertados.includes(valorStrNodo) && this.opcionRepeticiones == 'false'){
+        console.log("El valor",valorStrNodo,"está repetido")
+      }else{
+        this.x = valorStrNodo
+        this.Insertarcarga()
+        this.esCarga=true;
+
+      
+      }
     }
     this.visit()
+    this.valoresinsertados = []
     
+  }
+  Insertarcarga() {
+    if(this.x.charCodeAt(0)==8) { 
+      console.log("No hay nada")
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { 
+      this.bst.add(parseInt(this.x));
+    } else{ 
+      this.bst.string = true
+      this.bst.add(this.x)
+      this.bst.string = false
+    }
+  
+    console.log("RAIZ",this.bst.root)
+    
+    this.listaEnlJSon = JSON.stringify(this.bst);
+    this.x = ''
+  }
+  Eliminar(){
+    console.log("IMPRIMIENDO EL ELIMINAR")
+    if(this.x.charCodeAt(0)==8) { 
+      console.log("No hay nada")
+    } else if(this.x.charCodeAt(0)>=48 && this.x.charCodeAt(0)<=57) { 
+      this.bst.eliminar(parseInt(this.x));
+    } else{ 
+      this.bst.string = true
+      this.bst.eliminar(this.x)
+      this.bst.string = false
+    }
+  
+    console.log(this.x)
+    this.x = null
+    this.visit()
+  }
+  clickBuscarNodo(){
+    this.showMessageBuscar= false;
+    if(this.x!=null && this.x!=''){
+      if(this.listaEnlJSon.search(this.x)){
+        this.strMessageBuscar="Si se encontro el dato";        } 
+        else  this.strMessageBuscar="No se encontro el dato"; 
+        this.showMessageBuscar= true;
+      this.x=''; 
+    }
   }
 
   private setting = {
@@ -205,6 +280,7 @@ export class MerkleComponent implements OnInit {
       dynamicDownload: null as HTMLElement
     }
   }
+
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({

@@ -326,12 +326,12 @@ export class AbbComponent implements OnInit {
   }
   clickBuscarNodo(){
     this.showMessageBuscar= false;
-    if(this.valorNodoInsertar!=null && this.valorNodoInsertar!=''){
-      if(this.listaEnlJSon.search(this.valorNodoInsertar)){
+    if(this.x!=null && this.x!=''){
+      if(this.listaEnlJSon.search(this.x)){
         this.strMessageBuscar="Si se encontro el dato";        } 
         else  this.strMessageBuscar="No se encontro el dato"; 
         this.showMessageBuscar= true;
-      this.valorNodoInsertar=''; 
+      this.x=''; 
     }
   }
 
