@@ -41,7 +41,7 @@ export class ListasEddComponent implements OnInit {
   interval;
   rectangulosNodos: RectanguloNodo[] = [];
   flechas: any[]=[];
-  private anchoNodo=160;
+  private anchoNodo=180;
   private anchoNodoHead=100;
   private altoNodo=30;
   private anchoFlecha=2;
@@ -52,6 +52,9 @@ export class ListasEddComponent implements OnInit {
   strCarga:string;
   colorFondoCanvas='black';
   opcionRepeticiones: string;
+  esCarga:boolean;
+  strMessageBuscar:string;
+  showMessageBuscar:boolean;
  
 
   //constructor(private ngZone: NgZone) { }
@@ -96,8 +99,8 @@ export class ListasEddComponent implements OnInit {
     this.radioData = 1;
     this.opcionOperar='Inicio';
     this.opcionRepeticiones="true";
+    this.esCarga=false;
   }
-  
   cambiarPagina(){
     this.borrarCanvas();
     this.rectangulosNodos=[];
@@ -106,15 +109,14 @@ export class ListasEddComponent implements OnInit {
     this.valorIndiceActualizar='';
     this.valorNodoActualizar='';
     this.showMessage=false;
+    this.opcionRepeticiones="true";
   }
-  //limpia el area de dibujo
   borrarCanvas(){
     this.ctx.fillStyle = this.colorFondoCanvas;
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.drawBorder()
     this.ctx.beginPath();
   }
-  //Se encarga de actualizar el texto que guarda el json
   actualizarListaStr(){
     this.listaEnlArray = this.listaEnlazada.toArray();
     let i =0;
@@ -207,7 +209,7 @@ export class ListasEddComponent implements OnInit {
     let nuevoNodo,tempNodo, primerNodo;
     let animar=true;
     this.flechas=[];
-    console.log('lenght:'+this.rectangulosNodos.length)
+    //console.log('lenght:'+this.rectangulosNodos.length)
     if(this.rectangulosNodos.length>0) animar=false;
     nuevoNodo= new RectanguloNodo(this.ctx, 'Inicio',x,y,this.anchoNodoHead,this.altoNodo,false,animar);
     this.rectangulosNodos = this.rectangulosNodos.concat(nuevoNodo);
@@ -244,27 +246,47 @@ export class ListasEddComponent implements OnInit {
       }
       i++;
     }
-    //Esto anima la listas, es parecido a un timer 
-    if(this.interval!=undefined) clearInterval(this.interval);
-    this.interval=
-    setInterval(() => {
-      this.tick();
+    if(this.esCarga==false){
+      this.iniciarAnimacion();
+    }
+  }
+  iniciarAnimacion(){
+    if (this.interval != undefined){
+      clearInterval(this.interval);
+    } 
+    if(this.requestId!=undefined) cancelAnimationFrame(this.requestId);
+    this.interval = setInterval(() => {
+      this.borrarCanvas();
+      this.tick();      
     }, 10 - this.velocidadAnimacion);
   }
   tick() {
     this.borrarCanvas();
-    this.drawBorder();
     this.rectangulosNodos.forEach((square: RectanguloNodo) => {
       square.animar();
     });
-    for(let i=0;i<this.flechas.length;i++){
-      if(i==this.flechas.length-1) {
-        this.flechas[i].animar();
-      } else{
-        this.flechas[i].soloPintar();
+    this.dibujarFlechas();
+    this.requestId = requestAnimationFrame(() => this.tick);
+  }
+  dibujarFlechas(){
+    if(this.idTipoLista>=1&&this.idTipoLista<=4){
+      for(let i=this.flechas.length-1;i>=0;i--){
+        if(i==0) {
+          this.flechas[i].animar();
+        } else{
+          this.flechas[i].soloPintar();
+        }
+      }
+    }else{
+      for(let i=0;i<this.flechas.length;i++){
+        if(i==this.flechas.length-1) {
+          this.flechas[i].animar();
+        } else{
+          this.flechas[i].soloPintar();
+        }
       }
     }
-    this.requestId = requestAnimationFrame(() => this.tick);
+    this.ctx.stroke();
   }
 
   drawBorder() {
@@ -294,32 +316,45 @@ export class ListasEddComponent implements OnInit {
     fileReader.readAsText(file);
     this.strCarga=self.fileContent;
   }
-
+  
   clickCargar(){
     this.strCarga=this.fileContent;
     console.log(this.strCarga);
-    let strIntoObj = JSON.parse(this.strCarga);
-    console.log(strIntoObj);
-    if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
-      this.velocidadAnimacion=strIntoObj.animacion;
+    if(this.strCarga!=null&&this.strCarga!=undefined&&this.strCarga.length>0){ 
+      let strIntoObj = JSON.parse(this.strCarga);
+      console.log(strIntoObj);
+      if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
+        this.velocidadAnimacion=strIntoObj.animacion;
+      }
+      if(strIntoObj.repeticion!=undefined){
+        this.opcionRepeticiones=strIntoObj.repeticion;
+      }
+      if(strIntoObj.posicion!=undefined){
+        if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
+          this.opcionOperar=strIntoObj.posicion;
+      }
+      for (let valorStrNodo of strIntoObj.valores) {
+        if(this.idTipoLista==7){
+          this.prioridad=valorStrNodo.prioridad;
+          this.agregarNodo(valorStrNodo.valor,true);
+        } 
+        else this.agregarNodo(valorStrNodo,true);
+      }
+      this.esCarga=true;
+      this.pintarNodos();
+      this.iniciarAnimacion();
     }
-    if(strIntoObj.repeticion!=undefined){
-      this.opcionRepeticiones=strIntoObj.repeticion;
-    }
-    if(strIntoObj.posicion!=undefined){
-      if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
-        this.opcionOperar=strIntoObj.posicion;
-    }
-    for (let valorStrNodo of strIntoObj.valores) {
-      if(this.idTipoLista==7){
-        this.prioridad=valorStrNodo.prioridad;
-        this.agregarNodo(valorStrNodo.valor,true);
-      } 
-      else this.agregarNodo(valorStrNodo,true);
-    }
-    this.pintarNodos();
   }
-
+  clickBuscarNodo(){
+    this.showMessageBuscar= false;
+    if(this.valorNodoInsertar!=null && this.valorNodoInsertar!=''){
+      if(this.listaEnlazada.buscar(this.valorNodoInsertar)){
+        this.strMessageBuscar="Si se encontro el dato";        } 
+        else  this.strMessageBuscar="No se encontro el dato"; 
+        this.showMessageBuscar= true;
+      this.valorNodoInsertar=''; 
+    }
+  }
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
