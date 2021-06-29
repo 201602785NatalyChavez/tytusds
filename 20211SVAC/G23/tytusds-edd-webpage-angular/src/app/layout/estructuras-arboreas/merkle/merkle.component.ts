@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer2, ComponentFactoryResolver} from '@angular/core';
 import { of, Subscription } from 'rxjs';
+import BST from '../abb/clase-arbol';
 declare var vis:any
 import { Merkle } from './clase-arbol'
 
@@ -88,10 +89,12 @@ export class MerkleComponent implements OnInit {
   loadVisTree(treedata) {
     var options = {
       nodes: {
-          widthConstraint: 80,
+          widthConstraint: 100,
       },        
       layout: {
           hierarchical: {
+              levelSeparation: 100,
+              nodeSpacing: 100,
               parentCentralization: true,
               direction: 'DU',        
               sortMethod: 'directed',  
@@ -132,7 +135,7 @@ export class MerkleComponent implements OnInit {
     var parsedData = vis.parseDOTNetwork(DOTstring);
   
 
-    console.log("DOT",this.bst.dot)
+   // console.log("DOT",this.bst.dot)
     this.bst.dot = ''
   
 
@@ -148,7 +151,8 @@ export class MerkleComponent implements OnInit {
       nodes:  parsedData.nodes,
       edges: parsedData.edges
     };
- 
+    this.bst.datagraph = []
+    this.bst.edgegraph = []
     return treeData;
   }
 
@@ -205,15 +209,12 @@ export class MerkleComponent implements OnInit {
     console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     console.log(strIntoObj);
+    this.bst = new Merkle()
     if(strIntoObj.animacion!=undefined&&strIntoObj.animacion!=null){
       this.velocidadAnimacion=strIntoObj.animacion;
     }
     if(strIntoObj.repeticion!=undefined){
       this.opcionRepeticiones=strIntoObj.repeticion;
-    }
-    if(strIntoObj.posicion!=undefined){
-      if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
-        this.opcionOperar=strIntoObj.posicion;
     }
     for (let valorStrNodo of strIntoObj.valores) {
       valorStrNodo=valorStrNodo.toString();
@@ -264,6 +265,8 @@ export class MerkleComponent implements OnInit {
     this.x = null
     this.visit()
   }
+
+
   clickBuscarNodo(){
     this.showMessageBuscar= false;
     if(this.x!=null && this.x!=''){

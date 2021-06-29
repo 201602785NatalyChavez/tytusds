@@ -2,8 +2,16 @@ import { HashNode } from './hash';
 import { DataNode } from './nodo-merkle';
 
 export class Merkle {
+  datagraph: any[];
+  edgegraph: any[];
     insert(arg0: number) {
       throw new Error('Method not implemented.');
+    }
+    includes(valorStrNodo: any) {
+      throw new Error('Method not implemented.')
+    }
+    push(valorStrNodo: any) {
+      throw new Error('Method not implemented.')
     }
   
     public root:Node
@@ -164,9 +172,9 @@ export class Merkle {
       this.preorder(this.tophash)    
     }
   
-    show() {
-      this.datablock.forEach(element => document.getElementById("log").innerHTML+=element.value+' ');
-    }
+    //show() {
+      //this.datablock.forEach(element => document.getElementById("log").innerHTML+=element.value+' ');
+    //}
   
     dotgen(tmp) {
       if (tmp != null) {

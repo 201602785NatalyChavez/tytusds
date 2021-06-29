@@ -113,6 +113,11 @@ export class AbbComponent implements OnInit {
     }
   
   }
+  cambiarPagina(){
+    this.listaEnlJSon='';
+    this.showMessage=false;
+    this.opcionRepeticiones="true";
+  }
   Eliminar(){
     console.log("IMPRIMIENDO EL ELIMINAR")
     if(this.x.charCodeAt(0)==8) { 
@@ -268,14 +273,11 @@ export class AbbComponent implements OnInit {
     if(strIntoObj.repeticion!=undefined){
       this.opcionRepeticiones=strIntoObj.repeticion;
     }
-    if(strIntoObj.posicion!=undefined){
-      if(strIntoObj.posicion=='Inicio'||strIntoObj.posicion=='Fin')
-        this.opcionOperar=strIntoObj.posicion;
-    }
+    
     for (let valorStrNodo of strIntoObj.valores) {
       valorStrNodo=valorStrNodo.toString();
       this.valoresinsertados.push(valorStrNodo)
-      if(this.valoresinsertados.includes(valorStrNodo) && this.opcionRepeticiones == 'false'){
+      if(this.valoresinsertados.includes(valorStrNodo) && this.opcionRepeticiones == 'True'){
         console.log("El valor",valorStrNodo,"está repetido")
       }else{
         this.x = valorStrNodo
