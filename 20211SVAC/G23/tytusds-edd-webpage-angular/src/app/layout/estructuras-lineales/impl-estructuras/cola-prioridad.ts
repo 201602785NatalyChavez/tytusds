@@ -3,7 +3,7 @@ import {JsonSalidaNodoPrioridad} from './json-nodo';
 
 export default class ColaPrioridad {
   private colaPrioridad:NodoSimple;
-  longitud:number;
+  longitud:any;
   constructor(){
     this.longitud=0;
     this.colaPrioridad=null;
@@ -33,7 +33,7 @@ export default class ColaPrioridad {
     }
     return colaArray;
   }
-  size(): number {
+  size(): any {
     return this.longitud;
   }
   
