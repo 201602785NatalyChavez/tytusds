@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { PageHeaderModule } from '../../../shared';
+import { PageHeaderModule } from '../../shared';
 import { RouterModule, Routes } from '@angular/router';
 import { CodigoHammingRoutingModule } from './codigo-hamming-routing.module';
 import { CodigoHammingComponent } from './codigo-hamming.component';
