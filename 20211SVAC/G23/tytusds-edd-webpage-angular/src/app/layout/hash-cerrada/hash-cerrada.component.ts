@@ -53,18 +53,19 @@ export class HashCerradaComponent implements OnInit {
     this.clickActualizarTamanio();
   }
   inicializarVariables(){
-    //this.ctx.canvas.width=this.windowWidth-200;
-    this.valorNodoInsertar="";
-    this.valorActualizar="";
-    this.valorActualizarNuevo="";
-    this.opcionFuncionHash="1";
-    this.opcionPruebaHash="1";
-    this.velocidadAnimacion=10;   
-    this.showMessage=false;
-    this.strMessage="";
-    this.nodos=[];
-    this.valorTamanio="";
-  }
+     //this.ctx.canvas.width=this.windowWidth-200;
+     this.valorNodoInsertar="";
+     this.valorActualizar="";
+     this.valorActualizarNuevo="";
+     //2=division, 1=simple, 3=multiplicacion
+     this.opcionFuncionHash="2";
+     this.opcionPruebaHash="1";
+     this.velocidadAnimacion=10;   
+     this.showMessage=false;
+     this.strMessage="";
+     this.nodos=[];
+     this.valorTamanio="";
+   }
   borrarCanvas(){
     this.ctx.fillStyle = this.colorFondoCanvas;
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
