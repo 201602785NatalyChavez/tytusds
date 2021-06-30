@@ -88,6 +88,12 @@ const routes: Routes = [
                     path: 'colmajor',
                     loadChildren: () => import('./compuestas/low/low.module').then((m) => m.LowModule)
                 }
+                ,
+                {
+                    path: 'codigo-hamming',
+                    loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
+                }
+              
             ]
         }
     ];
