@@ -226,19 +226,19 @@
             <li [class.expand]="showMenu === 'compuestas'" class="nested">
                 <ul class="submenu">
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/matriz']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Matrices Dispersas' | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/rowmajor']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Row-major (2D a 1D)' | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/colmajor']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Col-major (2D a 1D)' | translate }}</span>
                         </a>

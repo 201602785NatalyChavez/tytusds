@@ -73,6 +73,21 @@ const routes: Routes = [
                     path: 'hash-abierta',
                     loadChildren: () => import('./hash-abierta/hash-abierta.module').then((m) => m.HashAbiertaModule)
                 }
+                ,
+                {
+                    path: 'matriz',
+                    loadChildren: () => import('./compuestas/matrices/matrices.module').then((m) => m.MatricesModule)
+                }
+                ,
+                {
+                    path: 'rowmajor',
+                    loadChildren: () => import('./compuestas/row/row.module').then((m) => m.RowModule)
+                }
+                ,
+                {
+                    path: 'colmajor',
+                    loadChildren: () => import('./compuestas/low/low.module').then((m) => m.LowModule)
+                }
             ]
         }
     ];
