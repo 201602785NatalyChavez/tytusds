@@ -18,6 +18,8 @@ import { GraficarComponent } from './estructuras-arboreas/graficar/graficar.comp
 import { MatricesComponent } from './compuestas/matrices/matrices.component';
 import { RowComponent } from './compuestas/row/row.component';
 import { LowComponent } from './compuestas/low/low.component';
+import { FeistelComponent } from './feistel/feistel.component';
+import { LzwComponent } from './lzw/lzw.component';
 
 @NgModule({
     imports: [CommonModule,  
@@ -26,6 +28,6 @@ import { LowComponent } from './compuestas/low/low.component';
         NgbDropdownModule,
         FormsModule,
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent, MatricesComponent, RowComponent, LowComponent/*, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent, MatricesComponent/*, RowComponent, LowComponent, FeistelComponent, LzwComponent, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
 })
 export class LayoutModule {}

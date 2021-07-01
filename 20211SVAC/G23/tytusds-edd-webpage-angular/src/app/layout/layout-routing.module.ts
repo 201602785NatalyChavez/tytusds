@@ -88,6 +88,16 @@ const routes: Routes = [
                     path: 'colmajor',
                     loadChildren: () => import('./compuestas/low/low.module').then((m) => m.LowModule)
                 }
+                ,
+                {
+                    path: 'feistel',
+                    loadChildren: () => import('./feistel/feistel.module').then((m) => m.FeistelModule)
+                }
+                ,
+                {
+                    path: 'lzw',
+                    loadChildren: () => import('./lzw/lzw.module').then((m) => m.LzwModule)
+                }
             ]
         }
     ];
