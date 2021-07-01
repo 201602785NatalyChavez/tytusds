@@ -185,7 +185,7 @@
             <li [class.expand]="showMenu === 'codificacion'" class="nested">
                 <ul class="submenu">
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/codigo-hamming']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Codigo de Hamming' | translate }}</span>
                         </a>
@@ -226,19 +226,19 @@
             <li [class.expand]="showMenu === 'compuestas'" class="nested">
                 <ul class="submenu">
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/matriz']">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/matrices']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Matrices Dispersas' | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/rowmajor']">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/row']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Row-major (2D a 1D)' | translate }}</span>
                         </a>
                     </li>
                     <li>
-                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/colmajor']">
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/low']">
                             <i class="fa fa-monument"></i>&nbsp;
                             <span>{{ 'Col-major (2D a 1D)' | translate }}</span>
                         </a>
