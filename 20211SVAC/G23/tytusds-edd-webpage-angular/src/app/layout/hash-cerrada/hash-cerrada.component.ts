@@ -57,8 +57,9 @@ export class HashCerradaComponent implements OnInit {
     this.valorNodoInsertar="";
     this.valorActualizar="";
     this.valorActualizarNuevo="";
-    this.opcionFuncionHash="1";
-    this.opcionPruebaHash="1";
+    //2=division, 1=simple, 3=multiplicacion
+    this.opcionFuncionHash="Division";
+    this.opcionPruebaHash="Lineal";
     this.velocidadAnimacion=10;   
     this.showMessage=false;
     this.strMessage="";
@@ -86,7 +87,7 @@ export class HashCerradaComponent implements OnInit {
   clickActualizarTamanio(){
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined){
       this.redibujarTablero();
-      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,+this.opcionFuncionHash);
+      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash);
     }
   }
   redibujarTablero(){
@@ -106,7 +107,7 @@ export class HashCerradaComponent implements OnInit {
                         this.tablero.listaCoordenadasY[getHashKey],
                         this.anchoNodo, this.altoNodo, false, false, false, false,'' );
       this.nodos.push(nuevoNodo);
-      this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar);
+      this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar, this.opcionFuncionHash);
       this.actualizarJsonSalida();
       this.valorNodoInsertar="";
       this.iniciaAnimacion();
@@ -224,7 +225,10 @@ export class HashCerradaComponent implements OnInit {
       if(this.tablaHashCerrada.valores[i]!=undefined&&this.tablaHashCerrada.valores[i]!=null)
       valoresTabla.push(this.tablaHashCerrada.valores[i])
     }
-    let jsonNodoArray= new JsonNodoHashCerrada("Hash cerrada","Hash cerrada",this.velocidadAnimacion.toString(),valoresTabla);
+    let jsonNodoArray= new JsonNodoHashCerrada("Hash cerrada","Hash cerrada",
+    +this.valorTamanio, +this.valorMinRehashing, +this.valorMaxRehashing,
+    this.opcionFuncionHash, this.opcionPruebaHash,
+    this.velocidadAnimacion.toString(),valoresTabla);
     this.strHashCerradaJson = JSON.stringify(jsonNodoArray,undefined,4);
   }
   downloadJson() {
@@ -270,11 +274,16 @@ export class HashCerradaComponent implements OnInit {
   clickCargar(){
     this.strCarga=this.fileContent;
     let strIntoObj = JSON.parse(this.strCarga);
+    if(strIntoObj.m!=undefined) this.valorTamanio=strIntoObj.m;
+    if(strIntoObj.minimo!=undefined) this.valorMinRehashing=strIntoObj.minimo;
+    if(strIntoObj.maximo!=undefined) this.valorMaxRehashing=strIntoObj.maximo;
+    if(strIntoObj.funcion!=undefined) this.opcionFuncionHash=strIntoObj.funcion;
+    if(strIntoObj.prueba!=undefined) this.opcionPruebaHash=strIntoObj.prueba;
     if(strIntoObj.valores!=undefined){
       this.esCarga=true;
-      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,+this.opcionFuncionHash);
+      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash);
       let labels:string[] = new Array(strIntoObj.valores.length);
-      this.valorTamanio=strIntoObj.valores.length;
+      //this.valorTamanio=strIntoObj.valores.length;
       this.redibujarTablero();
       this.nodos=[];
       for(let i =0;i<strIntoObj.valores.length;i++){

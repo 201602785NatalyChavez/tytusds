@@ -1,7 +1,6 @@
 import { analyzeNgModules, NullTemplateVisitor } from "@angular/compiler";
 import { toInteger } from "@ng-bootstrap/ng-bootstrap/util/util";
-import { NodoP } from "./NodoP";
-import { Draw } from "src/app/helpers/Draw/Draw";
+import { NodoP } from "./NodoP"
 
 export class ColaP {
 
@@ -9,13 +8,11 @@ export class ColaP {
     raiz: NodoP;
     fondo: NodoP;
     identificador: number;
-    draw: Draw
 
     constructor() {
         this.raiz = null;
         this.fondo = null;
         this.identificador = 0;
-        this.draw= new Draw()
     }
 
     empty() {
@@ -280,23 +277,23 @@ export class ColaP {
         let data = {
             categoria: "Estructura Lineal",
             nombre: "Cola Prioridad",
-            valores: {
-                valor : [],
-                prioridad : []
-            }
+            valores:[]
         }
 
         let temp = this.raiz
 
         do {
-            data.valores.valor.push(temp.dato)
-            data.valores.prioridad.push(temp.prioridad)
+        
+            data.valores.push({"valor":temp.dato,"prioridad":temp.prioridad})
+            
             temp = temp.sigueinte
             if (temp === null) break;
         } while (temp != this.raiz)
 
         return JSON.stringify(data)
     }
+
+    
 
     
 }

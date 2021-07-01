@@ -98,6 +98,12 @@ const routes: Routes = [
                     path: 'lzw',
                     loadChildren: () => import('./lzw/lzw.module').then((m) => m.LzwModule)
                 }
+                ,
+                {
+                    path: 'codigo-hamming',
+                    loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
+                }
+              
             ]
         }
     ];

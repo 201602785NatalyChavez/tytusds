@@ -27,7 +27,7 @@ export class seleccion {
             this.swap(this.selectionSort, smallest, slot)
            // clearInterval(this.interaccion)
         }
-        console.log(this.selectionSort)
+       // console.log(this.selectionSort)
        // this.imprimirArreglo()
         return this.selectionSort
     }
@@ -36,7 +36,7 @@ export class seleccion {
 
         let data = {
             categoria: "Estructura Lineal",
-            nombre: "ordenamiento",
+            nombre: "Ordenamiento",
             valores: []
         }
 
