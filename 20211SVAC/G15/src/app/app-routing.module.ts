@@ -21,8 +21,14 @@ import { EstructuraArboreaComponent } from './components/estructura-arborea/estr
 
 import { AVLComponent } from './components/avl/avl.component';
 
-import { SeleccionComponent } from './components/seleccion/seleccion.component';
 import { MetodorapidoComponent } from './components/metodorapido/metodorapido.component';
+import { MetodoSeleccionComponent } from './components/metodo-seleccion/metodo-seleccion.component';
+
+import { CompuestasComponent } from './components/compuestas/compuestas.component'
+
+
+import { DispersaComponent } from './components/dispersa/dispersa.component'
+import { MajorComponent } from './components/major/major.component'
 
 const routes: Routes = [
   {path: 'binaryTree', component: BinaryTreeComponent, pathMatch: 'full'},
@@ -38,10 +44,12 @@ const routes: Routes = [
   {path: 'listaSimple', component: ListasimpleComponent, pathMatch: 'full'},
   {path: 'estructuraArborea', component: EstructuraArboreaComponent, pathMatch: 'full'},
   {path: 'ordenamiento/insercion', component: InsertionSortComponent, pathMatch: 'full'},
-
+  {path: 'compuesta/dispersa', component: DispersaComponent, pathMatch: 'full'},
   {path: 'AVL', component: AVLComponent, pathMatch: 'full'},
   {path: 'rapido', component: MetodorapidoComponent, pathMatch: 'full'},
-  {path: 'seleccion',component:SeleccionComponent,pathMatch:'full'},
+  {path: 'seleccion',component:MetodoSeleccionComponent,pathMatch:'full'},
+  {path: 'compuestas',component:CompuestasComponent,pathMatch:'full'},
+  {path: 'compuestas/major',component:MajorComponent,pathMatch:'full'},
 
   {path: '', component: HomeComponent, pathMatch: 'full'}
   
