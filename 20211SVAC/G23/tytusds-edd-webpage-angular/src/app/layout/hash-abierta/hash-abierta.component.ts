@@ -55,8 +55,8 @@ export class HashAbiertaComponent implements OnInit {
     this.valorNodoInsertar="";
     this.valorActualizar="";
     this.valorActualizarNuevo="";
-    this.opcionFuncionHash="1";
-    this.opcionPruebaHash="1";
+    this.opcionFuncionHash="Division";
+    this.opcionPruebaHash="Lineal";
     this.velocidadAnimacion=10;   
     this.showMessage=false;
     this.strMessage="";
@@ -84,7 +84,7 @@ export class HashAbiertaComponent implements OnInit {
   clickActualizarTamanio(){
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined){
       this.redibujarTablero();
-      this.tablaHashAbierta=new TablaHashAbierta(+this.valorTamanio,+this.opcionFuncionHash);
+      this.tablaHashAbierta=new TablaHashAbierta(+this.valorTamanio,this.opcionFuncionHash);
     }
   }
   redibujarTablero(){
@@ -96,9 +96,10 @@ export class HashAbiertaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
      &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      this.tablaHashAbierta.agregar(this.valorNodoInsertar,this.valorNodoInsertar);
+      this.tablaHashAbierta.agregar(this.valorNodoInsertar,this.valorNodoInsertar,this.opcionFuncionHash);
       this.actualizarJsonSalida();
       this.iniciaAnimacion();
+      this.tablero.mostrarMensajeHash(this.valorNodoInsertar, this.tablaHashAbierta.funcionHashStr(this.valorNodoInsertar));
       this.valorNodoInsertar="";
      }else{
       this.showMessage=true;
@@ -153,11 +154,6 @@ export class HashAbiertaComponent implements OnInit {
   iniciaAnimacion(){
     this.redibujarTablero();
     this.pintarTablaHash();
-    /*if (this.intervalId != undefined) clearInterval(this.intervalId);
-    if (this.requestId!=undefined) cancelAnimationFrame(this.requestId);
-    this.intervalId = setInterval(() => {
-      this.tick();      
-    }, this.obtenerConversionVelocidad());*/
   }
   obtenerConversionVelocidad(){
     if(this.velocidadAnimacion==10){
@@ -203,7 +199,10 @@ export class HashAbiertaComponent implements OnInit {
       if(this.tablaHashAbierta.valores[i]!=undefined&&this.tablaHashAbierta.valores[i]!=null)
       valoresTabla.push(this.tablaHashAbierta.valores[i])
     }
-    let jsonNodoArray= new JsonNodoHashAbierta("Hash abierta","Hash abierta",this.velocidadAnimacion.toString(),valoresTabla);
+    let jsonNodoArray= new JsonNodoHashAbierta("Hash abierta","Hash abierta",
+    +this.valorTamanio, +this.valorMinRehashing, +this.valorMaxRehashing,
+    this.opcionFuncionHash, this.opcionPruebaHash,
+    this.velocidadAnimacion.toString(),valoresTabla);
     this.strHashCerradaJson = JSON.stringify(jsonNodoArray,undefined,4);
   }
   downloadJson() {
@@ -249,11 +248,16 @@ export class HashAbiertaComponent implements OnInit {
   clickCargar(){
     this.strCarga=this.fileContent;
     let strIntoObj = JSON.parse(this.strCarga);
+    if(strIntoObj.m!=undefined) this.valorTamanio=strIntoObj.m;
+    if(strIntoObj.minimo!=undefined) this.valorMinRehashing=strIntoObj.minimo;
+    if(strIntoObj.maximo!=undefined) this.valorMaxRehashing=strIntoObj.maximo;
+    if(strIntoObj.funcion!=undefined) this.opcionFuncionHash=strIntoObj.funcion;
+    if(strIntoObj.prueba!=undefined) this.opcionPruebaHash=strIntoObj.prueba;
     if(strIntoObj.valores!=undefined){
       this.esCarga=true;
-      this.tablaHashAbierta=new TablaHashAbierta(+this.valorTamanio,+this.opcionFuncionHash);
+      this.tablaHashAbierta=new TablaHashAbierta(+this.valorTamanio,this.opcionFuncionHash);
       let labels:string[] = new Array(strIntoObj.valores.length);
-      this.valorTamanio=strIntoObj.valores.length;
+      //this.valorTamanio=strIntoObj.valores.length;
       this.redibujarTablero();
       this.nodos=[];
       for(let i =0;i<strIntoObj.valores.length;i++){

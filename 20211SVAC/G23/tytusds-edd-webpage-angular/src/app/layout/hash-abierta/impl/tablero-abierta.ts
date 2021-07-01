@@ -28,7 +28,7 @@ export class TableroAbierta{
             separacion=contadorColumnas*120;
             if(20+this.xInicial*contadorColumnas+this.anchoNodo+separacion>=this.ctx.canvas.width){
                 contadorColumnas=0;
-                this.yInicial=this.yInicial+180+this.altoNodo;
+                this.yInicial=this.yInicial+300+this.altoNodo;
                 separacion=contadorColumnas*120;
             }
             this.ctx.moveTo(20+this.xInicial*contadorColumnas+separacion, this.yInicial);

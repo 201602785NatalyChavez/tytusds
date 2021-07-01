@@ -4,7 +4,7 @@
     </div>
   </md-toolbar>
   <h4>Tabla de Hash Cerrada</h4>
-<div class="row">
+  <div class="row">
     <div class="col-xs-2 text-xs-center">
         <div class="card mb-3 text-center my-auto">
             <div class="card-body align-items-center" >
@@ -12,9 +12,9 @@
                 <label for="seleccionPruebaHash">Prueba Hash: </label>
                 <mat-radio-group id="seleccionPruebaHash" aria-label="Select an option" class="example-radio-group"
                     [(ngModel)]="opcionPruebaHash" >
-                    <mat-radio-button value="1">Lineal</mat-radio-button>
-                    <mat-radio-button value="2">Cuadrática</mat-radio-button>
-                    <mat-radio-button value="3">Doble Hash</mat-radio-button>
+                    <mat-radio-button value="Lineal">Lineal</mat-radio-button>
+                    <mat-radio-button value="Cuadratica">Cuadrática</mat-radio-button>
+                    <mat-radio-button value="Doble">Doble Hash</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
@@ -40,9 +40,9 @@
                 <label for="seleccionFuncionHash">Función Hash: </label>
                 <mat-radio-group id="seleccionFuncionHash" aria-label="Select an option" class="example-radio-group"
                     [(ngModel)]="opcionFuncionHash" >
-                    <mat-radio-button value="1">Simple</mat-radio-button>
-                    <mat-radio-button value="2">División</mat-radio-button>
-                    <mat-radio-button value="3">Multip.</mat-radio-button>
+                    <mat-radio-button value="Simple">Simple</mat-radio-button>
+                    <mat-radio-button value="Division">División</mat-radio-button>
+                    <mat-radio-button value="Multiplicacion">Multip.</mat-radio-button>
                 </mat-radio-group>
         </div>
     </div>
@@ -59,7 +59,7 @@
     <div class="col-xl-12 text-xs-center">
         <div class="card mb-3">
             <div class="card-body">
-                <canvas #canvas width="1200" height="2000"></canvas>
+                <canvas #canvas width="1200" height="1000"></canvas>
             </div>
         </div>
     </div>
