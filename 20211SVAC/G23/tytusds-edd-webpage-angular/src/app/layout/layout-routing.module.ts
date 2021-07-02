@@ -90,6 +90,11 @@ const routes: Routes = [
                 }
                 ,
                 {
+                    path: 'huffman',
+                    loadChildren: () => import('.//huffman/huffman.module').then((m) => m.HuffmanModule)  
+                }
+                ,
+                {
                     path: 'feistel',
                     loadChildren: () => import('./feistel/feistel.module').then((m) => m.FeistelModule)
                 }
@@ -103,6 +108,7 @@ const routes: Routes = [
                     path: 'codigo-hamming',
                     loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
                 }
+                
               
             ]
         }
