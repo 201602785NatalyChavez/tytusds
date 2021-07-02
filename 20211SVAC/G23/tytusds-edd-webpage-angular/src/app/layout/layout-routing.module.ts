@@ -91,7 +91,17 @@ const routes: Routes = [
                 ,
                 {
                     path: 'huffman',
-                    loadChildren: () => import('.//huffman/huffman.module').then((m) => m.HuffmanModule)
+                    loadChildren: () => import('.//huffman/huffman.module').then((m) => m.HuffmanModule)  
+                }
+                ,
+                {
+                    path: 'feistel',
+                    loadChildren: () => import('./feistel/feistel.module').then((m) => m.FeistelModule)
+                }
+                ,
+                {
+                    path: 'lzw',
+                    loadChildren: () => import('./lzw/lzw.module').then((m) => m.LzwModule)
                 }
                 ,
                 {
