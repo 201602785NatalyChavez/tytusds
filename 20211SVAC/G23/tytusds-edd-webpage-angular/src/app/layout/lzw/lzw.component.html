@@ -1,1 +1,33 @@
-<p>lzw works!</p>
+<div >
+    <h4>Algoritmo LZW</h4>
+    <p *ngIf="showMessage">Se encontraron valores repetidos al insertar valores a la lista</p>
+    <p *ngIf="showMessageBuscar">{{strMessageBuscar}}</p>
+    <div class="row">
+        
+    </div>
+    <div class="row">
+        <div class="col-xl-6 text-xs-center">
+            <fieldset class="form-group">
+              <input type="file" (change)="cargarArchivo($event.target.files)">
+            </fieldset>
+            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar Archivo</button>
+        </div>
+    </div>   
+    
+    <br>
+    <div style="overflow:auto;" id="mynetwork"></div>
+    <div class="col-xl-6 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON salida</label>
+            <textarea class="form-control" rows="2">{{listaEnlJSon}}</textarea>
+            <button class="btn btn-secondary" type="submit" (click)="downloadJson()">Guardar</button>
+        </fieldset>
+    </div>
+</div>
+<style type="text/css">
+    #mynetwork {
+        width: 1000px;
+        height: 500px;
+        border: 1px solid lightgray;
+    }
+</style>
