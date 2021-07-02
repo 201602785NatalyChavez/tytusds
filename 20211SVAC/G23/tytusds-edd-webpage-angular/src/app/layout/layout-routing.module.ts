@@ -90,9 +90,15 @@ const routes: Routes = [
                 }
                 ,
                 {
+                    path: 'huffman',
+                    loadChildren: () => import('.//huffman/huffman.module').then((m) => m.HuffmanModule)
+                }
+                ,
+                {
                     path: 'codigo-hamming',
                     loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
                 }
+                
               
             ]
         }
