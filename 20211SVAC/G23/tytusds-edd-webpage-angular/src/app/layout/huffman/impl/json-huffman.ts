@@ -1,8 +1,8 @@
 export class JsonHuffman{
     constructor(public categoria:string,
         public cadenaEntrada:string,
-        public m:number,
-        public r:number,
+        public longitudCadena:number,
+        public frecuencias:any[],
         public tablaSalida:string){
 
     }
