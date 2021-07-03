@@ -25,6 +25,7 @@ export default class Lista{
                     aux.anterior.siguiente = nodo
                     nodo.siguiente = aux
                     aux.anterior = nodo
+                    return
                 }
             }
             
