@@ -28,6 +28,6 @@ import { LzwComponent } from './lzw/lzw.component';
         NgbDropdownModule,
         FormsModule,
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent, MatricesComponent/*, RowComponent, LowComponent, FeistelComponent, LzwComponent, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent/*, MatricesComponent, RowComponent, LowComponent, FeistelComponent, LzwComponent, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
 })
 export class LayoutModule {}

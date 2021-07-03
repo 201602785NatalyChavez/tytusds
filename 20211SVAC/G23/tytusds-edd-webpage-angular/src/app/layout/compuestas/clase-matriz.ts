@@ -1,12 +1,19 @@
 import Nodo from './clase-nodo'
 import Lista from './clase-lista'
 
-class Matriz{
+export class Matriz{
 
     public lista_H:any
     public lista_V:any
+    public dot:string
+    public datagraph:any
+    public edgegraph:any
+
 
     constructor(){
+        this.dot = ''
+        this.datagraph = []
+        this.edgegraph = []
         this.lista_H = new Lista()
         this.lista_V = new Lista()
     }
@@ -176,6 +183,36 @@ class Matriz{
         }
     }
 
+    estaVaciaH(){
+        if(this.lista_H.primero != null) return false
+        return true
+    }
+    estaVaciaV(){
+        if(this.lista_V.primero != null) return false
+        return true
+    }
+    obtenerTamH(){
+        let cabecera = this.lista_H.primero
+        console.log(cabecera.valor)
+        let tamaño = 0
+        while(cabecera != null ){
+            tamaño += 1
+            cabecera = cabecera.siguiente
+        } 
+        return tamaño
+    }
+    
+    obtenerTamV(){
+        let cabecera = this.lista_V.primero
+        console.log(cabecera.valor)
+        let tamaño = 0
+        while(cabecera != null ){
+            tamaño += 1
+            cabecera = cabecera.siguiente
+        } 
+        return tamaño
+    }
+
     imprimirV(){
         let cabecera = this.lista_V.primero
         let aux
@@ -200,6 +237,13 @@ class Matriz{
             }
             cabecera = cabecera.siguiente
         }
+    }
+
+    dotgenH(){
+        
+    }
+    dotgenV(){
+
     }
 }
 

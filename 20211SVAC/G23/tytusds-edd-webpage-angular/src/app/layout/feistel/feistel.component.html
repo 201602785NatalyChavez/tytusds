@@ -8,8 +8,13 @@
     <div class="row">
         <div class="col-xl-6 text-xs-center">
             <fieldset class="form-group">
+                <div>
               <input type="file" (change)="cargarArchivo($event.target.files)">
-              <input type="number" [(ngModel)]="veces" >
+            </div>
+                <div>
+                  <h5> Escoja el número de veces que se repetirá el algoritmo</h5>  
+                  <input type="number" [(ngModel)]="veces" >              
+                </div>
             </fieldset>
             <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar Archivo</button>
         </div>
@@ -18,7 +23,10 @@
     <br>
     <center>
     <div *ngIf="flag" style="overflow:auto;" id="mynetwork">
-        <h2 style="color: rgb(24, 185, 145);">El código en binario sin cifrar es: {{primeroprimero}}</h2>
+        <p style="color: red;"> TEXTO INGRESADO</p>
+        <p style="color: green;">{{texto}}</p>
+        <h2 style="color: red;">El código en binario sin cifrar es</h2>
+        <h2 style="color: rgb(24, 185, 145);;">{{primeroprimero}}</h2>
         <div>
             <table *ngFor="let nombre of paratabla">
                 <tr>
@@ -27,7 +35,8 @@
                 </tr>
             </table>
         </div>
-        <h2 style="color: rgb(24, 185, 145);" >El código cifrado en binario es: {{ultimoultimo}}</h2>
+        <h2 style="color: red" >El código cifrado en binario es</h2>
+        <h2 style="color: rgb(24, 185, 145);">{{ultimoultimo}}</h2>
     </div>
     </center>
     <div class="col-xl-6 text-xs-center">
