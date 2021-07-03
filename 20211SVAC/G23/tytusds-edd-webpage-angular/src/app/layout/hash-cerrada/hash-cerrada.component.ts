@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { routerTransition } from '../../router.animations';
-import { Tablero } from './impl-canvas/tablero';
+//import { Tablero } from './impl-canvas/tablero';
 import { TablaHashCerrada } from './impl-canvas/tabla-hash-cerrada';
 import { NodoTablaHash } from './impl-canvas/nodo-canvas';
 import { JsonNodoHashCerrada } from './impl-canvas/hash-cerrada-json';
+import {TableroCerrada} from './impl-canvas/tablero-cerrada';
+import { NodoHashCerrada } from './impl-canvas/nodo-hash-cerrada';
+
 @Component({
   selector: 'app-hash-cerrada',
   templateUrl: './hash-cerrada.component.html',
@@ -38,7 +41,7 @@ export class HashCerradaComponent implements OnInit {
   intervalId;
   altoNodo=50;
   anchoNodo=100;
-  tablero:Tablero;
+  tablero:TableroCerrada;
   strHashCerradaJson:string;
   fileContent:string;
   strCarga:string;
@@ -47,6 +50,7 @@ export class HashCerradaComponent implements OnInit {
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
+    //this.ctx.scale(0.5,0.5);
     this.inicializarVariables();  
     this.borrarCanvas();
     this.valorTamanio="16";
@@ -75,6 +79,10 @@ export class HashCerradaComponent implements OnInit {
     this.ctx.fillStyle = this.colorFondoCanvas;
     this.ctx.fillRect(1, 1,this.ctx.canvas.width-2,78 );
   }
+  borrarAreaInferior(){
+    this.ctx.fillStyle = this.colorFondoCanvas;
+    this.ctx.fillRect(0, 79,this.ctx.canvas.width,this.ctx.canvas.height );
+  }
   drawBorder() {
     this.ctx.beginPath();
     this.ctx.moveTo(0, 0);
@@ -87,30 +95,25 @@ export class HashCerradaComponent implements OnInit {
   clickActualizarTamanio(){
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined){
       this.redibujarTablero();
-      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash);
+      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash,
+                                  this.valorMinRehashing, this.valorMaxRehashing);
     }
   }
   redibujarTablero(){
     this.borrarCanvas();
-    this.tablero = new Tablero( this.ctx, +this.valorTamanio, this.anchoNodo, this.altoNodo, this.colorLineas, this.colorFondoCanvas );
+    this.tablero = new TableroCerrada( this.ctx, +this.valorTamanio, this.anchoNodo, this.altoNodo, this.colorLineas, this.colorFondoCanvas );
   }
   clickAgregarNodo(){
     this.showMessage=false;
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
      &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      const getHashKey = this.tablaHashCerrada.funcionHash(this.valorNodoInsertar);
-      const nuevoNodo = new NodoTablaHash(this.ctx, this.valorNodoInsertar, 
-                        this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar), 
-                        this.colorFondoCanvas, this.colorLineas,
-                        this.tablero.listaCoordenadasX[getHashKey],
-                        this.tablero.listaCoordenadasY[getHashKey],
-                        this.anchoNodo, this.altoNodo, false, false, false, false,'' );
-      this.nodos.push(nuevoNodo);
-      this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar, this.opcionFuncionHash);
+      const getHashKey = this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar, this.opcionFuncionHash);
+      this.valorTamanio=this.tablaHashCerrada.tamanioMaximo.toString();
       this.actualizarJsonSalida();
-      this.valorNodoInsertar="";
       this.iniciaAnimacion();
+      this.tablero.mostrarMensajeHash(this.valorNodoInsertar, this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar));
+      this.valorNodoInsertar="";
     }else{
       this.showMessage=true;
       this.strMessage="Error al agregar nodo: no se ha establecido el tamaño de la tabla hash";
@@ -121,18 +124,11 @@ export class HashCerradaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
     &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      const getHashKey = this.tablaHashCerrada.funcionHash(this.valorNodoInsertar);
-      const encontrada=this.tablaHashCerrada.borrar(this.valorNodoInsertar);
+      const encontrada=this.tablaHashCerrada.borrar(this.valorNodoInsertar,this.valorNodoInsertar);
       this.actualizarJsonSalida();
-      const nuevoNodo = new NodoTablaHash(this.ctx, this.valorNodoInsertar, 
-                        this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar), 
-                        this.colorFondoCanvas, this.colorLineas,
-                        this.tablero.listaCoordenadasX[getHashKey],
-                        this.tablero.listaCoordenadasY[getHashKey],
-                        this.anchoNodo, this.altoNodo, true, encontrada, true, false,'' );
-      this.nodos.push(nuevoNodo);
-      this.valorNodoInsertar="";
       this.iniciaAnimacion();
+      this.tablero.mostrarMensajeEncontrado(this.valorNodoInsertar, encontrada);
+      this.valorNodoInsertar="";
     }else{
       this.showMessage=true;
       this.strMessage="Error al agregar nodo: no se ha establecido el tamaño de la tabla hash";
@@ -143,17 +139,10 @@ export class HashCerradaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
     &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      const getHashKey = this.tablaHashCerrada.funcionHash(this.valorNodoInsertar);
-      const encontrada=this.tablaHashCerrada.buscar(this.valorNodoInsertar);
-      const nuevoNodo = new NodoTablaHash(this.ctx, this.valorNodoInsertar, 
-                        this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar), 
-                        this.colorFondoCanvas, this.colorLineas,
-                        this.tablero.listaCoordenadasX[getHashKey],
-                        this.tablero.listaCoordenadasY[getHashKey],
-                        this.anchoNodo, this.altoNodo, true, encontrada, false, false,'' );
-      this.nodos.push(nuevoNodo);
+      const encontrada=this.tablaHashCerrada.buscar(this.valorNodoInsertar,this.valorNodoInsertar);
+      //this.tablero.mostrarMensajeHash(this.valorNodoInsertar, this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar));
+      this.tablero.mostrarMensajeEncontrado(this.valorNodoInsertar, encontrada);
       this.valorNodoInsertar="";
-      this.iniciaAnimacion();
     }else{
       this.showMessage=true;
       this.strMessage="Error al agregar nodo: no se ha establecido el tamaño de la tabla hash";
@@ -165,32 +154,38 @@ export class HashCerradaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
     &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      const getHashKey = this.tablaHashCerrada.funcionHash(this.valorNodoInsertar);
-      const encontrada=this.tablaHashCerrada.modificar(this.valorNodoInsertar, this.valorActualizarNuevo);
+      const encontrada=this.tablaHashCerrada.modificar(this.valorNodoInsertar, this.valorNodoInsertar, this.valorActualizarNuevo);
       this.actualizarJsonSalida();
-      const nuevoNodo = new NodoTablaHash(this.ctx, this.valorNodoInsertar, 
-                        this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar), 
-                        this.colorFondoCanvas, this.colorLineas,
-                        this.tablero.listaCoordenadasX[getHashKey],
-                        this.tablero.listaCoordenadasY[getHashKey],
-                        this.anchoNodo, this.altoNodo, true, encontrada, true, true, 
-                        this.valorActualizarNuevo );
-      this.nodos.push(nuevoNodo);
+      this.iniciaAnimacion();
+      this.tablero.mostrarMensajeEncontrado(this.valorNodoInsertar, encontrada);
       this.valorNodoInsertar="";
       this.valorActualizar="";
-      this.valorActualizarNuevo="";
-      this.iniciaAnimacion();
+      this.valorActualizarNuevo=""
     }else{
       this.showMessage=true;
       this.strMessage="Error al agregar nodo: no se ha establecido el tamaño de la tabla hash";
     }
   }
-  iniciaAnimacion(){
+  /*iniciaAnimacion(){
     if (this.intervalId != undefined) clearInterval(this.intervalId);
     if (this.requestId!=undefined) cancelAnimationFrame(this.requestId);
     this.intervalId = setInterval(() => {
       this.tick();      
     }, this.obtenerConversionVelocidad());
+  }*/
+  iniciaAnimacion(){
+    this.redibujarTablero();
+    this.pintarTablaHash();
+  }
+  pintarTablaHash(){
+    let nodo:NodoHashCerrada;
+    for(let i =0;i<this.tablaHashCerrada.valores.length;i++){
+      if(this.tablaHashCerrada.valores[i]!=undefined&&this.tablaHashCerrada.valores[i]!=null){
+        nodo=this.tablaHashCerrada.valores[i];
+        let j=0;
+        this.tablero.agregarNodo(nodo.getKey(),j,nodo.getData())
+      }
+    }
   }
   obtenerConversionVelocidad(){
     if(this.velocidadAnimacion==10){
@@ -203,6 +198,8 @@ export class HashCerradaComponent implements OnInit {
     let bndTerminarAnimacion=true;
     this.ctx.beginPath();
     for(let i = 0; i<this.nodos.length; i++){
+      //this.borrarAreaInferior();
+      //this.redibujarTablero();
       this.nodos[i].animar();
       if(!this.nodos[i].animacionTerminada) bndTerminarAnimacion = false;
     }
@@ -281,7 +278,7 @@ export class HashCerradaComponent implements OnInit {
     if(strIntoObj.prueba!=undefined) this.opcionPruebaHash=strIntoObj.prueba;
     if(strIntoObj.valores!=undefined){
       this.esCarga=true;
-      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash);
+      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash, this.valorMinRehashing, this.valorMaxRehashing);
       let labels:string[] = new Array(strIntoObj.valores.length);
       //this.valorTamanio=strIntoObj.valores.length;
       this.redibujarTablero();
@@ -306,3 +303,4 @@ export class HashCerradaComponent implements OnInit {
   }
 
 }
+

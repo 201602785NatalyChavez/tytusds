@@ -27,20 +27,9 @@ export class HuffmanComponent implements OnInit {
   }
 
   actualizarJsonSalida(){
-    /*let valoresTabla=new Array();
-    let jsonNodoArray= new JsonHuffman("Huffman",
-                                      this.cadenaEntrada,
-                                      this.huffmanImpl.m,
-                                      this.huffmanImpl.r,
-                                      this.huffmanImpl.strSalida);
-    this.strHuffmanJsonSalida = JSON.stringify(jsonNodoArray,undefined,4);*/
-    /*this.strHuffmanJsonSalida="";
-    this.strHuffmanJsonSalida+='Longitud cadena: '+ this.huffmanImpl.result.length+"\n";
-    this.strHuffmanJsonSalida+='Frecuencia caracteres: \n'+ this.huffmanImpl.frequency+"\n";
-    this.strHuffmanJsonSalida+='Rel. frecuencia \n'+ this.huffmanImpl.relFreq+"\n";
-    this.strHuffmanJsonSalida+='Arbol Huffman: \n'+ this.huffmanImpl.obtenerArbol()+"\n";
-    this.strHuffmanJsonSalida+='Códigos alfabeto: \n'+ this.huffmanImpl.codes;*/
-    this.strHuffmanJsonSalida=this.huffmanImpl.tablaSalida;
+    let jsonNodoArray= new JsonHuffman("Huffman",this.cadenaEntrada,this.huffmanImpl.result.length,
+    this.huffmanImpl.frequency,this.huffmanImpl.tablaSalida);
+    this.strHuffmanJsonSalida = JSON.stringify(jsonNodoArray,undefined,4);
   }
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
@@ -94,8 +83,9 @@ export class HuffmanComponent implements OnInit {
       console.log('Longitud cadena: ', this.huffmanImpl.result.length);
       console.log('Frecuencia caracteres: \n', this.huffmanImpl.frequency);
       console.log('Rel. frecuencia \n', this.huffmanImpl.relFreq);
-      console.log('Arbol Huffman: \n', this.huffmanImpl.obtenerArbol());
+      console.log('Arbol Huffman: \n', this.huffmanImpl.arbol);
       console.log('Códigos alfabeto: \n', this.huffmanImpl.codes);
+      this.strHuffmanJson=this.huffmanImpl.tablaSalida;
       this.actualizarJsonSalida();
     }
 
