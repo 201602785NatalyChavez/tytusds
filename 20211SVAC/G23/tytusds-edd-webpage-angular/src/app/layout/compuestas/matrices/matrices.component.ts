@@ -46,8 +46,7 @@ export class MatricesComponent implements OnInit {
     //let query = document.querySelector('#mynetwork')
     let c = document.getElementById('mycanvas')
     this.ctx = this.canvas.nativeElement.getContext('2d')
-    c.style.height='1000px'
-    c.style.width='1000px'
+    
     this.ctx.moveTo(1,10)
     this.ctx.lineTo(1,30)
     this.ctx.lineTo(10,30)

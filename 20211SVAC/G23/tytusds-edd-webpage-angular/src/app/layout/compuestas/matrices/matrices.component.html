@@ -1,7 +1,7 @@
 <p>matrices works!</p>
 
 <div >
-    <h4>Árbol Binario de Búsqueda</h4>
+    <h4>Matrices Dispersas</h4>
     <p *ngIf="showMessage">Se encontraron valores repetidos al insertar valores a la lista</p>
     <p *ngIf="showMessageBuscar">{{strMessageBuscar}}</p>
     <div class="row">
@@ -17,7 +17,7 @@
                 <div class="card-body align-items-center" >
                     <button class="btn btn-secondary mr-3" type="button" (click)="Insertar()">Agregar</button>
                     <button class="btn btn-secondary mr-3" type="button" (click)="clickBuscarNodo()">Buscar</button>
-                    <button class="btn btn-secondary" type="button" (click)="Eliminar()">Eliminar</button>
+                    <button class="btn btn-secondary mr-3" type="button" (click)="Eliminar()">Eliminar</button>
                     <button class="btn btn-secondary" type="button" (click)="drawCanvas()">Canvas</button>
                     <!-- <button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>-->
                     <label for="seleccionRepeticiones">Repeticiones: </label>
@@ -45,7 +45,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <!--<textarea class="form-control" rows="3"></textarea>-->
-                    <canvas id="mycanvas" #canvas style="background-color: red;"></canvas>
+                    <canvas id="mycanvas" width="1020" height="1020" #canvas style="background-color: rgb(131, 126, 126);"></canvas>
                     <!--<button (click)="play()">Play</button>-->
                 </div>
             </div>
