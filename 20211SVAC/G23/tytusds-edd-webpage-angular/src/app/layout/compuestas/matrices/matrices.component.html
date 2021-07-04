@@ -9,8 +9,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <input type="text" class="form-control" placeholder="Ingresar nuevo valor" [(ngModel)]="valor">
-                    <input type="number" class="form-control" placeholder="Ingrese la coordenada x" [(ngModel)]="coordenadax">
-                    <input type="number" class="form-control" placeholder="Ingrese la coordenada x" [(ngModel)]="coordenaday">
+                    <input type="number" class="form-control" placeholder="Coordenada X" [(ngModel)]="coordenadax">
+                    <input type="number" class="form-control" placeholder="Coordenada Y" [(ngModel)]="coordenaday">
                 </div>
             </div>
         </div>
@@ -21,12 +21,12 @@
                     <button class="btn btn-secondary mr-3" type="button" (click)="Buscar()">Buscar</button>
                     <button class="btn btn-secondary mr-3" type="button" (click)="Eliminar()">Eliminar</button>
                     <button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>
-                    <label for="seleccionRepeticiones">Repeticiones: </label>
+                   <!-- <label for="seleccionRepeticiones">Repeticiones: </label>
                     <mat-radio-group id="seleccionRepeticiones" aria-label="Select an option" class="example-radio-group"
                     [(ngModel)]="opcionRepeticiones" >
                     <mat-radio-button value="true">true</mat-radio-button>
                     <mat-radio-button value="false">false</mat-radio-button>
-                </mat-radio-group>
+                </mat-radio-group>-->
                 </div>
             </div>
         </div>      

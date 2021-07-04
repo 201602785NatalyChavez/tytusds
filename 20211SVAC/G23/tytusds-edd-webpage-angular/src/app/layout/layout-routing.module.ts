@@ -80,12 +80,12 @@ const routes: Routes = [
                 }
                 ,
                 {
-                    path: 'rowmajor',
+                    path: 'row',
                     loadChildren: () => import('./compuestas/row/row.module').then((m) => m.RowModule)
                 }
                 ,
                 {
-                    path: 'colmajor',
+                    path: 'low',
                     loadChildren: () => import('./compuestas/low/low.module').then((m) => m.LowModule)
                 }
                 ,

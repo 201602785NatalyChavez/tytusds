@@ -39,18 +39,24 @@ export class MatricesComponent implements OnInit {
   }
 
   Insertar(){
-    
-    this.ctx = this.canvas.nativeElement.getContext('2d')
-    this.ctx.fillStyle = "whitesmoke";
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.beginPath();
-    
-    this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.ctx.font= "bold italic 10px Times New Roman"
-    this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
-    this.matriz.imprimirH(this.ctx)
-    this.matriz.imprimirV(this.ctx)
-    console.log("------------------------")
+    //if(this.coordenadax || this.coordenaday )
+    if(this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas")
+    }else{
+      console.log(this.coordenadax)
+      console.log(this.coordenaday)
+      this.ctx = this.canvas.nativeElement.getContext('2d')
+      this.ctx.fillStyle = "whitesmoke";
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.ctx.beginPath();
+      
+      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.ctx.font= "bold italic 10px Times New Roman"
+      this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
+      this.matriz.imprimirH(this.ctx)
+      this.matriz.imprimirV(this.ctx)
+      console.log("------------------------")
+    }
   }
   Insertar2(){
     this.ctx.fillStyle = "whitesmoke";
@@ -66,44 +72,55 @@ export class MatricesComponent implements OnInit {
   }
   
   Eliminar(){
-    this.ctx = this.canvas.nativeElement.getContext('2d')
-    this.ctx.fillStyle = "whitesmoke";
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.beginPath();
-    this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.ctx.font= "bold italic 10px Times New Roman"
-    this.matriz.eliminar(this.coordenadax,this.coordenaday)
-    this.matriz.imprimirH(this.ctx)
-    this.matriz.imprimirV(this.ctx)
-    console.log("------------------------")
+    if(this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas")
+    }else{
+      this.ctx = this.canvas.nativeElement.getContext('2d')
+      this.ctx.fillStyle = "whitesmoke";
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.ctx.font= "bold italic 10px Times New Roman"
+      this.matriz.eliminar(this.coordenadax,this.coordenaday)
+      this.matriz.imprimirH(this.ctx)
+      this.matriz.imprimirV(this.ctx)
+      console.log("------------------------")
+    }
     
   }
   
   Actualizar(){
-    this.ctx = this.canvas.nativeElement.getContext('2d')
-    this.ctx.fillStyle = "whitesmoke";
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.beginPath();
-    this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.ctx.font= "bold italic 10px Times New Roman"
-    this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
-    this.matriz.imprimirH(this.ctx)
-    this.matriz.imprimirV(this.ctx)
-    console.log("------------------------")
-
+    if(this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas")
+    }else{
+      this.ctx = this.canvas.nativeElement.getContext('2d')
+      this.ctx.fillStyle = "whitesmoke";
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.ctx.font= "bold italic 10px Times New Roman"
+      this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
+      this.matriz.imprimirH(this.ctx)
+      this.matriz.imprimirV(this.ctx)
+      console.log("------------------------")
+    }
   }
 
   Buscar(){
-    this.ctx.fillStyle = "whitesmoke";
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.beginPath();
-    this.ctx = this.canvas.nativeElement.getContext('2d')
-    this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    this.ctx.font= "bold italic 10px Times New Roman"
-    //this.ctx.fillStyle ="green"
-    this.matriz.buscar(this.coordenadax,this.coordenaday)
-    this.matriz.imprimirH(this.ctx)
-    this.matriz.imprimirV(this.ctx)
+    if(this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas")
+    }else{
+      this.ctx.fillStyle = "whitesmoke";
+      this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.ctx.beginPath();
+      this.ctx = this.canvas.nativeElement.getContext('2d')
+      this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+      this.ctx.font= "bold italic 10px Times New Roman"
+      //this.ctx.fillStyle ="green"
+      this.matriz.buscar(this.coordenadax,this.coordenaday)
+      this.matriz.imprimirH(this.ctx)
+      this.matriz.imprimirV(this.ctx)
+    }
     
   }
   
