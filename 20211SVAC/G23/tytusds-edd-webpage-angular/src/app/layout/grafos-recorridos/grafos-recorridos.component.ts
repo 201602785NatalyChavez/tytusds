@@ -3,7 +3,7 @@ import { of, Subscription } from 'rxjs';
 import { routerTransition } from '../../router.animations';
 import { ActivatedRoute } from '@angular/router';
 import { GrafoImpl } from './impl/grafo-impl';
-import { graphviz }  from 'd3-graphviz';
+import { graphviz,d3 }  from 'd3-graphviz';
 
 
 @Component({
