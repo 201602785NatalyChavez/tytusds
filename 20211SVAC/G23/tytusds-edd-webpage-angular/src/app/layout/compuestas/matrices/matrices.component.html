@@ -8,7 +8,9 @@
         <div class="col-xs-2 text-xs-center">
             <div class="card mb-3">
                 <div class="card-body">
-                    <input class="form-control" placeholder="Ingresar nuevo valor" [(ngModel)]="x">
+                    <input type="text" class="form-control" placeholder="Ingresar nuevo valor" [(ngModel)]="valor">
+                    <input type="number" class="form-control" placeholder="Coordenada X" [(ngModel)]="coordenadax">
+                    <input type="number" class="form-control" placeholder="Coordenada Y" [(ngModel)]="coordenaday">
                 </div>
             </div>
         </div>
@@ -16,16 +18,15 @@
             <div class="card mb-3 text-center my-auto">
                 <div class="card-body align-items-center" >
                     <button class="btn btn-secondary mr-3" type="button" (click)="Insertar()">Agregar</button>
-                    <button class="btn btn-secondary mr-3" type="button" (click)="clickBuscarNodo()">Buscar</button>
+                    <button class="btn btn-secondary mr-3" type="button" (click)="Buscar()">Buscar</button>
                     <button class="btn btn-secondary mr-3" type="button" (click)="Eliminar()">Eliminar</button>
-                    <button class="btn btn-secondary" type="button" (click)="drawCanvas()">Canvas</button>
-                    <!-- <button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>-->
-                    <label for="seleccionRepeticiones">Repeticiones: </label>
+                    <button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>
+                   <!-- <label for="seleccionRepeticiones">Repeticiones: </label>
                     <mat-radio-group id="seleccionRepeticiones" aria-label="Select an option" class="example-radio-group"
                     [(ngModel)]="opcionRepeticiones" >
                     <mat-radio-button value="true">true</mat-radio-button>
                     <mat-radio-button value="false">false</mat-radio-button>
-                </mat-radio-group>
+                </mat-radio-group>-->
                 </div>
             </div>
         </div>      
@@ -45,7 +46,7 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <!--<textarea class="form-control" rows="3"></textarea>-->
-                    <canvas id="mycanvas" width="1020" height="1020" #canvas style="background-color: rgb(131, 126, 126);"></canvas>
+                    <canvas id="mycanvas" width="1300" height="1200" #canvas style="background-color:whitesmoke;"></canvas>
                     <!--<button (click)="play()">Play</button>-->
                 </div>
             </div>

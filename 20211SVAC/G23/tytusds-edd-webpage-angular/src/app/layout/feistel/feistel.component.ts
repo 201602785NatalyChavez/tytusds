@@ -9,7 +9,8 @@ import { ArrayDestructuringAssignment } from 'typescript';
 export class FeistelComponent implements OnInit {
   ultimoright:string = ''
   ultimoleft:string = ''
-  veces:number = 2
+  veces:number = 4
+  keyp:any = 1
   paratabla = []
   flag = false
   ultimoultimo:string 
@@ -38,23 +39,35 @@ export class FeistelComponent implements OnInit {
   clickCargar(){
     this.paratabla = []
     console.log("TEXTO",this.texto);
-    //this.texto = "CF"
+  // this.texto = "CF"
     console.log("VECES",this.veces);
     //this.fileContent = "PABLO PAPA DE PABLITO"
-    let y = this.modulodosfunciona(this.texto)
-    let keyp = this.mitadtexto(y.length)
+    let nuevotexto = this.binary_encode(this.texto)
+    let mitadtexto = ((nuevotexto.length)/2)
+    this.keyp = this.binary_encode(this.keyp)
     let lp = ''
     let rp = ''
-    for(let i = 0 ; i < y.length ; i++){
-      if(i < (y.length/2)) lp += y[i]
-      else rp += y[i]
+    for(let i = 0; i < mitadtexto ; i++){
+      if(this.keyp.length < mitadtexto){
+          this.keyp = ("0" +this.keyp)
+          console.log("LA LLABE ES MPASPEQUELA")
+      }else if(this.keyp.length > mitadtexto){
+          //alert("La llave es ",keyp - mitadtexto, "más grande que la mitad del texto")
+          console.log("La llave es ",(this.keyp - mitadtexto), "más grande que la mitad del texto")
+     }else{
+         console.log("La llave es del mismo tamaño que la mitad del texto")
+     }
+  }
+
+
+    for(let i = 0 ; i < nuevotexto.length ; i++){
+      if(i < (nuevotexto.length/2)) lp += nuevotexto[i]
+      else rp += nuevotexto[i]
     } 
-    let left = this.binary_encode(lp)
-    let right = this.binary_encode(rp)
-    this.primeroprimero = left+right
-    let key = this.binary_encode(keyp)
-    this.paratabla.push([left,right])
-    let ultimatum = this.feistel(left,right,key,this.veces)
+    
+    this.primeroprimero = lp+rp
+    this.paratabla.push([lp,rp])
+    let ultimatum = this.feistel(lp,rp,this.keyp,this.veces)
     //let ultimatum = this.feistel(left,right,'00110001',4)
     this.ultimoleft = ultimatum
     let mecago = this.ultimoright+ultimatum

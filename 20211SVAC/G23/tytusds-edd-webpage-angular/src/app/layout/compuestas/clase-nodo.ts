@@ -8,6 +8,7 @@ export default class Nodo {
     public abajo:Nodo
     public izquierda:Nodo
     public derecha:Nodo
+    public buscado:boolean
     constructor(valor,x,y){
         this.valor = valor
         this.x = x
@@ -18,5 +19,6 @@ export default class Nodo {
         this.abajo = null
         this.izquierda = null
         this.derecha = null
+        this.buscado = false
     }
 }
