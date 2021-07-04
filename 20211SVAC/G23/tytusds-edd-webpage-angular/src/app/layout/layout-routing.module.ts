@@ -105,6 +105,11 @@ const routes: Routes = [
                 }
                 ,
                 {
+                    path: 'grafos-recorridos',
+                    loadChildren: () => import('./grafos-recorridos/grafos-recorridos.module').then((m) => m.GrafosRecorridosModule)
+                }
+                ,
+                {
                     path: 'codigo-hamming',
                     loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
                 }

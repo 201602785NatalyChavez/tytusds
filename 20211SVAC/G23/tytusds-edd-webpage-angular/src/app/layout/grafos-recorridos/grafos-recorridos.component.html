@@ -1,0 +1,75 @@
+<div class="center"><h3>{{tituloGrafo}}</h3></div>
+  <mat-toolbar layout="row" *ngIf="showMessage">
+    <div class="text-center">
+      <h4>{{strMessage}}</h4>
+    </div>
+  </mat-toolbar>
+<div class="row">
+    <div class="col-xs-2 text-xs-center">
+        <div class="card mb-3 text-center my-auto">
+            <div class="card-body align-items-center" >
+                <input class="form-control input-sm" placeholder="Ingresar valor vertice" [(ngModel)]="valorNodoVertice" />
+                <input class="form-control input-sm" placeholder="Arista inicio,fin,distancia" [(ngModel)]="valorNodoAristas" />
+            </div>
+        </div>
+    </div>
+    <div class="     text-xs-center">
+        <div class="card mb-3 text-center my-auto">
+            <div class="card-body align-items-center" >
+                <div class="form-group">
+                    <label for="primerNodo">Primer Nodo:</label>
+                    <input id="primerNodo" class="form-control input-sm" placeholder="Primer Nodo" [(ngModel)]="valorPrimerNodo" />
+                </div>
+                <button class="btn btn-secondary" type="button" (click)="clickAgregarNodo()">Agregar</button>
+                <button class="btn btn-secondary" type="button" (click)="clickBorrarNodo()">Borrar</button>
+                <button class="btn btn-secondary" type="button" (click)="clickBuscarNodo()">Buscar</button>
+                <button class="btn btn-secondary" type="button" (click)="clickRecorrerNodo()">Recorrer</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="card mb-3 text-center my-auto">
+            <input class="form-control input-sm" placeholder="Valor a actualizar" [(ngModel)]="valorActualizar" />
+            <input class="form-control input-sm" placeholder="Valor nuevo" [(ngModel)]="valorActualizarNuevo" />
+            <button class="btn btn-secondary btn-xs" type="button" (click)="clickActualizarNodo()">Actualizar</button>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="card mb-3 text-center my-auto">
+            <label for="seleccionAlmacenamiento">Almacenamiento: </label>
+            <mat-radio-group id="seleccionAlmacenamiento" aria-label="Select an option" class="example-radio-group"
+                [(ngModel)]="seleccionAlmacenamiento" >
+                <mat-radio-button value="Matriz">Matriz</mat-radio-button>
+                <mat-radio-button value="Lista">Lista</mat-radio-button>
+            </mat-radio-group>
+            <small><label for="customRange2" class="form-label">Velocidad animacion: {{velocidadAnimacion}}</label></small>
+                <input type="range" class="form-range" min="0" max="10" id="customRange2" [(ngModel)]="velocidadAnimacion">
+        </div>
+    </div>
+</div>
+<div class="card mb-3 text-center my-auto">
+<div id="graph" style="text-align: center;" height=800 width=600></div>
+</div>
+<div class="row">
+    <div class="col-xl-4 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON a cargar</label>
+            <textarea class="form-control" rows="8">{{fileContent}}</textarea>
+            <input type="file" (change)="cargarArchivo($event.target.files)">
+            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a Grafo</button>
+        </fieldset>
+    </div>
+    <div class="col-xl-4 text-xs-center">
+        <fieldset class="form-group">
+            <label>Recorrido</label>
+            <textarea class="form-control" rows="8">{{strRecorrido}}</textarea>
+        </fieldset>
+    </div>
+    <div class="col-xl-4 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON salida</label>
+            <textarea class="form-control" rows="8">{{strGrafoJson}}</textarea>
+            <button class="btn btn-secondary" type="submit" (click)="downloadJson()">Guardar</button>
+        </fieldset>
+    </div>
+</div>
