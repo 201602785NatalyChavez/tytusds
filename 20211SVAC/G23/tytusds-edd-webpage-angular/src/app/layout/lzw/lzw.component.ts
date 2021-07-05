@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer2, ComponentFactoryResolver} from '@angular/core';
+import { of } from 'rxjs';
 import { ArrayDestructuringAssignment } from 'typescript';
 import { threadId } from 'worker_threads';
+import { Jsonlzw } from './lzw-json';
 
 
 @Component({
@@ -18,6 +20,8 @@ export class LzwComponent implements OnInit {
   contcode:number = 0
   wk:string = ''
   parasegunda = []
+  strHuffmanJsonSalida: any;
+  cadenaEntrada: any;
 
   constructor() { }
 
@@ -224,5 +228,39 @@ tr:nth-child(even) {
     <p style="color:green"><strong>${sincomas}</strong></p>
     `
   }
+  actualizarJsonSalida(){
+    
+   
+  }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'Lzw.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.strHuffmanJsonSalida);
+  }
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
 
 }

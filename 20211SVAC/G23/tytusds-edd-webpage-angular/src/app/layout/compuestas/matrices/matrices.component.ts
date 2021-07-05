@@ -38,6 +38,7 @@ export class MatricesComponent implements OnInit {
   valorActualizar="";
   valorActualizarNuevo="";
   fileContent: string = '';
+  yaingresados: any;
 
   constructor() { }
 
@@ -208,10 +209,10 @@ inicializarVariables(){
 
   actualizarJsonSalida(){
     let arreglo= [ ]
-        let temp = this.matriz.lista_H.primero
+        let temp = this.matriz.yaingresados.primero
         arreglo.push(temp.valor)
         temp = temp.siguiente
-        while(temp != null&&temp != this.matriz.lista_H.primero){
+        while(temp != null&&temp != this.matriz.yaingresados.primero){
             arreglo.push(temp.valor)
             temp = temp.siguiente
         }
