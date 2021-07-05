@@ -1,0 +1,62 @@
+
+<div >
+    <h4>Árbol Binario de Búsqueda</h4>
+    <p *ngIf="showMessage">Se encontraron valores repetidos al insertar valores a la lista</p>
+    <p *ngIf="showMessageBuscar">{{strMessageBuscar}}</p>
+    <div class="row">
+        <div class="col-xs-2 text-xs-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <input class="form-control" placeholder="Ingresar nuevo valor" [(ngModel)]="x">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2 text-xs-center">
+            <div class="card mb-3 text-center my-auto">
+                <div class="card-body align-items-center" >
+                    <button class="btn btn-secondary mr-3" type="button" (click)="Insertar()">Agregar</button>
+                    <button class="btn btn-secondary mr-3" type="button" (click)="clickBuscarNodo()">Buscar</button>
+                    <button class="btn btn-secondary" type="button" (click)="Eliminar()">Eliminar</button>
+                   <!-- <button class="btn btn-secondary mr-3" type="button" (click)="Actualizar()">Actualizar</button>-->
+                   <label for="seleccionRepeticiones">Repeticiones: </label>
+                    <mat-radio-group id="seleccionRepeticiones" aria-label="Select an option" class="example-radio-group"
+                        [(ngModel)]="opcionRepeticiones" >
+                        <mat-radio-button value="true">true</mat-radio-button>
+                        <mat-radio-button value="false">false</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>      
+        
+    </div>
+    <div class="row">
+        <div class="col-xl-6 text-xs-center">
+            <fieldset class="form-group">
+              <input type="file" (change)="cargarArchivo($event.target.files)">
+                <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a lista dinamica</button>
+            </fieldset>
+        </div>
+    </div>   
+    
+    <br>
+    <div id="mynetwork" #siteConfigNetwork></div>
+    <div class="col-xl-6 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON salida</label>
+            <textarea class="form-control" rows="2">{{listaEnlJSon}}</textarea>
+            <button class="btn btn-secondary" type="submit" (click)="downloadJson()">Guardar</button>
+        </fieldset>
+    </div>
+</div>
+<style type="text/css">
+    #mynetwork {
+        width: 1200px;
+        height: 500px;
+        border: 1px solid lightgray;
+    }
+    #mySvgNetwork {
+        width: 700px;
+        height: 300px;
+        border: 1px solid lightgray;
+    }
+</style>
