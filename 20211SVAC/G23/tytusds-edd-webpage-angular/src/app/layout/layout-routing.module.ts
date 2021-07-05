@@ -105,7 +105,7 @@ const routes: Routes = [
                 }
                 ,
                 {
-                    path: 'grafos-recorridos',
+                    path: 'grafos-recorridos/:idTipoRecorrido',
                     loadChildren: () => import('./grafos-recorridos/grafos-recorridos.module').then((m) => m.GrafosRecorridosModule)
                 }
                 ,
