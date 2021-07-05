@@ -3,11 +3,13 @@ import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer
 import { of, Subscription } from 'rxjs';
 
 import { Matriz } from '../clase-matriz'
+import { Jsonrow } from './row.json';
 
 @Component({
   selector: 'app-row',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.css']
+
 })
 export class RowComponent implements OnInit {
   @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
@@ -32,6 +34,7 @@ export class RowComponent implements OnInit {
   opcionRepeticiones:string
   valorStrNodo:any
   valoresinsertados:any
+  listaEnlJSon: string;
 
   constructor() { }
 
@@ -56,6 +59,7 @@ export class RowComponent implements OnInit {
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
@@ -74,6 +78,7 @@ export class RowComponent implements OnInit {
       let x = this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
@@ -93,6 +98,7 @@ export class RowComponent implements OnInit {
       this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
@@ -142,7 +148,8 @@ export class RowComponent implements OnInit {
     this.strCarga=this.fileContent;
     console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
-    this.matriz = new Matriz()    
+    this.matriz = new Matriz() 
+    if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;   
     for (let valorStrNodo of strIntoObj.valores) {
       //console.log(valorStrNodo)
       //console.log("VALOR",valorStrNodo.valor,"x",valorStrNodo.indices[0],"Y",valorStrNodo.indices[1])
@@ -156,5 +163,30 @@ export class RowComponent implements OnInit {
     this.matriz.imprimirV(this.ctx)
     this.matriz.ParaRow(this.ctx)
   }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'ColumnRowMajor.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.listaEnlJSon);
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
 
 }

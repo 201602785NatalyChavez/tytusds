@@ -52,4 +52,16 @@ export default class Lista{
         }
         return null
     }
+
+    toarray() { 
+        let arreglo= [ ]
+        let temp = this.primero
+        arreglo.push(temp)
+        temp = temp.siguiente
+        while(temp != null&&temp != this.primero){
+            arreglo.push(temp)
+            temp = temp.siguiente
+        }
+        return arreglo
+    }
 }

@@ -3,6 +3,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer
 import { of, Subscription } from 'rxjs';
 
 import {Matriz} from '../clase-matriz'
+import { Jsonmatrices } from './matrices.json';
 
 @Component({
   selector: 'app-matrices',
@@ -32,11 +33,29 @@ export class MatricesComponent implements OnInit {
   opcionRepeticiones:string
   valorStrNodo:any
   valoresinsertados:any
+  listaEnlJSon: any;
+  esCarga:boolean;
+  valorActualizar="";
+  valorActualizarNuevo="";
+  fileContent: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.listaEnlJSon = ""
+    this.esCarga=false;
+    this.velocidadAnimacion=""
   }
+  Iniciar(){
+    this.listaEnlJSon='';
+  
+}
+inicializarVariables(){
+  
+  this.valorActualizar="";
+  this.valorActualizarNuevo="";
+  
+}
 
   Insertar(){
     //if(this.coordenadax || this.coordenaday )
@@ -55,6 +74,7 @@ export class MatricesComponent implements OnInit {
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
   }
@@ -68,6 +88,7 @@ export class MatricesComponent implements OnInit {
     let x:any = this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.actualizarJsonSalida()
     console.log("------------------------")
   }
   
@@ -87,6 +108,7 @@ export class MatricesComponent implements OnInit {
       }
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
     
@@ -108,10 +130,11 @@ export class MatricesComponent implements OnInit {
       }
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
   }
-
+ 
   Buscar(){
     //if(this.coordenaday == null || this.coordenadax == null){
       //alert("No ha ingresado alguna de las 2 coordenadas")
@@ -179,7 +202,19 @@ export class MatricesComponent implements OnInit {
     
   }
 
-  fileContent: string = '';
+  actualizarJsonSalida(){
+    let arreglo= [ ]
+        let temp = this.matriz.lista_H.primero
+        arreglo.push(temp.valor)
+        temp = temp.siguiente
+        while(temp != null&&temp != this.matriz.lista_H.primero){
+            arreglo.push(temp.valor)
+            temp = temp.siguiente
+        }
+    let json= new Jsonmatrices("Estructura Compuesta","Matriz Dispersa",
+    this.velocidadAnimacion.toString(), arreglo);
+    this.listaEnlJSon = JSON.stringify(json,undefined,4);
+  }
 
   public cargarArchivo(fileList: FileList): void {
     let file = fileList[0];
@@ -197,6 +232,7 @@ export class MatricesComponent implements OnInit {
     console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz()    
+    if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;
     for (let valorStrNodo of strIntoObj.valores) {
       //console.log(valorStrNodo)
       //console.log("VALOR",valorStrNodo.valor,"x",valorStrNodo.indices[0],"Y",valorStrNodo.indices[1])
@@ -208,8 +244,41 @@ export class MatricesComponent implements OnInit {
     }
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.actualizarJsonSalida()
   }
-
-
-
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'MatrizDispersa.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.listaEnlJSon);
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
+  
 }
+
+
+
+
