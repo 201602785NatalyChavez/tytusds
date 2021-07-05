@@ -40,7 +40,7 @@ export class RowComponent implements OnInit {
 
   Insertar(){
     //if(this.coordenadax || this.coordenaday )
-    if(this.coordenaday == null || this.coordenadax == null){
+    if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
       console.log(this.coordenadax)
@@ -52,10 +52,12 @@ export class RowComponent implements OnInit {
       
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
+      this.matriz.RowOrder.push([this.valor])
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
       console.log("------------------------")
+      this.RowOrder()
     }
   }
 
@@ -69,10 +71,11 @@ export class RowComponent implements OnInit {
       this.ctx.beginPath();
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
-      this.matriz.eliminar(this.coordenadax,this.coordenaday)
+      let x = this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
       console.log("------------------------")
+      this.RowOrder()
     }
     
   }
@@ -91,6 +94,7 @@ export class RowComponent implements OnInit {
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
       console.log("------------------------")
+      this.RowOrder()
     }
   }
 
@@ -108,8 +112,17 @@ export class RowComponent implements OnInit {
       this.matriz.buscar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.RowOrder()
+    }  
+  }
+
+  RowOrder(){
+    if(this.matriz.RowOrder[0] == null){
+      alert("No ha ingresado ningún dato")
+    }else{
+
+      this.matriz.ParaRow(this.ctx)
     }
-    
   }
 
   fileContent: string = '';
@@ -141,6 +154,7 @@ export class RowComponent implements OnInit {
     }
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.matriz.ParaRow(this.ctx)
   }
 
 }
