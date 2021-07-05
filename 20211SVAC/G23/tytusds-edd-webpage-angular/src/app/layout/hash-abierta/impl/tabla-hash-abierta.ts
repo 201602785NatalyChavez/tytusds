@@ -4,6 +4,7 @@ export class TablaHashAbierta{
     tamanioActual:number;
     valores=[];
     k=0.5;
+    mensajeColision="";
 
     constructor( private tamanioMaximo:number, private metodo:string) { 
         this.valores = new Array(tamanioMaximo);
