@@ -39,6 +39,7 @@ export class LowComponent implements OnInit {
   }
 
   Insertar(){
+    this.matriz.yaingresados = []
     //if(this.coordenadax || this.coordenaday )
     if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
@@ -62,6 +63,7 @@ export class LowComponent implements OnInit {
   }
 
   Eliminar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -81,6 +83,7 @@ export class LowComponent implements OnInit {
   }
 
   Actualizar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -99,6 +102,7 @@ export class LowComponent implements OnInit {
   }
 
   Buscar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{

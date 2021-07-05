@@ -11,6 +11,7 @@ export class Matriz{
     public RowOrder:Array<any>
     public ColOrder:Array<any>
     public maxparaCanvas:any
+    public yaingresados:any
 
     constructor(){
         this.dot = ''
@@ -21,6 +22,7 @@ export class Matriz{
         this.RowOrder = []
         this.ColOrder = []
         this.maxparaCanvas = 0
+        this.yaingresados = []//[valor,x,y]
     }
 
     insertar(valor,x,y){
@@ -74,6 +76,14 @@ export class Matriz{
 
             }
         }
+       /* let i = 0
+        for ( i ; i < this.yaingresados.length ; i++){
+            if(this.yaingresados[i][1] == x  &&  this.yaingresados[i][2] == y ){
+                this.yaingresados.splice(i,1)
+                break
+            }
+        }
+        console.log("YA INGRESADOS EN ELIMINAR",this.yaingresados)*/
     }
 
     actualizar(valor,x,y){
@@ -361,7 +371,7 @@ export class Matriz{
         let x = 10
         let y = 10
         let xflecha = [70,30]
-        console.log("ESTAMOS EN v")
+        //console.log("ESTAMOS EN v")
         while(cabecera != null){
             aux = cabecera.derecha
            // console.log("AUX -------------",aux.valor,aux.x,aux.y)
@@ -369,11 +379,11 @@ export class Matriz{
 
                 let por = cabecera.derecha.x
                 let poy = cabecera.valor
-                console.log("PROBAnDO",aux.x)
-                console.log("PROBAnDO Y",aux.y)
-                console.log("PROBAnDO VALOR",aux.valor)
+                //console.log("PROBAnDO",aux.x)
+                //console.log("PROBAnDO Y",aux.y)
+                //console.log("PROBAnDO VALOR",aux.valor)
                 xflecha[0] = 70+(80*por)
-                console.log("PROBAnDO Valor de Y",xflecha[1])
+                //console.log("PROBAnDO Valor de Y",xflecha[1])
                 
                 while(aux != null){
                     if(aux.derecha != null){
@@ -472,6 +482,8 @@ export class Matriz{
                     ctx.stroke()
                     ctx.fillText(aux.valor.toString(),x+2,y+10)
                     ctx.fillText(aux.x.toString()+","+ aux.y.toString(),x+15,y+30)
+                    console.log("VALOR",aux.valor,"X",aux.x,"Y",aux.y)
+                    this.yaingresados.push( [aux.valor,aux.x,aux.y] )
                     
                     if(aux.abajo != null){
                         //console.log(aux.abajo)
@@ -489,7 +501,7 @@ export class Matriz{
                             if(y > this.maxparaCanvas) this.maxparaCanvas = y
     
                         }else{
-                            console.log("DIFERENCiA",aux)
+                            //console.log("DIFERENCiA",aux)
                             let diferencia = aux.abajo.y - aux.y
                             //console.log("DIFERENCIA",diferencia)
                             ctx.moveTo(yflecha[0],yflecha[1])
@@ -506,7 +518,7 @@ export class Matriz{
                         }
                     }                
                     this.ColOrder.push(aux.valor,aux.x,aux.y)
-                    console.log("valor:",aux.valor,"X:",aux.x,"Y:",aux.y)
+                    //console.log("valor:",aux.valor,"X:",aux.x,"Y:",aux.y)
                     aux.buscado = false
                     aux = aux.abajo
                 }
@@ -535,6 +547,8 @@ export class Matriz{
                 cabecera = cabecera.siguiente
             }
         }
+        console.log(this.yaingresados)
+
     }
 
     ParaCol(ctx){

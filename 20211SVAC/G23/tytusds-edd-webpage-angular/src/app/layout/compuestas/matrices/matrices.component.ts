@@ -58,12 +58,13 @@ inicializarVariables(){
 }
 
   Insertar(){
+    this.matriz.yaingresados = []
     //if(this.coordenadax || this.coordenaday )
     if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas, o el valor")
     }else{
-      console.log(this.coordenadax)
-      console.log(this.coordenaday)
+      //console.log(this.coordenadax)
+      //console.log(this.coordenaday)
       this.ctx = this.canvas.nativeElement.getContext('2d')
       this.ctx.fillStyle = "whitesmoke";
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -93,6 +94,7 @@ inicializarVariables(){
   }
   
   Eliminar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -115,6 +117,7 @@ inicializarVariables(){
   }
   
   Actualizar(){
+    this.matriz.yaingresados = []
     if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas, o el valor")
     }else{
@@ -136,6 +139,7 @@ inicializarVariables(){
   }
  
   Buscar(){
+    this.matriz.yaingresados = []
     //if(this.coordenaday == null || this.coordenadax == null){
       //alert("No ha ingresado alguna de las 2 coordenadas")
     //}else{
@@ -229,7 +233,7 @@ inicializarVariables(){
 
   clickCargar(){
     this.strCarga=this.fileContent;
-    console.log(this.strCarga);
+    //console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz()    
     if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;
