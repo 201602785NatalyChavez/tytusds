@@ -209,12 +209,11 @@ inicializarVariables(){
 
   actualizarJsonSalida(){
     let arreglo= [ ]
-        let temp = this.matriz.yaingresados.primero
-        arreglo.push(temp.valor)
-        temp = temp.siguiente
-        while(temp != null&&temp != this.matriz.yaingresados.primero){
-            arreglo.push(temp.valor)
-            temp = temp.siguiente
+        for(let i =0;i<this.matriz.yaingresados.length;i++){
+          let arregloIndices=[];
+          arregloIndices.push(this.matriz.yaingresados[i][1]);
+          arregloIndices.push(this.matriz.yaingresados[i][2]);
+          arreglo.push({valor:this.matriz.yaingresados[i][0],indices:arregloIndices} )
         }
     let json= new Jsonmatrices("Estructura Compuesta","Matriz Dispersa",
     this.velocidadAnimacion.toString(), arreglo);

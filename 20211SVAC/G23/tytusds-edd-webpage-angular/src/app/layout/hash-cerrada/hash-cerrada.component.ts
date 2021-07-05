@@ -224,7 +224,7 @@ export class HashCerradaComponent implements OnInit {
     let valoresTabla=new Array();
     for(let i =0;i<this.tablaHashCerrada.valores.length;i++){
       if(this.tablaHashCerrada.valores[i]!=undefined&&this.tablaHashCerrada.valores[i]!=null)
-      valoresTabla.push(this.tablaHashCerrada.valores[i])
+      valoresTabla.push(this.tablaHashCerrada.valores[i].getData())
     }
     let jsonNodoArray= new JsonNodoHashCerrada("Hash cerrada","Hash cerrada",
     +this.valorTamanio, +this.valorMinRehashing, +this.valorMaxRehashing,

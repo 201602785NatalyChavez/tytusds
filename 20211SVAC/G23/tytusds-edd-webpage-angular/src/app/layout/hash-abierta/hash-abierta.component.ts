@@ -197,7 +197,7 @@ export class HashAbiertaComponent implements OnInit {
     let valoresTabla=new Array();
     for(let i =0;i<this.tablaHashAbierta.valores.length;i++){
       if(this.tablaHashAbierta.valores[i]!=undefined&&this.tablaHashAbierta.valores[i]!=null)
-      valoresTabla.push(this.tablaHashAbierta.valores[i])
+      valoresTabla.push(this.tablaHashAbierta.valores[i].getData())
     }
     let jsonNodoArray= new JsonNodoHashAbierta("Hash abierta","Hash abierta",
     +this.valorTamanio, +this.valorMinRehashing, +this.valorMaxRehashing,
