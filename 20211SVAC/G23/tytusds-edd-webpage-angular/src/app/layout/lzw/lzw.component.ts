@@ -45,7 +45,7 @@ export class LzwComponent implements OnInit {
 
   clickCargar(){
     let query = document.querySelector('#mynetwork')
-    this.fileContent = "PABLO PAPA DE PABLITO"
+    //this.fileContent = "PABLO PAPA DE PABLITO"
     query.innerHTML = 
     `<p style="color:red"><strong>TEXTO INGRESADO</strong></p>
     <p style="color:green"><strong>${this.fileContent}</strong></p>
@@ -222,8 +222,7 @@ tr:nth-child(even) {
     query.innerHTML += 
     `
     <p style="color:red"><strong>TEXTO CODIFCADO</strong></p>
-    <p style="color:green"><strong>${q}</strong></p>
-
+    
     <p style="color:red"><strong>TEXTO CODIFICADO SIN COMAS</strong></p>
     <p style="color:green"><strong>${sincomas}</strong></p>
     `

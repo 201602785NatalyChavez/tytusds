@@ -161,7 +161,7 @@ inicializarVariables(){
           arregloIndices.push(this.matriz.yaingresados[i][2]);
           arreglo.push({valor:this.matriz.yaingresados[i][0],indices:arregloIndices} )
         }
-    let json= new Jsonrow("Estructura Compuesta","Row-major",
+    let json= new Jsonrow("Estructura Compuesta","col-major",
     this.velocidadAnimacion.toString(), arreglo);
     this.listaEnlJSon = JSON.stringify(json,undefined,4);
   }
