@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer2, ComponentFactoryResolver} from '@angular/core';
+import { of } from 'rxjs';
 import { ArrayDestructuringAssignment } from 'typescript';
+import { Jsonfesteil } from './feistel-json';
 
 @Component({
   selector: 'app-feistel',
@@ -15,6 +17,10 @@ export class FeistelComponent implements OnInit {
   flag = false
   ultimoultimo:string 
   primeroprimero:string
+  sincomas: any;
+  q: string; 
+  listaEnlJSon:string;
+  fileContent: string = '';
   
 
   constructor() { }
@@ -104,6 +110,8 @@ export class FeistelComponent implements OnInit {
     console.log(hexa)*/
     this.flag = true
     console.log(this.paratabla.length)
+    this.actualizarJsonSalida();
+    
   }
 
   binary_encode( s ){
@@ -182,4 +190,44 @@ export class FeistelComponent implements OnInit {
     }else this.ultimoright = right
     return retorno2
   }
+  actualizarJsonSalida(){
+    let jsonNodoArray= {categoria:"Feistel",cadenaEntrada:this.texto,textokeyp:this.keyp};
+    this.listaEnlJSon = JSON.stringify(jsonNodoArray,undefined,4);
+   
+  }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'Feistel.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.listaEnlJSon);
+  }
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
+
 }
+
+
+
+

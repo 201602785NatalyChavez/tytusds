@@ -20,8 +20,10 @@ export class LzwComponent implements OnInit {
   contcode:number = 0
   wk:string = ''
   parasegunda = []
-  strHuffmanJsonSalida: any;
   cadenaEntrada: any;
+  sincomas: any;
+  q: string; 
+  listaEnlJSon:string;
 
   constructor() { }
 
@@ -226,9 +228,14 @@ tr:nth-child(even) {
     <p style="color:red"><strong>TEXTO CODIFICADO SIN COMAS</strong></p>
     <p style="color:green"><strong>${sincomas}</strong></p>
     `
+    this.sincomas = sincomas;
+    this.q = q
+    this.actualizarJsonSalida();
+
   }
   actualizarJsonSalida(){
-    
+    let jsonNodoArray= {categoria:"Lzw",cadenaEntrada:this.fileContent,textoSinComas:this.sincomas};
+    this.listaEnlJSon = JSON.stringify(jsonNodoArray,undefined,4);
    
   }
   downloadJson() {
@@ -240,7 +247,7 @@ tr:nth-child(even) {
     });
   }
   fakeValidateUserData() {
-    return of(this.strHuffmanJsonSalida);
+    return of(this.listaEnlJSon);
   }
   private setting = {
     element: {
