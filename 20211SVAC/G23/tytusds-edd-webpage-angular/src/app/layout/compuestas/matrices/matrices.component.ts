@@ -3,6 +3,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer
 import { of, Subscription } from 'rxjs';
 
 import {Matriz} from '../clase-matriz'
+import { Jsonmatrices } from './matrices.json';
 
 @Component({
   selector: 'app-matrices',
@@ -43,6 +44,7 @@ export class MatricesComponent implements OnInit {
   ngOnInit(): void {
     this.listaEnlJSon = ""
     this.esCarga=false;
+    this.velocidadAnimacion=""
   }
   Iniciar(){
     this.listaEnlJSon='';
@@ -72,6 +74,7 @@ inicializarVariables(){
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
   }
@@ -85,6 +88,7 @@ inicializarVariables(){
     this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.actualizarJsonSalida()
     console.log("------------------------")
   }
   
@@ -101,6 +105,7 @@ inicializarVariables(){
       this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
     
@@ -119,6 +124,7 @@ inicializarVariables(){
       this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
     }
   }
@@ -185,7 +191,19 @@ inicializarVariables(){
     
   }
 
-  
+  actualizarJsonSalida(){
+    let arreglo= [ ]
+        let temp = this.matriz.lista_H.primero
+        arreglo.push(temp.valor)
+        temp = temp.siguiente
+        while(temp != null&&temp != this.matriz.lista_H.primero){
+            arreglo.push(temp.valor)
+            temp = temp.siguiente
+        }
+    let json= new Jsonmatrices("Estructura Compuesta","Matriz Dispersa",
+    this.velocidadAnimacion.toString(), arreglo);
+    this.listaEnlJSon = JSON.stringify(json,undefined,4);
+  }
 
   public cargarArchivo(fileList: FileList): void {
     let file = fileList[0];
@@ -203,6 +221,7 @@ inicializarVariables(){
     console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz()    
+    if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;
     for (let valorStrNodo of strIntoObj.valores) {
       //console.log(valorStrNodo)
       //console.log("VALOR",valorStrNodo.valor,"x",valorStrNodo.indices[0],"Y",valorStrNodo.indices[1])
@@ -214,6 +233,7 @@ inicializarVariables(){
     }
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.actualizarJsonSalida()
   }
   private setting = {
     element: {
