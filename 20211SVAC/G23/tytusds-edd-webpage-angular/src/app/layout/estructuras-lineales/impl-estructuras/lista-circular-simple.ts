@@ -67,27 +67,16 @@ export default class ListaCircularSimple implements ListaPadre {
         throw new Error("Method not implemented.");
     }
     actualizar(posicion, newData){
-        // Verifica si la posición ingresada se encuentre en el rango
-        // >= 0 y < que el numero de elementos del la lista.
-        if(posicion>=0 && posicion<this.longitud){
-            // Consulta si el nodo a eliminar es el primero.
-            if(posicion == 0){
-                // Alctualiza el valor delprimer nodo.
-                this.inicio.setData(newData);
-            }
-            else{
-                // En caso que el nodo a eliminar este por el medio 
-                // o sea el ultimo
-                let aux = this.inicio;
-                // Recorre la lista hasta lleger al nodo anterior al eliminar.
-                for (let i = 0; i < posicion; i++) {
-                    aux = aux.getNext();
-                }
-                // Alctualiza el valor del nodo.
-                aux.setData(newData);
-            }
-        }
+        let node = this.inicio;
+
+    for (let i = 0; i < this.size(); i++) {
+      if (node.getData()== posicion){
+        node.setData(newData);
+        return;
+      }
+      node = node.getNext();
     }
+  }
     removeAt( posicion ){
         if(posicion>=0 && posicion<this.longitud){
             // Consulta si el nodo a eliminar es el primero

@@ -1,30 +1,33 @@
-/*export function num(arr){
-    const l = arr.length;
-    let j, temp;
+export default class  InsercionSortImpl{
 
-    for ( let i = 1; i < l; i++ ) {
-        j = i;
-        temp = arr[ i ];
-        while ( j > 0 && arr[ j - 1 ] > temp ) {
-            arr[ j ] = arr[ j - 1 ];
-            j--;
-        }
-        arr[ j ] = temp;
+    datosIniciales:any[];
+    datosOrdenados:any[];
+    bndDatosOrdenados:boolean;
+    constructor(datos: any[]) {
+        this.datosIniciales=datos;
+        this.datosOrdenados=datos;
+        this.bndDatosOrdenados=true;
+        this.ordenarPorInsercion();
     }
-
-    return arr;
-}*/
-export function insercion(arreglo,n){
-    let i,j,aux
-    for(i = 1; i < n; i++){
-        aux = arreglo[i]
-        j = i-1
-        while(j >= 0 && arreglo[j] > aux){
-            arreglo[j+1] = arreglo[j]
-            j = j-1
-        }
-        arreglo[j+1] = aux
+    getDatosOrdenados(){
+        return this.datosOrdenados;
     }
-    console.log("ARREGLO ORDENADO POR INSERCION")
+    ordenarPorInsercion(){
+        let i,j,aux
+        let array = this.datosOrdenados
+        console.log("ARRAY",array)
+        for(i = 1; i < array.length; i++){
+        aux = array[i]
+        console.log("AUX",aux)
+            j = i-1
+            while(j >= 0 && array[j] > aux){
+            array[j+1] = array[j]
+                j = j-1
+            }
+           
+            array[j+1] = aux
+            
+        }
+        console.log("ARREGLO ORDENADO POR INSERCION")
+    }
 }
-var vector = []

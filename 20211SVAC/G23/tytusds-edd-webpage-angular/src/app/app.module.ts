@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { LanguageTranslationModule } from './shared/modules/language-translation/language-translation.module';
+import {MatToolbarModule} from '@angular/material/toolbar'; 
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { LanguageTranslationModule } from './shared/modules/language-translation
         HttpClientModule,
         LanguageTranslationModule,
         AppRoutingModule,
-        FormsModule
+        FormsModule,
+        MatToolbarModule
     ],
     declarations: [AppComponent],
     providers: [AuthGuard],

@@ -11,4 +11,5 @@ export default interface ListaPadre  {
     push(data:any):void;
     pop():any;
     actualizar(posicion, newData):void;
+    buscar(valor):boolean;
 }

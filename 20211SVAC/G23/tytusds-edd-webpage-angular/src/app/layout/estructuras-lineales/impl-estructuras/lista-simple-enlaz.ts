@@ -165,15 +165,15 @@ export default class ListaSimpleEnlazada implements ListaPadre {
     
   }
   actualizar(posicion, newData){
-    if (posicion < 0 || posicion >= this.size()) {
-      return false
+    let node = this.inicio;
+
+    for (let i = 0; i < this.size(); i++) {
+      if (node.getData()== posicion){
+        node.setData(newData);
+        return;
+      }
+      node = node.getNext();
     }
-    let current = this.inicio
-    let index = 0
-      while(index++ < posicion){
-      current = current.getNext();
-    }
-    current.setData ( newData);
   }
   buscar(valor):boolean{
     let existeValor=false;

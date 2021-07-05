@@ -1,0 +1,25 @@
+
+    <div class="text-center">
+      <h3>{{strMessage}}</h3>
+    </div>
+  
+  <h4>Algoritmo Código Hamming</h4>
+<div class="row">
+    <div class="col-xl-10 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON a cargar</label>
+            <textarea class="form-control" rows="6">{{fileContent}}</textarea>
+            <input type="file" (change)="cargarArchivo($event.target.files)">
+            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a Algoritmo Hamming</button>
+        </fieldset>
+    </div>
+</div>   
+<div class="row">
+    <div class="col-xl-10 text-xs-center">
+        <fieldset class="form-group">
+            <label>JSON salida</label>
+            <textarea class="form-control" rows="10">{{strCodigoHammingJson}}</textarea>
+            <button class="btn btn-secondary" type="submit" (click)="downloadJson()">Guardar</button>
+        </fieldset>
+    </div>
+</div>   

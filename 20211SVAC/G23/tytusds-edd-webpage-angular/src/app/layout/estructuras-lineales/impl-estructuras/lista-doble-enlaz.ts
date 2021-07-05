@@ -66,23 +66,15 @@ export default class ListaDobleEnlazada implements ListaPadre {
         throw new Error("Method not implemented.");
     }
     actualizar(posicion, newData){
-        if (posicion < 0 || posicion >= this.longitud) {
-          return false
+      let node = this.inicio;
+
+      for (let i = 0; i < this.size(); i++) {
+        if (node.getData()== posicion){
+          node.setData(newData);
+          return;
         }
-        let current = this.inicio
-        let index = 0
-        if (this.longitud / 2 > posicion) {
-          while(index++ < posicion){
-          current = current.getNext();
-        }
-        }else{
-          current = this.final
-          index = this.longitud - 1
-          while (index -- > posicion) {
-            current = current.getPrev();
-          }
-        }
-        current.setData ( newData);
+        node = node.getNext();
+      }
     }
     removeAt( position ){
         // 1. Juicio fuera de límites
