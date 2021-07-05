@@ -3,6 +3,8 @@ import { Component, OnInit, Input, ViewChild, ElementRef,AfterViewInit, Renderer
 import { of, Subscription } from 'rxjs';
 
 import { Matriz } from '../clase-matriz'
+import { Jsonrow } from '../row/row.json';
+import { Jsonlow} from './low.json';
 
 @Component({
   selector: 'app-low',
@@ -32,11 +34,31 @@ export class LowComponent implements OnInit {
   opcionRepeticiones:string
   valorStrNodo:any
   valoresinsertados:any
+  listaEnlJSon: any;
+  esCarga:boolean;
+  valorActualizar="";
+  valorActualizarNuevo="";
+  fileContent: string = '';
+  yaingresados: any;
+  
 
   constructor() { }
 
   ngOnInit(): void {
+    this.listaEnlJSon = ""
+    this.esCarga=false;
+    this.velocidadAnimacion=""
   }
+  Iniciar(){
+    this.listaEnlJSon='';
+  
+}
+inicializarVariables(){
+  
+  this.valorActualizar="";
+  this.valorActualizarNuevo="";
+  
+}
 
   Insertar(){
     this.matriz.yaingresados = []
@@ -57,6 +79,7 @@ export class LowComponent implements OnInit {
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.ColOrder()
     }
@@ -76,6 +99,7 @@ export class LowComponent implements OnInit {
       this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.ColOrder()
     }
@@ -96,6 +120,7 @@ export class LowComponent implements OnInit {
       this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.ColOrder()
     }
@@ -128,8 +153,20 @@ export class LowComponent implements OnInit {
       this.matriz.ParaCol(this.ctx)
     }
   }
+  actualizarJsonSalida(){
+    let arreglo= [ ]
+        for(let i =0;i<this.matriz.yaingresados.length;i++){
+          let arregloIndices=[];
+          arregloIndices.push(this.matriz.yaingresados[i][1]);
+          arregloIndices.push(this.matriz.yaingresados[i][2]);
+          arreglo.push({valor:this.matriz.yaingresados[i][0],indices:arregloIndices} )
+        }
+    let json= new Jsonrow("Estructura Compuesta","Row-major",
+    this.velocidadAnimacion.toString(), arreglo);
+    this.listaEnlJSon = JSON.stringify(json,undefined,4);
+  }
 
-  fileContent: string = '';
+ 
 
   public cargarArchivo(fileList: FileList): void {
     let file = fileList[0];
@@ -144,7 +181,7 @@ export class LowComponent implements OnInit {
 
   clickCargar(){
     this.strCarga=this.fileContent;
-    console.log(this.strCarga);
+    //console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz()    
     for (let valorStrNodo of strIntoObj.valores) {
@@ -158,7 +195,40 @@ export class LowComponent implements OnInit {
     }
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
+    this.actualizarJsonSalida()
   }
-
-
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
+  downloadJson() {
+    this.fakeValidateUserData().subscribe((res) => {
+      this.dyanmicDownloadByHtmlTag({
+        fileName: 'ColumnColMajor.json',
+        text: res
+      });
+    });
+  }
+  fakeValidateUserData() {
+    return of(this.listaEnlJSon);
+  }
+  private dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+    }) {
+      if (!this.setting.element.dynamicDownload) {
+        this.setting.element.dynamicDownload = document.createElement('a');
+      }
+      const element = this.setting.element.dynamicDownload;
+      const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+      element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+      element.setAttribute('download', arg.fileName);
+      var event = new MouseEvent("click");
+      element.dispatchEvent(event);
+    }
+  
 }
+
+
+

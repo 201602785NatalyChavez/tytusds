@@ -36,11 +36,27 @@ export class RowComponent implements OnInit {
   valoresinsertados:any
   listaEnlJSon: string;
   setting: any;
+  esCarga:boolean;
+  valorActualizar="";
+  valorActualizarNuevo="";
 
   constructor() { }
 
   ngOnInit(): void {
+    this.listaEnlJSon = ""
+    this.esCarga=false;
+    this.velocidadAnimacion=""
   }
+  Iniciar(){
+    this.listaEnlJSon='';
+  
+}
+inicializarVariables(){
+  
+  this.valorActualizar="";
+  this.valorActualizarNuevo="";
+  
+}
 
   Insertar(){
     this.matriz.yaingresados = []
@@ -109,14 +125,13 @@ export class RowComponent implements OnInit {
   }
   actualizarJsonSalida(){
     let arreglo= [ ]
-        let temp = this.matriz.yaingresados.primero
-        arreglo.push(temp.valor)
-        temp = temp.siguiente
-        while(temp != null&&temp != this.matriz.yaingresados.primero){
-            arreglo.push(temp.valor)
-            temp = temp.siguiente
+        for(let i =0;i<this.matriz.yaingresados.length;i++){
+          let arregloIndices=[];
+          arregloIndices.push(this.matriz.yaingresados[i][1]);
+          arregloIndices.push(this.matriz.yaingresados[i][2]);
+          arreglo.push({valor:this.matriz.yaingresados[i][0],indices:arregloIndices} )
         }
-    let json= new Jsonrow("Estructura Compuesta","Row/Column Major",
+    let json= new Jsonrow("Estructura Compuesta","Row-major",
     this.velocidadAnimacion.toString(), arreglo);
     this.listaEnlJSon = JSON.stringify(json,undefined,4);
   }
@@ -164,7 +179,7 @@ export class RowComponent implements OnInit {
 
   clickCargar(){
     this.strCarga=this.fileContent;
-    console.log(this.strCarga);
+    //console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz() 
     if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;   
@@ -180,6 +195,7 @@ export class RowComponent implements OnInit {
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
     this.matriz.ParaRow(this.ctx)
+    this.actualizarJsonSalida()
   }
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
