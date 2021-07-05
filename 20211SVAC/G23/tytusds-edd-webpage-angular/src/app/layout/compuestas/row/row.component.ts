@@ -35,6 +35,7 @@ export class RowComponent implements OnInit {
   valorStrNodo:any
   valoresinsertados:any
   listaEnlJSon: string;
+  setting: any;
 
   constructor() { }
 
@@ -42,8 +43,9 @@ export class RowComponent implements OnInit {
   }
 
   Insertar(){
+    this.matriz.yaingresados = []
     //if(this.coordenadax || this.coordenaday )
-    if(this.coordenaday == null || this.coordenadax == null){
+    if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
       console.log(this.coordenadax)
@@ -55,15 +57,18 @@ export class RowComponent implements OnInit {
       
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
+      this.matriz.RowOrder.push([this.valor])
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      this.actualizarJsonSalida()
+      //this.actualizarJsonSalida()
       console.log("------------------------")
+      this.RowOrder()
     }
   }
 
   Eliminar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -73,16 +78,18 @@ export class RowComponent implements OnInit {
       this.ctx.beginPath();
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
-      this.matriz.eliminar(this.coordenadax,this.coordenaday)
+      let x = this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      this.actualizarJsonSalida()
+      //this.actualizarJsonSalida()
       console.log("------------------------")
+      this.RowOrder()
     }
     
   }
 
   Actualizar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -95,12 +102,14 @@ export class RowComponent implements OnInit {
       this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      this.actualizarJsonSalida()
+      //this.actualizarJsonSalida()
       console.log("------------------------")
+      this.RowOrder()
     }
   }
 
   Buscar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -114,8 +123,17 @@ export class RowComponent implements OnInit {
       this.matriz.buscar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
+      this.RowOrder()
+    }  
+  }
+
+  RowOrder(){
+    if(this.matriz.RowOrder[0] == null){
+      alert("No ha ingresado ningún dato")
+    }else{
+
+      this.matriz.ParaRow(this.ctx)
     }
-    
   }
 
   fileContent: string = '';
@@ -148,25 +166,7 @@ export class RowComponent implements OnInit {
     }
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
-    this.actualizarJsonSalida()
-  }
-  actualizarJsonSalida(){
-    let arreglo= [ ]
-        let temp = this.matriz.lista_H.primero
-        arreglo.push(temp.valor)
-        temp = temp.siguiente
-        while(temp != null&&temp != this.matriz.lista_H.primero){
-            arreglo.push(temp.valor)
-            temp = temp.siguiente
-        }
-    let json= new Jsonrow("Estructura Compuesta","Row/Column Major",
-    this.velocidadAnimacion.toString(), arreglo);
-    this.listaEnlJSon = JSON.stringify(json,undefined,4);
-  }
-  private setting = {
-    element: {
-      dynamicDownload: null as HTMLElement
-    }
+    this.matriz.ParaRow(this.ctx)
   }
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {

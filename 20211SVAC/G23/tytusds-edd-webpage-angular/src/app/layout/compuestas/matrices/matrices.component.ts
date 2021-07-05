@@ -58,12 +58,13 @@ inicializarVariables(){
 }
 
   Insertar(){
+    this.matriz.yaingresados = []
     //if(this.coordenadax || this.coordenaday )
-    if(this.coordenaday == null || this.coordenadax == null){
-      alert("No ha ingresado alguna de las 2 coordenadas")
+    if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas, o el valor")
     }else{
-      console.log(this.coordenadax)
-      console.log(this.coordenaday)
+      //console.log(this.coordenadax)
+      //console.log(this.coordenaday)
       this.ctx = this.canvas.nativeElement.getContext('2d')
       this.ctx.fillStyle = "whitesmoke";
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -85,7 +86,7 @@ inicializarVariables(){
     this.ctx = this.canvas.nativeElement.getContext('2d')
     this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     this.ctx.font= "bold italic 10px Times New Roman"
-    this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
+    let x:any = this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
     this.matriz.imprimirH(this.ctx)
     this.matriz.imprimirV(this.ctx)
     this.actualizarJsonSalida()
@@ -93,6 +94,7 @@ inicializarVariables(){
   }
   
   Eliminar(){
+    this.matriz.yaingresados = []
     if(this.coordenaday == null || this.coordenadax == null){
       alert("No ha ingresado alguna de las 2 coordenadas")
     }else{
@@ -102,7 +104,10 @@ inicializarVariables(){
       this.ctx.beginPath();
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
-      this.matriz.eliminar(this.coordenadax,this.coordenaday)
+      let x = this.matriz.eliminar(this.coordenadax,this.coordenaday)
+      if(x == false){
+        alert("NO SE ELIMINO")
+      }
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
       this.actualizarJsonSalida()
@@ -112,8 +117,9 @@ inicializarVariables(){
   }
   
   Actualizar(){
-    if(this.coordenaday == null || this.coordenadax == null){
-      alert("No ha ingresado alguna de las 2 coordenadas")
+    this.matriz.yaingresados = []
+    if(this.valor == null || this.coordenaday == null || this.coordenadax == null){
+      alert("No ha ingresado alguna de las 2 coordenadas, o el valor")
     }else{
       this.ctx = this.canvas.nativeElement.getContext('2d')
       this.ctx.fillStyle = "whitesmoke";
@@ -121,7 +127,10 @@ inicializarVariables(){
       this.ctx.beginPath();
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
-      this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
+      let x = this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
+      if(x == false){
+        alert("NO SE ACTUALIZO")
+      }
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
       this.actualizarJsonSalida()
@@ -130,9 +139,11 @@ inicializarVariables(){
   }
  
   Buscar(){
-    if(this.coordenaday == null || this.coordenadax == null){
-      alert("No ha ingresado alguna de las 2 coordenadas")
-    }else{
+    this.matriz.yaingresados = []
+    //if(this.coordenaday == null || this.coordenadax == null){
+      //alert("No ha ingresado alguna de las 2 coordenadas")
+    //}else{
+      this.ctx = this.canvas.nativeElement.getContext('2d')
       this.ctx.fillStyle = "whitesmoke";
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       this.ctx.beginPath();
@@ -140,20 +151,24 @@ inicializarVariables(){
       this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
       this.ctx.font= "bold italic 10px Times New Roman"
       //this.ctx.fillStyle ="green"
-      this.matriz.buscar(this.coordenadax,this.coordenaday)
+      let x =this.matriz.buscar(this.coordenadax,this.coordenaday)
+      if(x == false){
+        alert("NO SE ENCONTRO")
+      }
+     // this.drawCanvas()
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-    }
+    //}
     
   }
   
   drawCanvas(){
     //this.ctx = this.canvas.nativeElement.getContext('2d');
 
-   /* this.matriz.insertar(0,0,0)
-    
-    
     this.matriz.insertar(0,0,0)
+    
+    
+    this.matriz.insertar(0,0,0) 
     
     this.matriz.insertar(0,0,0)
     
@@ -173,7 +188,7 @@ inicializarVariables(){
     this.matriz.insertar(200,0,2)
     this.matriz.insertar(10,2,0)
     this.matriz.insertar(100,5,0)
-    this.matriz.insertar(111,8,0)*/
+    this.matriz.insertar(111,8,0)
    // if(this.matriz.estaVaciaH() != false) tamH = this.matriz.obtenerTamH()
 
     //if(this.matriz.estaVaciaV() != false) tamV = this.matriz.obtenerTamV()
@@ -218,7 +233,7 @@ inicializarVariables(){
 
   clickCargar(){
     this.strCarga=this.fileContent;
-    console.log(this.strCarga);
+    //console.log(this.strCarga);
     let strIntoObj = JSON.parse(this.strCarga);
     this.matriz = new Matriz()    
     if(strIntoObj.animacion!=undefined) this.velocidadAnimacion = strIntoObj.animacion;
