@@ -101,6 +101,7 @@ export class ListasEddComponent implements OnInit {
     this.opcionRepeticiones="true";
     this.esCarga=false;
   }
+  
   cambiarPagina(){
     this.borrarCanvas();
     this.rectangulosNodos=[];
@@ -111,12 +112,14 @@ export class ListasEddComponent implements OnInit {
     this.showMessage=false;
     this.opcionRepeticiones="true";
   }
+  //limpia el area de dibujo
   borrarCanvas(){
     this.ctx.fillStyle = this.colorFondoCanvas;
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.drawBorder()
     this.ctx.beginPath();
   }
+  //Se encarga de actualizar el texto que guarda el json
   actualizarListaStr(){
     this.listaEnlArray = this.listaEnlazada.toArray();
     let i =0;
