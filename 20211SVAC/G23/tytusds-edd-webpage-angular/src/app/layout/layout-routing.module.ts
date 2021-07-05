@@ -113,6 +113,11 @@ const routes: Routes = [
                     path: 'codigo-hamming',
                     loadChildren: () => import('./codigo-hamming/codigo-hamming.module').then((m) => m.CodigoHammingModule)
                 }
+                ,
+                {
+                    path: 'costo',
+                    loadChildren: () => import('./costo/costo.module').then((m) => m.CostoModule)
+                }
                 
               
             ]

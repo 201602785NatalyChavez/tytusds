@@ -20,6 +20,7 @@ import { RowComponent } from './compuestas/row/row.component';
 import { LowComponent } from './compuestas/low/low.component';
 import { FeistelComponent } from './feistel/feistel.component';
 import { LzwComponent } from './lzw/lzw.component';
+import { CostoComponent } from './costo/costo.component';
 
 @NgModule({
     imports: [CommonModule,  
@@ -28,6 +29,6 @@ import { LzwComponent } from './lzw/lzw.component';
         NgbDropdownModule,
         FormsModule,
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent/*, MatricesComponent, RowComponent, LowComponent, FeistelComponent, LzwComponent, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, GraficarComponent/*, CostoComponent, MatricesComponent, RowComponent, LowComponent, FeistelComponent, LzwComponent, MerkleComponent, AbbComponent, AvlComponent, BComponent, BplusComponent/*, OrdenamientosComponent, ListaSimpleEnlazComponent*/]
 })
 export class LayoutModule {}
