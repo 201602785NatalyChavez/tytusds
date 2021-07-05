@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="     text-xs-center">
+    <div class="text-xs-center">
         <div class="card mb-3 text-center my-auto">
             <div class="card-body align-items-center" >
                 <div class="form-group">
@@ -38,13 +38,23 @@
         <div class="card mb-3 text-center my-auto">
             <label for="seleccionAlmacenamiento">Almacenamiento: </label>
             <mat-radio-group id="seleccionAlmacenamiento" aria-label="Select an option" class="example-radio-group"
-                [(ngModel)]="seleccionAlmacenamiento" >
+                   (change)="handleChangeAlmacenamiento($event)"    
+                 [(ngModel)]="seleccionAlmacenamiento" >
                 <mat-radio-button value="Matriz">Matriz</mat-radio-button>
                 <mat-radio-button value="Lista">Lista</mat-radio-button>
             </mat-radio-group>
             <small><label for="customRange2" class="form-label">Velocidad animacion: {{velocidadAnimacion}}</label></small>
                 <input type="range" class="form-range" min="0" max="10" id="customRange2" [(ngModel)]="velocidadAnimacion">
         </div>
+    </div>
+</div>
+<div class="col-xs-4">
+        <div class="card mb-3 text-center my-auto">
+    <fieldset class="form-group">
+        <label>Almacenamiento</label>
+        <textarea class="form-control" rows="4">{{strAlmacenamiento}}</textarea>
+    </fieldset>
+</div>
     </div>
 </div>
 <div class="card mb-3 text-center my-auto">
@@ -55,8 +65,10 @@
         <fieldset class="form-group">
             <label>JSON a cargar</label>
             <textarea class="form-control" rows="8">{{fileContent}}</textarea>
-            <input type="file" (change)="cargarArchivo($event.target.files)">
+            <input #myInput type="file" (change)="cargarArchivo($event.target.files)">
+            <button type="button" (click)="reset(myInput)">Reset</button>
             <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a Grafo</button>
+           
         </fieldset>
     </div>
     <div class="col-xl-4 text-xs-center">

@@ -4,7 +4,8 @@ import { routerTransition } from '../../router.animations';
 import { ActivatedRoute } from '@angular/router';
 import { GrafoImpl } from './impl/grafo-impl';
 import { graphviz,d3 }  from 'd3-graphviz';
-
+import { JsonGrafo } from './impl/json-grafo';
+import { AnimacionRecorrido } from './impl/animacion-recorrido';
 
 @Component({
   selector: 'app-grafos-recorridos',
@@ -31,7 +32,12 @@ export class GrafosRecorridosComponent implements OnInit {
   showMessage:boolean;
   grafoImpl:GrafoImpl;
   nodoEncontrado="";
+  tipoGrafo="Grafo Dirigido";
+  strAlmacenamiento="";
   recorrido;
+  requestId;
+  intervalId;
+  animacionRecorrido:AnimacionRecorrido;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -56,10 +62,42 @@ export class GrafosRecorridosComponent implements OnInit {
     this.valorActualizarNuevo="";
     this.grafoImpl=new GrafoImpl([],[]);
     this.nodoEncontrado="";
+    this.recorrido="";
+    this.fileContent="";
+    this.strAlmacenamiento="";
     graphviz('#graph').renderDot('digraph { }');
   }
   actualizarJsonSalida(){
-    
+    let valoresVertice=new Array();
+    for(let i =0;i<this.grafoImpl.vertices.length;i++){
+      let valoresAristas=new Array();
+      if(this.grafoImpl.aristas!=undefined){
+        for(let j = 0; j< this.grafoImpl.aristas.length ; j++){
+          if(this.grafoImpl.aristas[j][0]==this.grafoImpl.vertices[i].name){
+            valoresAristas.push({arista:this.grafoImpl.aristas[j][1],distancia:this.grafoImpl.aristas[j][2]})
+          }
+        }
+      }
+      valoresVertice.push( {vertice:this.grafoImpl.vertices[i].name,aristas:valoresAristas} );
+    }
+    let jsonGrafo=new JsonGrafo("Estructura No Lineal",this.tipoGrafo,this.seleccionAlmacenamiento,
+      +this.velocidadAnimacion,valoresVertice);
+    this.strGrafoJson = JSON.stringify(jsonGrafo,undefined,4);
+    if(this.seleccionAlmacenamiento=="Matriz") {
+      this.strAlmacenamiento=this.grafoImpl.obtenerMatrizAdyacenciaStr();
+    }else{
+      this.strAlmacenamiento="";
+      for(let i = 0; i< jsonGrafo.valores.length; i++){
+        this.strAlmacenamiento+=jsonGrafo.valores[i].vertice+" --> ";
+        for(let j = 0 ; j<jsonGrafo.valores[i].aristas.length;j++){
+          this.strAlmacenamiento+=jsonGrafo.valores[i].aristas[j].arista+(j<jsonGrafo.valores[i].aristas.length?",":"");
+        }
+        this.strAlmacenamiento+="\n";
+      }
+    }
+  }
+  handleChangeAlmacenamiento(evt){
+    this.actualizarJsonSalida();
   }
   actualizarRecorrido(){
     this.strRecorrido="";
@@ -73,7 +111,7 @@ export class GrafosRecorridosComponent implements OnInit {
     }
   }
   dibujarGrafo(){
-    if(this.grafoImpl.aristas!=undefined){  
+    if(this.grafoImpl.aristas!=undefined){
         let strGraphviz='digraph G{ \n';
         for(let i = 0 ; i < this.grafoImpl.vertices.length;i++){
           strGraphviz+=this.grafoImpl.vertices[i].name+" [label=\""+this.grafoImpl.vertices[i].name+"\" "+(this.nodoEncontrado==this.grafoImpl.vertices[i].name?",color=blue":"")+"]\n"
@@ -84,30 +122,25 @@ export class GrafosRecorridosComponent implements OnInit {
         strGraphviz+='}';
         graphviz('#graph').renderDot(strGraphviz);
     }
-    //x = d3.select('#graph').graphviz()
-    /*const x = d3.select('#graph').graphviz()
-          .transition(function () {return d3.transition().duration(2000)})
-          x.renderDot(`
-          digraph {
-              node [style="filled"]
-              0 [id="0" label="honda::models"]
-              1 [id="1" label="hidden"]
-              2 [id="2" label="hidden"]
-              0 -> 1 [id="0->1" label=""]
-              0 -> 2 [id="0->2" label=""]
-          }
-          `, function() {
-              d3.selectAll('text')._groups[0].forEach(function(e) {
-              })
-          });*/
-
   }
   clickAgregarNodo(){
     //vertice
-    if(this.valorNodoVertice!=undefined){
+    if(this.valorNodoVertice!=undefined&&this.valorNodoVertice!=null&&this.valorNodoVertice.length>0){
       this.grafoImpl.vertices.push( {name:this.valorNodoVertice,distance:null,predecessor:null} );
       this.valorNodoVertice="";
       this.dibujarGrafo();
+      this.actualizarJsonSalida();
+    }
+    if(this.valorNodoAristas!=undefined&&this.valorNodoAristas!=null&&this.valorNodoAristas.length>0){
+      let splitAristas=this.valorNodoAristas.split(',');
+      if(splitAristas.length==3){
+        this.grafoImpl.aristas.push( [splitAristas[0].trim(),splitAristas[1].trim(),splitAristas[2].trim()]  );
+        this.valorNodoAristas="";
+        this.dibujarGrafo();
+        this.actualizarJsonSalida();
+      }else{
+        this.mostrarMensaje("Error: el formato para insertar arista debe ser Inicio,Fin,Distancia");
+      }
     }
     
   }
@@ -134,6 +167,13 @@ export class GrafosRecorridosComponent implements OnInit {
       this.valorNodoVertice="";
     }
   }
+  mostrarMensaje(mensaje:string){
+    this.showMessage=true;
+    this.strMessage=mensaje;
+    setTimeout(function() {
+      this.showMessage = false;
+    }.bind(this), 5000);
+  }
   clickActualizarNodo(){
     if(this.valorActualizar!=undefined&&this.valorActualizarNuevo!=undefined){
       this.grafoImpl.actualizarNodo(this.valorActualizar, this.valorActualizarNuevo);
@@ -149,17 +189,56 @@ export class GrafosRecorridosComponent implements OnInit {
     //Por anchura
     if(this.idTipoGrafo==1){
       this.recorrido=this.grafoImpl.bfs(this.grafoImpl.vertices[0]);
-      console.log(this.recorrido);
+      //console.log(this.recorrido);
+    }else{
+      this.recorrido=this.grafoImpl.dfs(this.grafoImpl.vertices[0]);
+      //console.log(this.recorrido);
     }
     this.actualizarRecorrido();
+    this.iniciaAnimacion();
+  }
+  iniciaAnimacion(){
+    if (this.intervalId != undefined) clearInterval(this.intervalId);
+    if (this.requestId!=undefined) cancelAnimationFrame(this.requestId);
+    let nuevoRecorrido:any[];
+    nuevoRecorrido=[];
+    for(let i = 0; i<this.recorrido.length; i++){
+      if(!nuevoRecorrido.includes(this.recorrido[i]))
+        nuevoRecorrido.push(this.recorrido[i]);
+    }
+    this.animacionRecorrido=new AnimacionRecorrido(nuevoRecorrido,this.grafoImpl);
+    this.intervalId = setInterval(() => {
+      this.tick();      
+    }, this.obtenerConversionVelocidad());
+  }
+  obtenerConversionVelocidad(){
+    if(this.velocidadAnimacion=="10"){
+      return 50;
+    } else {
+      return (11-+this.velocidadAnimacion)*100;
+    }
+  }
+  tick(){ 
+    var strGrafo=this.animacionRecorrido.animar();
+    if(strGrafo!=undefined&&strGrafo!=null&&strGrafo.length>0)
+      graphviz('#graph').renderDot(strGrafo);
+    if(this.animacionRecorrido.bndAnimacionTerminada){
+      clearInterval(this.intervalId);
+      setTimeout(function() {
+        this.dibujarGrafo();
+      }.bind(this), this.obtenerConversionVelocidad());
+    }
   }
   downloadJson() {
     this.fakeValidateUserData().subscribe((res) => {
       this.dyanmicDownloadByHtmlTag({
-        fileName: 'HashCerrada.json',
+        fileName: 'GrafoRecorrido'+(this.idTipoGrafo==1?"Anchura":"Profundidad")+'.json',
         text: res
       });
     });
+  }
+  reset(element) {
+    element.value = "";
   }
   fakeValidateUserData() {
     return of(this.strGrafoJson);
@@ -215,9 +294,13 @@ export class GrafosRecorridosComponent implements OnInit {
       if(this.idTipoGrafo==1){
         this.recorrido=this.grafoImpl.bfs(vertices[0]);
         console.log(this.recorrido);
+      }else{
+        this.recorrido=this.grafoImpl.dfs(this.grafoImpl.vertices[0]);
+        console.log(this.recorrido);
       }
       this.actualizarRecorrido();
       this.dibujarGrafo();
+     
     }
     this.actualizarJsonSalida();
     

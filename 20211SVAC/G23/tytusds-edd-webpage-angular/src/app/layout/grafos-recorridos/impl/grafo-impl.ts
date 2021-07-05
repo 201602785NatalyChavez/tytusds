@@ -1,6 +1,7 @@
-//TODO salida json
-//TODO por profundidad
+
 export class GrafoImpl{
+    public matrizAdyacencia=[];
+    public listaAdyacencia=[];
     constructor(vertices,aristas){
         this.vertices=vertices;
         this.aristas=aristas;
@@ -15,12 +16,12 @@ export class GrafoImpl{
         {name: 'kid2', distance: null, predecessor: null}
         ]
     public aristas = [
-        ['myhouse', 'momanddad'],
-        ['momanddad', 'niece1'],
-        ['momanddad', 'nephew'],
-        ['myhouse', 'inlaws'],
-        ['inlaws', 'kid2'],
-        ['inlaws', 'kid1']
+        ['myhouse', 'momanddad',0],
+        ['momanddad', 'niece1',0],
+        ['momanddad', 'nephew',0],
+        ['myhouse', 'inlaws',0],
+        ['inlaws', 'kid2',0],
+        ['inlaws', 'kid1',0]
         ]
     //anchura
     bfs(nodoInicial){
@@ -42,6 +43,46 @@ export class GrafoImpl{
         }
         return descubiertos
    }
+
+   //profundidad
+   dfs(nodoInicial){
+    let descubiertos=[]
+    // Create a Stack and add our initial node in it
+    let s = new Array();
+    let explored = new Set();
+    s.push(nodoInicial);
+
+    // Mark the first node as explored
+    explored.add(nodoInicial);
+
+    // We'll continue till our Stack gets empty
+    while (s.length!=0) {
+        let t = s.pop();
+
+        // Log every element that comes out of the Stack
+            descubiertos.push(t);
+            console.log(t);
+
+        // 1. In the edges object, we search for nodes this node is directly connected to.
+        // 2. We filter out the nodes that have already been explored.
+        // 3. Then we mark each unexplored node as explored and push it to the Stack.
+        this.obtenerAristas(t,explored,s);
+    }
+    return descubiertos;
+    }
+    obtenerAristas(nodoNombre,explored,s){
+        let aristasRetorno=[];
+        for(let i = 0 ; i < this.aristas.length; i++){
+            if(this.aristas[i][0]==nodoNombre.name)
+                aristasRetorno.push(this.aristas[i])
+        }
+        for(let i = 0 ; i < aristasRetorno.length; i++){
+            if( !explored.has( aristasRetorno[i][1] ) ){
+                s.push(this.buscarNodo(aristasRetorno[i][1],this.vertices))
+            }
+        }
+        return aristasRetorno;
+    }
 
    explorado(nodo, nodosAdyacentes){
     const actual = nodo
@@ -98,9 +139,54 @@ export class GrafoImpl{
         }
     }
 
+    obtenerMatrizAdyacencia(){
+        this.matrizAdyacencia=new Array();
+        for(let i = 0 ; i < this.vertices.length; i ++){
+            let valoresFila=[];
+            for(let j = 0 ; j < this.vertices.length; j++){
+                let encontrada=false;
+                for(let k =0 ; k<this.aristas.length; k++){ 
+                    if(this.aristas[k][0]==this.vertices[i].name
+                        &&this.aristas[k][1]==this.vertices[j].name){
+                            valoresFila.push(this.aristas[k][2]);
+                            encontrada=true;
+                    }
+                }
+                if(!encontrada) valoresFila.push("0");
+            }
+            this.matrizAdyacencia.push(valoresFila);
+        }
+    }
+    obtenerMatrizAdyacenciaStr(){
+        this.obtenerMatrizAdyacencia();
+        let strMatriz="";
+        for(let i = 0 ; i < this.matrizAdyacencia.length;i++){
+            let filaMatriz=this.matrizAdyacencia[i];
+            for(let j = 0 ; j < filaMatriz.length; j++){
+                strMatriz+="\t"+filaMatriz[j];
+            }
+            strMatriz+="\n"
+        }
+        return strMatriz;
+    }
+    obtenerListaAdyacencia(){
+        this.listaAdyacencia=new Array();
+        
+    }
+    obtenerListaAdyacenciaStr(){
+        this.obtenerListaAdyacencia();
+        let strLista="";
+
+        return strLista;
+    }
    
 
    
 
 
 }
+   
+
+   
+
+
