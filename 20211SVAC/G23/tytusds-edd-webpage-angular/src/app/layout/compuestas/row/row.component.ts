@@ -61,7 +61,7 @@ export class RowComponent implements OnInit {
       this.matriz.insertar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      //this.actualizarJsonSalida()
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
@@ -81,7 +81,7 @@ export class RowComponent implements OnInit {
       let x = this.matriz.eliminar(this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      //this.actualizarJsonSalida()
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
@@ -102,10 +102,23 @@ export class RowComponent implements OnInit {
       this.matriz.actualizar(this.valor,this.coordenadax,this.coordenaday)
       this.matriz.imprimirH(this.ctx)
       this.matriz.imprimirV(this.ctx)
-      //this.actualizarJsonSalida()
+      this.actualizarJsonSalida()
       console.log("------------------------")
       this.RowOrder()
     }
+  }
+  actualizarJsonSalida(){
+    let arreglo= [ ]
+        let temp = this.matriz.yaingresados.primero
+        arreglo.push(temp.valor)
+        temp = temp.siguiente
+        while(temp != null&&temp != this.matriz.yaingresados.primero){
+            arreglo.push(temp.valor)
+            temp = temp.siguiente
+        }
+    let json= new Jsonrow("Estructura Compuesta","Row/Column Major",
+    this.velocidadAnimacion.toString(), arreglo);
+    this.listaEnlJSon = JSON.stringify(json,undefined,4);
   }
 
   Buscar(){

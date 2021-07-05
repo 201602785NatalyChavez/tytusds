@@ -96,7 +96,8 @@ export class HashCerradaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined){
       this.redibujarTablero();
       this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash,
-                                  this.valorMinRehashing, this.valorMaxRehashing);
+                                  this.valorMinRehashing, this.valorMaxRehashing,
+                                  this.opcionPruebaHash);
     }
   }
   redibujarTablero(){
@@ -108,11 +109,14 @@ export class HashCerradaComponent implements OnInit {
     if(this.valorTamanio!=null&&this.valorTamanio!=undefined&&this.valorTamanio!=""
      &&this.valorNodoInsertar!=null&&this.valorNodoInsertar!=undefined&&this.valorNodoInsertar!=""){
       this.borrarAreaSuperior();
-      const getHashKey = this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar, this.opcionFuncionHash);
+      const getHashKey = this.tablaHashCerrada.agregar(this.valorNodoInsertar, this.valorNodoInsertar, this.opcionFuncionHash, this.opcionPruebaHash);
       this.valorTamanio=this.tablaHashCerrada.tamanioMaximo.toString();
       this.actualizarJsonSalida();
       this.iniciaAnimacion();
-      this.tablero.mostrarMensajeHash(this.valorNodoInsertar, this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar));
+      this.tablero.mostrarMensajeHash(this.valorNodoInsertar,
+         this.tablaHashCerrada.funcionHashStr(this.valorNodoInsertar)+
+         (getHashKey.colisionDetectada?". Colisión detectada. Nuevo hash: "+getHashKey.hash:"")
+         +(getHashKey.rehaShingHecho?". Rehashing detectado.":"") );
       this.valorNodoInsertar="";
     }else{
       this.showMessage=true;
@@ -278,7 +282,8 @@ export class HashCerradaComponent implements OnInit {
     if(strIntoObj.prueba!=undefined) this.opcionPruebaHash=strIntoObj.prueba;
     if(strIntoObj.valores!=undefined){
       this.esCarga=true;
-      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash, this.valorMinRehashing, this.valorMaxRehashing);
+      this.tablaHashCerrada=new TablaHashCerrada(+this.valorTamanio,this.opcionFuncionHash, this.valorMinRehashing, this.valorMaxRehashing,
+        this.opcionPruebaHash);
       let labels:string[] = new Array(strIntoObj.valores.length);
       //this.valorTamanio=strIntoObj.valores.length;
       this.redibujarTablero();

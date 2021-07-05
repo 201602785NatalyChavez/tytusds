@@ -63,6 +63,7 @@ export class TablaHashAbierta{
 
     agregar(key, value, metodo:string) {
         this.metodo=metodo;
+        this.mensajeColision="";
         const hash = this.funcionHash(key);
         let nuevoNodo = new NodoHashAbierta(hash,value);
         if(this.valores[hash]==undefined||this.valores[hash]==null){
