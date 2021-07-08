@@ -53,6 +53,8 @@ export class ListasEddComponent implements OnInit {
   colorFondoCanvas='black';
   opcionRepeticiones: string;
   esCarga:boolean;
+  strMessageBuscar:string;
+  showMessageBuscar:boolean;
  
 
   //constructor(private ngZone: NgZone) { }
@@ -99,6 +101,7 @@ export class ListasEddComponent implements OnInit {
     this.opcionRepeticiones="true";
     this.esCarga=false;
   }
+  
   cambiarPagina(){
     this.borrarCanvas();
     this.rectangulosNodos=[];
@@ -109,12 +112,14 @@ export class ListasEddComponent implements OnInit {
     this.showMessage=false;
     this.opcionRepeticiones="true";
   }
+  //limpia el area de dibujo
   borrarCanvas(){
     this.ctx.fillStyle = this.colorFondoCanvas;
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.drawBorder()
     this.ctx.beginPath();
   }
+  //Se encarga de actualizar el texto que guarda el json
   actualizarListaStr(){
     this.listaEnlArray = this.listaEnlazada.toArray();
     let i =0;
@@ -343,7 +348,16 @@ export class ListasEddComponent implements OnInit {
       this.iniciarAnimacion();
     }
   }
-
+  clickBuscarNodo(){
+    this.showMessageBuscar= false;
+    if(this.valorNodoInsertar!=null && this.valorNodoInsertar!=''){
+      if(this.listaEnlazada.buscar(this.valorNodoInsertar)){
+        this.strMessageBuscar="Si se encontro el dato";        } 
+        else  this.strMessageBuscar="No se encontro el dato"; 
+        this.showMessageBuscar= true;
+      this.valorNodoInsertar=''; 
+    }
+  }
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
@@ -376,4 +390,3 @@ export class ListasEddComponent implements OnInit {
     }
   
 }
-

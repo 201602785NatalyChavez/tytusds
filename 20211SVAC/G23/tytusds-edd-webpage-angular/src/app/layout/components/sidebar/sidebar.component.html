@@ -4,32 +4,7 @@
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;
             <span>{{ 'Dashboard' | translate }}</span>
         </a>
-        <!--<a [routerLinkActive]="['router-link-active']" [routerLink]="['/charts']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-            <span>{{ 'Charts' | translate }}</span>
-        </a>
-        
-        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/tables']" class="list-group-item">
-            <i class="fa fa-fw fa-table"></i>&nbsp;
-            <span>{{ 'Tables' | translate }}</span>
-        </a>
-        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/forms']" class="list-group-item">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Forms' | translate }}</span>
-        </a>
-        
-        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/bs-element']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;
-            <span>{{ 'Bootstrap Element' | translate }}</span>
-        </a>
-        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/grid']" class="list-group-item">
-            <i class="fa fa-fw fa-wrench"></i>&nbsp;
-            <span>{{ 'Bootstrap Grid' | translate }}</span>
-        </a>
-        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/components']" class="list-group-item">
-            <i class="fa fa-th-list"></i>&nbsp;
-            <span>{{ 'Component' | translate }}</span>
-        </a> -->
+      
         <div class="nested-menu">
             <a (click)="addExpandClass('estructurasLineales')" class="list-group-item">
                 <i class="fa fa-plus"></i>&nbsp;
@@ -156,11 +131,123 @@
                 </ul>
             </li>
         </div>
-        <!--<a [routerLinkActive]="['router-link-active']" [routerLink]="['/blank-page']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;
-            <span>{{ 'Blank Page' | translate }}</span>
-        </a> -->
-
+        <div class="nested-menu">
+            <a (click)="addExpandClass('nolineales')" class="list-group-item">
+                <i class="fa fa-plus"></i>&nbsp;
+                <span>{{ 'Estructuras no lineales' | translate }}</span>
+            </a>
+            <li [class.expand]="showMenu === 'nolineales'" class="nested">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/hash-abierta']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Tabla Hash abierta' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/hash-cerrada']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Tabla Hash cerrada' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/grafos-recorridos',1]">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Recorrido por anchura de grafos' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/grafos-recorridos',2]">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Recorrido por profundidad de grafos' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/costo']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Algoritmo costo uniforme' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Árbol recubrimiento mínimo' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <div class="nested-menu">
+            <a (click)="addExpandClass('codificacion')" class="list-group-item">
+                <i class="fa fa-plus"></i>&nbsp;
+                <span>{{ 'Algoritmo codificación' | translate }}</span>
+            </a>
+            <li [class.expand]="showMenu === 'codificacion'" class="nested">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/codigo-hamming']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Codigo de Hamming' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/huffman']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Algoritmo de Huffman' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/lzw']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Algoritmo LZW' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/feistel']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Cifrado Feistel' | translate }}</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </li>
+        </div>
+        <div class="nested-menu">
+            <a (click)="addExpandClass('compuestas')" class="list-group-item">
+                <i class="fa fa-plus"></i>&nbsp;
+                <span>{{ 'Estructuras compuestas' | translate }}</span>
+            </a>
+            <li [class.expand]="showMenu === 'compuestas'" class="nested">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/matriz']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Matrices Dispersas' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/row']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Row-major (2D a 1D)' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="['/low']">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Col-major (2D a 1D)' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Estructuras Compuestas' | translate }}</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+            </li>
+        </div>
         <div class="header-fields">
             <div class="nested-menu">
                 <a (click)="addExpandClass('languages')" class="list-group-item">

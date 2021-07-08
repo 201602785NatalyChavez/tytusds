@@ -1,6 +1,12 @@
 import  Node  from './../clase-nodo-simple'
 
 export default class BST{
+    includes(valorStrNodo: any) {
+      throw new Error('Method not implemented.')
+    }
+    push(valorStrNodo: any) {
+      throw new Error('Method not implemented.')
+    }
     public root:Node
     public data:any
     public dot:string

@@ -1,6 +1,7 @@
 <div [@routerTransition]>
     <h4>{{tituloLista}}</h4>
     <p *ngIf="showMessage">Se encontraron valores repetidos al insertar valores a la lista</p>
+    <p *ngIf="showMessageBuscar">{{strMessageBuscar}}</p>
     <div class="row">
         <div class="col-xs-2 text-xs-center">
             <div class="card mb-3">
@@ -14,14 +15,15 @@
             <div class="card mb-3 text-center my-auto">
                 <div class="card-body align-items-center" >
                     <button class="btn btn-secondary mr-3" type="button" (click)="clickAgregarNodo()">{{lblBtnAgregar}}</button>
+                    <button class="btn btn-secondary mr-3" type="button" (click)="clickBuscarNodo()">Buscar</button>
                     <button class="btn btn-secondary" type="button" (click)="clickBorrarNodo()">{{lblBtnBorrar}}</button>
                 </div>
             </div>
         </div>
         <div class="col-xs-2">
             <div class="card mb-3 text-center my-auto" *ngIf="!(idTipoLista>=5)">
-                <input class="form-control" placeholder="Indice 0..n" [(ngModel)]="valorIndiceActualizar" />
-                <input class="form-control" placeholder="Valor a actualizar" [(ngModel)]="valorNodoActualizar" />
+                <input class="form-control" placeholder="Valor a actualizar" [(ngModel)]="valorIndiceActualizar" />
+                <input class="form-control" placeholder="Nuevo valor" [(ngModel)]="valorNodoActualizar" />
                 <button class="btn btn-secondary" type="button" (click)="clickActualizarNodo()">Actualizar</button>
             </div>
         </div>
@@ -55,12 +57,13 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <!--<textarea class="form-control" rows="3"></textarea>-->
-                    <canvas #canvas width="1020" height="1000"></canvas>
+                    <canvas #canvas width="1020" height="3000"></canvas>
                     <!--<button (click)="play()">Play</button>-->
                 </div>
             </div>
         </div>
     </div> 
+    <p>CACA</p>
     <div class="row">
         <div class="col-xl-6 text-xs-center">
             <fieldset class="form-group">
