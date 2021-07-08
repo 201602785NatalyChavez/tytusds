@@ -8,9 +8,11 @@
     <div class="col-xl-10 text-xs-center">
         <fieldset class="form-group">
             <label>JSON a cargar</label>
-            <textarea class="form-control" rows="6">{{fileContent}}</textarea>
+            <textarea class="form-control" rows="6" [(ngModel)]="fileContent">{{fileContent}}</textarea>
             <input type="file" (change)="cargarArchivo($event.target.files)">
-            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Cargar a Algoritmo Hamming</button>
+            <button class="btn btn-secondary" type="submit" (click)="clickCargar()">Ejecutar Algoritmo Hamming</button>
+            <small><label for="customRange2" class="form-label">Velocidad animacion: {{velocidadAnimacion}}</label></small>
+            <input type="range" class="form-range" min="0" max="10" id="customRange2" [(ngModel)]="velocidadAnimacion">
         </fieldset>
     </div>
 </div>   

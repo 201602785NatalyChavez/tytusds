@@ -143,6 +143,8 @@ export class HashAbiertaComponent implements OnInit {
       const encontrada=this.tablaHashAbierta.modificar(this.valorNodoInsertar, this.valorNodoInsertar, this.valorActualizarNuevo);
       this.actualizarJsonSalida();
       this.iniciaAnimacion();
+      this.tablero.mostrarMensajeHash(this.valorNodoInsertar, this.tablaHashAbierta.funcionHashStr(this.valorNodoInsertar));
+      this.tablero.mostrarMensajeEncontrado(this.valorNodoInsertar, encontrada)
       this.valorNodoInsertar="";
       this.valorActualizar="";
       this.valorActualizarNuevo="";

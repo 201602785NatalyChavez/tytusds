@@ -19,6 +19,7 @@ export class CodigoHammingComponent implements OnInit {
   velocidadAnimacion=10;
   cadenaEntrada:string;
   codigoHammingImpl:CodigoHammingImpl;
+  showMessage=false;
   constructor() { }
 
   ngOnInit(): void {

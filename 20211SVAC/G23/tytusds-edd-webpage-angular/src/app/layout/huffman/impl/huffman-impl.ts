@@ -13,12 +13,11 @@ export class HuffmanImpl{
         this.result = codificar(cadenaEntrada, this.codes); 
         this.frequency = obtenerFrecuencia(cadenaEntrada);
         this.relFreq = obtenerFrecuenciaRelativa(this.frequency);
+        this.arbol=obtenerArbol(this.frequency);
         this.construirSalida();
     }
 
-    obtenerArbol(){
-        return obtenerArbol(this.frequency);
-    }
+   
     construirSalida(){
         this.tablaSalida="";
         for(let i = this.frequency.length-1;i>=0;i--){
