@@ -1,18 +1,18 @@
 <app-opciones (opcionesEvento)="getOpciones($event)"></app-opciones>
 
 <div class="container mt-3">
-    <h1 class="fw-light text-white">Codigo de Hamming</h1>
+    <h1 class="fw-light text-white animate__animated animate__bounce">Codigo de Hamming</h1>
     <hr>
     <div class="row my-3">
         <div class="col-md-5">
             <input type="text" class="form-control" placeholder="entrada" [(ngModel)]="entrada">
         </div>
         <div class="col-md-5">
-            <input type="text" class="form-control" placeholder="salida" [(ngModel)]="salida">
+            <input type="text" class="form-control" placeholder="salida" [(ngModel)]="salida" disabled>
         </div>
         <div class="col-md">
             <div class="d-grid gap-2">
-                <button class="btn btn-primary" (click)="procesar()">Procesar</button>
+                <button class="btn btn-primary button1" (click)="procesar()">Procesar</button>
             </div>
         </div>
     </div>
@@ -23,12 +23,12 @@
         <div class="col-md-4"></div>
         <div class="col-md-2">
             <div class="d-grid gap-2">
-                <button class="btn btn-success button1" (click)="guardar()">Guardar</button>
+                <button class="btn btn-success button1 button1" (click)="guardar()">Guardar</button>
             </div>
         </div>
     </div>
 
-    <table class="table table-dark" *ngIf="cargado">
+    <table class="table table-dark animate__animated animate__lightSpeedInRight" *ngIf="cargado">
         <thead>
             <tr>
                 <th>Palabra</th>

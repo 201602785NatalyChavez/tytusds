@@ -1,6 +1,6 @@
 <div class="container">
   <app-opciones (opcionesEvento)="getOpciones($event)"></app-opciones>
-  <h1 class="text-white">Matriz Dispersa</h1>
+  <h1 class="text-white animate__animated animate__bounce">Matriz Dispersa</h1>
   <hr>
   <div class="row py-2">
     <div class="col-1"><input #agregar type="text" placeholder="Valor" class="form-control"> </div>
@@ -22,6 +22,8 @@
         <input class="form-check-input" type="checkbox" [(ngModel)]="SC_Cabecera">
       </div>
     </div>
+    <div class="col-md-6"><input class="form-control" type="file" id="formFile" (change)="getDocumento($event.target)" ></div>
+
   </div>
 
   <!----CAJA DONDE SE GUARDARA LA GRAFICACIÓN DE LOS NODOS---->
